@@ -12,3 +12,8 @@ class RequestTimeExeption implements Exception {
   final String message;
   RequestTimeExeption({required this.message});
 }
+
+class InternetExeption implements Exception {
+  final String message;
+  InternetExeption({required this.message});
+}

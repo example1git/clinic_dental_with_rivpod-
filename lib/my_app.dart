@@ -1,58 +1,75 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:mysen/core/approut.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mysen/core/provider/lang_provider.dart';
+import 'package:mysen/core/provider/theme_provider.dart';
 import 'package:mysen/core/them.dart';
-import 'package:mysen/core/lang.dart';
+import 'package:mysen/translate/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class MyApp extends StatefulWidget {
+import 'package:mysen/core/approut.dart';
+
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  MyAppState createState() => MyAppState();
+  ConsumerState<MyApp> createState() => _MyAppState();
 }
 
-class MyAppState extends State<MyApp> with WidgetsBindingObserver {
+class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+
     super.dispose();
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async {
+  void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      final client = Supabase.instance.client;
-      final session = client.auth.currentSession;
+      _checkSession();
+    }
+  }
 
-      if (session == null) {
-        // print("⚠️ No active session when app resumed");
-      } else {
-        setState(() {});
-      }
+  void _checkSession() {
+    final session = Supabase.instance.client.auth.currentSession;
+
+    if (session == null) {
+    } else {
+      setState(() {});
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // final sharedPref = Get.find<SharedPrefService>();
+    final scheme = ref.watch(themeProvider);
 
-    return GetMaterialApp(
-      useInheritedMediaQuery: true,
+    final language = ref.watch(languageProvider);
+
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+
       builder: DevicePreview.appBuilder,
-      // locale: Locale(sharedPref.getLang() ?? 'ar'),
+
       title: 'Flutter Demo',
-      translations: Lang(),
-      theme: AppTheme.light,
-      initialRoute: Approut.startscreen,
-      // getPages: Approut.getpages,
+
+      locale: Locale(language),
+
+      theme: AppTheme.light(scheme: scheme),
+
+      darkTheme: AppTheme.dark(scheme: scheme),
+
+      themeMode: ThemeMode.system,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      routerConfig: appRouter,
     );
   }
 }

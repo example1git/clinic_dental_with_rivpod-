@@ -29,9 +29,9 @@ class DoctorPatientRepositryImp implements DoctorPatientRepository {
         }
         return Right(doctorpatient);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
       }
     }
     try {
@@ -39,9 +39,9 @@ class DoctorPatientRepositryImp implements DoctorPatientRepository {
           .getDoctorPatient();
       return Right(doctorpatient);
     } on RequestTimeExeption catch (e) {
-      return left(RequetsTimeFailure(e.message));
+      return Left(RequetsTimeFailure(e.message));
     } on CachExeption catch (e) {
-      return left(CachFailure(e.message));
+      return Left(CachFailure(e.message));
     }
   }
 
@@ -70,14 +70,14 @@ class DoctorPatientRepositryImp implements DoctorPatientRepository {
 
         return Right(doctorPatientUpsert);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
       } on CachExeption catch (e) {
-        return left(CachFailure(e.message));
+        return Left(CachFailure(e.message));
       }
     }
-    return Left(ServerFailure('errror'));
+    return Left(InternetFailure('errror'));
   }
 
   @override
@@ -103,14 +103,14 @@ class DoctorPatientRepositryImp implements DoctorPatientRepository {
 
         return Right(null);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
       } on CachExeption catch (e) {
-        return left(CachFailure(e.message));
+        return Left(CachFailure(e.message));
       }
     }
-    return Left(ServerFailure('errror'));
+    return Left(InternetFailure('errror'));
   }
 
   @override
@@ -139,13 +139,13 @@ class DoctorPatientRepositryImp implements DoctorPatientRepository {
 
         return Right(doctorPatientUpdate);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
       } on CachExeption catch (e) {
-        return left(CachFailure(e.message));
+        return Left(CachFailure(e.message));
       }
     }
-    return Left(ServerFailure('errror'));
+    return Left(InternetFailure('errror'));
   }
 }

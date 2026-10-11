@@ -5,10 +5,10 @@ import 'package:mysen/features/request/domain/entities/request_reservation.dart'
 abstract class RequestReservationRepository {
   Future<Either<Failure, List<RequestReservation>>> getRequestReservation();
 
-  Future<Either<Failure, RequestReservation>> upsertRequestReservation(
+  Future<Either<Failure, void>> upsertRequestReservation(
     RequestReservation requestReservation,
   );
-  Future<Either<Failure, RequestReservation>> updateRequestReservation(
+  Future<Either<Failure, void>> updateRequestReservation(
     RequestReservation requestReservation,
   );
 }

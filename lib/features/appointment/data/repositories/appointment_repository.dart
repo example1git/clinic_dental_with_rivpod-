@@ -26,6 +26,7 @@ class AppointmentRepositoryImp implements AppointmentRepository {
         final model = AppointmentModel(
           id: '',
           treatmentCaseID: appointment.treatmentCaseID,
+          doctorPatientID: appointment.doctorPatientID,
           timeAppointment: appointment.timeAppointment,
           payPrice: appointment.payPrice,
           teethSelected: appointment.teethSelected,
@@ -38,14 +39,14 @@ class AppointmentRepositoryImp implements AppointmentRepository {
 
         return Right(appointmentAdd);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
       } on CachExeption catch (e) {
-        return left(CachFailure(e.message));
+        return Left(CachFailure(e.message));
       }
     }
-    return Left(ServerFailure('errror'));
+    return Left(InternetFailure('errror'));
   }
 
   @override
@@ -58,18 +59,41 @@ class AppointmentRepositoryImp implements AppointmentRepository {
         }
         return Right(appointment);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
       }
     }
     try {
       final appointment = await appointmentLocalDataSorce.getAppointment();
       return Right(appointment);
     } on RequestTimeExeption catch (e) {
-      return left(RequetsTimeFailure(e.message));
+      return Left(RequetsTimeFailure(e.message));
     } on CachExeption catch (e) {
-      return left(CachFailure(e.message));
+      return Left(CachFailure(e.message));
     }
+  }
+
+  @override
+  Future<Either<Failure, List<Appointment>>> getAppointmentByDpID(
+    String dpID,
+  ) async {
+    if (await internetService.checkNow()) {
+      try {
+        final appointment = await appointmentRemoteDataSorce
+            .getAppointmentByDpid(dpID);
+
+        for (var app in appointment) {
+          await appointmentLocalDataSorce.addAppointment(app);
+        }
+
+        return Right(appointment);
+      } on RequestTimeExeption catch (e) {
+        return Left(RequetsTimeFailure(e.message));
+      } on ServerExeption catch (e) {
+        return Left(ServerFailure(e.message));
+      }
+    }
+    return Left(InternetFailure('internt'));
   }
 }

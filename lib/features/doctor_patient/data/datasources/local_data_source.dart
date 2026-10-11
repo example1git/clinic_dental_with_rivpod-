@@ -8,7 +8,7 @@ import 'package:sqflite/sqlite_api.dart';
 
 class DoctorPatientLocalDataSourc {
   final DatabaseHelper databaseHelper = DatabaseHelper.instance;
-  final table = "doctorpateint";
+  final table = "doctorPatient";
   final Duration duration = const Duration(seconds: duration15);
 
   Future<List<DoctorPatientModel>> getDoctorPatient() async {

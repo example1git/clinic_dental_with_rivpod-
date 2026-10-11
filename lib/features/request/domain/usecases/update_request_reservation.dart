@@ -6,9 +6,7 @@ import 'package:mysen/features/request/domain/repositories/request_reservation_r
 class UpdateRequestReservation {
   final RequestReservationRepository repository;
   UpdateRequestReservation({required this.repository});
-  Future<Either<Failure, RequestReservation>> call(
-    RequestReservation requestReservation,
-  ) {
+  Future<Either<Failure, void>> call(RequestReservation requestReservation) {
     return repository.updateRequestReservation(requestReservation);
   }
 }

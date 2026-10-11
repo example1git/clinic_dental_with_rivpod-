@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:mysen/core/constant.dart';
+import 'package:mysen/translate/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'dart:async';
@@ -18,43 +18,45 @@ enum Role { user, doctor }
 enum StateRequest { completed, reject, waiting, accepted, none }
 
 class Utils {
-  static void showSnacBar({
+  static void showSnackBar({
+    required BuildContext context,
     Duration duration = const Duration(seconds: 5),
-    required String title,
     required String message,
   }) {
-    final s = Get.context?.size ?? Get.size;
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
-    Get.showSnackbar(
-      GetSnackBar(
-        barBlur: 15,
-        borderWidth: 1,
-        borderRadius: 10,
-        borderColor: Get.context?.primaryContainer,
-        backgroundColor: whitecolor.withAlpha(10),
+    final size = MediaQuery.sizeOf(context);
 
-        snackPosition: SnackPosition.TOP,
-
-        messageText: Text(
-          message,
-
-          style: Get.context?.bodySmall?.copyWith(color: whitecolor),
-        ),
-        titleText: Text(
-          title,
-          style: Get.context?.bodyMeduim?.copyWith(
-            color: Get.context?.primaryContainer,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        showCloseIcon: true,
+        closeIconColor: context.primaryContainer,
         duration: duration,
-        // icon: const SafeArea(child: Closed()),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: blackcolor.withAlpha(20),
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(color: whitecolor.withAlpha(10)),
+        ),
+        margin: EdgeInsets.symmetric(
+          horizontal: size.width > 600
+              ? size.shortestSide * .04
+              : size.shortestSide * .015,
+          vertical: size.shortestSide * .015,
+        ),
+        content: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: size.shortestSide * .015,
+          ),
+          child: Text(
+            textAlign: TextAlign.justify,
+            maxLines: 2,
 
-        padding: EdgeInsets.symmetric(
-          horizontal: s.width > 600
-              ? s.shortestSide * .04
-              : s.shortestSide * .015,
-          vertical: s.shortestSide * .015,
+            message,
+            style: context.bodyMeduim,
+          ),
         ),
       ),
     );
@@ -193,10 +195,10 @@ extension MyTheme on BuildContext {
     color: whitecolor,
     fontSize: MediaQuery.of(this).size.shortestSide * .035,
   );
-  TextStyle? get bodySmall => TextStyle(
-    color: primarycolor,
-    fontSize: MediaQuery.of(this).size.shortestSide * .035,
-  );
+  // TextStyle? get bodySmall => TextStyle(
+  //   color: primarycolor,
+  //   fontSize: MediaQuery.of(this).size.shortestSide * .035,
+  // );
   TextStyle? get bodySmallNotfication => TextStyle(
     color: primarycolor,
     fontSize: MediaQuery.of(this).size.shortestSide * .035,
@@ -270,6 +272,12 @@ extension Loading on Widget {
     return isloading
         ? Center(child: CircularProgressIndicator(color: color))
         : this;
+  }
+}
+
+extension AppLocalizationTr on BuildContext {
+  AppLocalizations get tr {
+    return AppLocalizations.of(this)!;
   }
 }
 //        connectvity

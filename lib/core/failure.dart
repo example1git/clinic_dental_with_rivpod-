@@ -14,3 +14,7 @@ class CachFailure extends Failure {
 class RequetsTimeFailure extends Failure {
   RequetsTimeFailure(super.message);
 }
+
+class InternetFailure extends Failure {
+  InternetFailure(super.message);
+}

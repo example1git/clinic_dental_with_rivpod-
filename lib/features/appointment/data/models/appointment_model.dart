@@ -6,6 +6,7 @@ class AppointmentModel extends Appointment {
   new({
     required super.id,
     required super.treatmentCaseID,
+    required super.doctorPatientID,
     required super.timeAppointment,
     super.teethSelected,
     required super.payPrice,
@@ -14,6 +15,7 @@ class AppointmentModel extends Appointment {
   AppointmentModel copyWith({
     String? id,
     String? treatmentCaseID,
+    String? doctorPatientID,
     DateTime? timeAppointment,
     int? payPrice,
     List<Map>? teethSelected,
@@ -21,6 +23,7 @@ class AppointmentModel extends Appointment {
     return AppointmentModel(
       id: id ?? this.id,
       treatmentCaseID: treatmentCaseID ?? this.treatmentCaseID,
+      doctorPatientID: doctorPatientID ?? this.doctorPatientID,
       timeAppointment: timeAppointment ?? this.timeAppointment,
       payPrice: payPrice ?? this.payPrice,
       teethSelected: teethSelected ?? this.teethSelected,
@@ -30,6 +33,7 @@ class AppointmentModel extends Appointment {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'treatmentCaseID': treatmentCaseID,
+      'doctorPatientID': doctorPatientID,
       'timeAppointment': timeAppointment.toUtc().toIso8601String(),
       'payPrice': payPrice,
       'teethSelected': teethSelected,
@@ -40,6 +44,7 @@ class AppointmentModel extends Appointment {
     return <String, dynamic>{
       'id': id,
       'treatmentCaseID': treatmentCaseID,
+      'doctorPatientID': doctorPatientID,
       'timeAppointment': timeAppointment.toIso8601String(),
       'payPrice': payPrice,
       'teethSelected': jsonEncode(teethSelected),
@@ -50,6 +55,7 @@ class AppointmentModel extends Appointment {
     return AppointmentModel(
       id: map['id'] as String,
       treatmentCaseID: map['treatmentCaseID'] as String,
+      doctorPatientID: map['doctorPatientID'] as String,
 
       timeAppointment: DateTime.parse(map['timeAppointment']).toLocal(),
       teethSelected: map['teethSelected'] != null
@@ -65,6 +71,7 @@ class AppointmentModel extends Appointment {
     return AppointmentModel(
       id: map['id'] as String,
       treatmentCaseID: map['treatmentCaseID'] as String,
+      doctorPatientID: map['doctorPatientID'] as String,
       timeAppointment: DateTime.parse(map['timeAppointment']),
       teethSelected: map['teethSelected'] != null
           ? List<Map<String, dynamic>>.from(

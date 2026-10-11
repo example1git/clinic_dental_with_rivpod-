@@ -54,6 +54,7 @@ class DoctorModel extends Doctor {
       'phone': jsonEncode(phone),
       'equlatifications': jsonEncode(equlatifications),
       'location': location,
+      'gender': gender?.name,
       'imgUrl': imgUrl,
       'isWorking': isWorking ? 1 : 0,
     };
@@ -67,7 +68,7 @@ class DoctorModel extends Doctor {
       gender: Gender.values.firstWhere(
         (element) => element.name == map['gender'],
       ),
-      isWorking: map['isWorking'] == 0 ? false : true as bool? ?? true,
+      isWorking: map['isWorking'] == 1,
       equlatifications: jsonDecode(map['equlatifications']) != null
           ? List<String>.from(jsonDecode(map['equlatifications']))
           : null,

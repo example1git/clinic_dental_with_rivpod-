@@ -39,11 +39,11 @@ class TreatmentRepositoryImp implements TreatmentCaseRepository {
 
         return Right(treatmentAdd);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
       } on CachExeption catch (e) {
-        return left(CachFailure(e.message));
+        return Left(CachFailure(e.message));
       }
     }
     return Left(ServerFailure('errror'));
@@ -59,18 +59,18 @@ class TreatmentRepositoryImp implements TreatmentCaseRepository {
         }
         return Right(treament);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
       }
     }
     try {
       final treament = await treatmentLocalDataSource.getTreatmentCase();
       return Right(treament);
     } on RequestTimeExeption catch (e) {
-      return left(RequetsTimeFailure(e.message));
+      return Left(RequetsTimeFailure(e.message));
     } on CachExeption catch (e) {
-      return left(CachFailure(e.message));
+      return Left(CachFailure(e.message));
     }
   }
 
@@ -94,13 +94,77 @@ class TreatmentRepositoryImp implements TreatmentCaseRepository {
 
         return Right(treatmentUpdate);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
       } on CachExeption catch (e) {
-        return left(CachFailure(e.message));
+        return Left(CachFailure(e.message));
       }
     }
-    return Left(ServerFailure('errror'));
+    return Left(InternetFailure('errror'));
+  }
+
+  @override
+  Future<Either<Failure, List<TreatmentCase>>> getTreatmentCaseByDpID(
+    String dpID,
+  ) async {
+    if (await internetService.checkNow()) {
+      try {
+        final treament = await treatmentRemoteDataSource.getTreatmentCaseByDpID(
+          dpID,
+        );
+        for (var tr in treament) {
+          await treatmentLocalDataSource.addTreatmentCase(tr);
+        }
+        return Right(treament);
+      } on RequestTimeExeption catch (e) {
+        return Left(RequetsTimeFailure(e.message));
+      } on ServerExeption catch (e) {
+        return Left(ServerFailure(e.message));
+      }
+    }
+    return Left(InternetFailure('internet'));
+  }
+
+  @override
+  Future<Either<Failure, TreatmentCase>> deleteTreatmentCase(
+    TreatmentCase treatment,
+  ) async {
+    if (await internetService.checkNow()) {
+      try {
+        final model = TreatmentCaseModel(
+          id: treatment.id,
+          doctorPatientID: treatment.doctorPatientID,
+          totalPrice: treatment.totalPrice,
+          treatmentSatus: treatment.treatmentSatus,
+          createdTime: treatment.createdTime,
+        );
+
+        final response = await treatmentRemoteDataSource.deleteTreatmentCase(
+          model,
+        );
+        if (response == TreatmentSatus.canceled.name) {
+          await treatmentLocalDataSource.updateTreatmentCase(
+            model.copyWith(treatmentSatus: TreatmentSatus.canceled),
+          );
+          return Right(model.copyWith(treatmentSatus: TreatmentSatus.canceled));
+        }
+        if (response == TreatmentSatus.canceled.name) {
+          await treatmentLocalDataSource.deleteTreatmentCase(
+            model.copyWith(treatmentSatus: TreatmentSatus.deleted),
+          );
+          return Right(model.copyWith(treatmentSatus: TreatmentSatus.deleted));
+        }
+
+        return Right(model);
+      } on RequestTimeExeption catch (e) {
+        return Left(RequetsTimeFailure(e.message));
+      } on ServerExeption catch (e) {
+        return Left(ServerFailure(e.message));
+      } on CachExeption catch (e) {
+        return Left(CachFailure(e.message));
+      }
+    }
+    return Left(InternetFailure('errror'));
   }
 }

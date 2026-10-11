@@ -1,41 +1,41 @@
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:flutter/material.dart';
 import 'package:mysen/core/utiles.dart';
 
 class ErrorHndel {
-  static void handleError(ErrorType type) {
+  static void handleError(ErrorType type, BuildContext context) {
     switch (type) {
       case ErrorType.internet:
-        Utils.showSnacBar(title: 'internetT'.tr, message: 'internetM'.tr);
+        Utils.showSnackBar(message: context.tr.internetM, context: context);
 
         break;
       case ErrorType.timeout:
-        Utils.showSnacBar(title: 'timeoutT'.tr, message: 'timeoutM'.tr);
+        Utils.showSnackBar(message: context.tr.timeoutT, context: context);
 
         break;
       case ErrorType.error:
-        Utils.showSnacBar(title: 'errorT'.tr, message: 'errorM'.tr);
+        Utils.showSnackBar(message: context.tr.errorM, context: context);
 
         break;
       case ErrorType.authlogin:
-        Utils.showSnacBar(
-          title: 'errorT'.tr,
-          message: 'number is not found'.tr,
+        Utils.showSnackBar(
+          message: context.tr.phoneNumberNotFound,
+          context: context,
         );
 
         break;
       case ErrorType.authsign:
-        Utils.showSnacBar(title: 'errorT'.tr, message: 'errorSignM'.tr);
+        Utils.showSnackBar(message: context.tr.errorSignM, context: context);
 
         break;
       case ErrorType.code:
-        Utils.showSnacBar(title: 'errorT'.tr, message: 'codeError'.tr);
+        Utils.showSnackBar(context: context, message: context.tr.codeError);
 
         break;
 
       case ErrorType.rls:
-        Utils.showSnacBar(
-          title: 'accountSuspendedT'.tr,
-          message: 'accountSuspendedM'.tr,
+        Utils.showSnackBar(
+          message: context.tr.accountSuspendedM,
+          context: context,
         );
 
         break;
@@ -46,57 +46,46 @@ class ErrorHndel {
 enum ErrorType { internet, authlogin, authsign, timeout, error, code, rls }
 
 class MessageHandle {
-  static void handleMessage(MessageType type) {
+  static void handleMessage(MessageType type, BuildContext context) {
     switch (type) {
       case MessageType.requestWaiting:
-        Utils.showSnacBar(title: 'stRequestw'.tr, message: 'smRequestw'.tr);
+        Utils.showSnackBar(context: context, message: context.tr.smRequestw);
 
         break;
       case MessageType.requestComplete:
-        Utils.showSnacBar(
-          title: 'stRequestCount'.tr,
-          message: 'smRequestCount'.tr,
+        Utils.showSnackBar(
+          context: context,
+          message: context.tr.smRequestCount,
         );
 
         break;
       case MessageType.refreshDoctorPatient:
-        Utils.showSnacBar(title: 'refreshT'.tr, message: 'refreshM'.tr);
+        Utils.showSnackBar(context: context, message: context.tr.refreshM);
 
         break;
 
       case MessageType.applyTheme:
-        Utils.showSnacBar(title: 'sThemeT'.tr, message: 'sThemeM'.tr);
+        Utils.showSnackBar(context: context, message: context.tr.sThemeM);
 
         break;
       case MessageType.patientExist:
-        Utils.showSnacBar(
-          title: 'patientExistT'.tr,
-          message: 'patientExistM'.tr,
-        );
+        Utils.showSnackBar(context: context, message: context.tr.patientExistM);
 
         break;
       case MessageType.isdoctorWork:
-        Utils.showSnacBar(title: 'isworkT'.tr, message: 'isworkM'.tr);
+        Utils.showSnackBar(context: context, message: context.tr.isWorkM);
 
         break;
       case MessageType.phoneDoctorEdit:
-        Utils.showSnacBar(title: 'phoneChangeT'.tr, message: 'phoneChangeM'.tr);
+        Utils.showSnackBar(context: context, message: context.tr.phoneChangeM);
 
         break;
       case MessageType.delete:
-        Utils.showSnacBar(
-          title: 'DeleteT'.tr,
-          message: 'DeleteM'.tr,
-          duration: const Duration(seconds: 1),
-        );
+        Utils.showSnackBar(context: context, message: context.tr.deleteM);
 
         break;
       case MessageType.add:
-        Utils.showSnacBar(
-          title: 'AddT'.tr,
-          message: 'AddM'.tr,
-          duration: const Duration(seconds: 1),
-        );
+        Utils.showSnackBar(context: context, message: context.tr.addM);
 
         break;
     }

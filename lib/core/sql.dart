@@ -29,14 +29,6 @@ class DatabaseHelper {
   }
 
   Future _createDB(Database db, int version) async {
-    // await db.execute('''
-    //   CREATE TABLE patientsForDoctor (
-    //     id TEXT PRIMARY KEY,
-    //     patientID TEXT,
-    //     fullName TEXT,
-    //     phone TEXT
-    //   )
-    // ''');
     await db.execute('''
       CREATE TABLE doctorPatient (
         id TEXT PRIMARY KEY,
@@ -54,6 +46,7 @@ class DatabaseHelper {
       CREATE TABLE appointment (
         id TEXT PRIMARY KEY,
         treatmentCaseID TEXT,
+        doctorPatientID TEXT,
         timeAppointment TEXT,
         payPrice INTEGER,
         teethSelected TEXT,
@@ -205,6 +198,6 @@ class DatabaseHelper {
     }
 
     await deleteDatabase(path);
-    // print('🗑️ تم حذف قاعدة البيانات بنجاح');
+    print('🗑️ تم حذف قاعدة البيانات بنجاح');
   }
 }

@@ -37,7 +37,9 @@ class DoctorLocalDataSourc {
         return null;
       }
 
-      return DoctorModel.fromMapSql(resposne.first);
+      final map = resposne.first;
+
+      return DoctorModel.fromMapSql(map);
     } on TimeoutException {
       throw RequestTimeExeption(message: 'local time out');
     } catch (e) {

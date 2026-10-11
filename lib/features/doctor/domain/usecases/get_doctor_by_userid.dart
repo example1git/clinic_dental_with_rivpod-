@@ -7,7 +7,7 @@ class GetDoctorByUserid {
   final DoctorRepository repository;
 
   GetDoctorByUserid({required this.repository});
-  Future<Either<Failure, Doctor>> call() {
+  Future<Either<Failure, Doctor?>> call() {
     return repository.getDoctorByUserID();
   }
 }

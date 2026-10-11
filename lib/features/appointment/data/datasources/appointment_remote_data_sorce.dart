@@ -24,6 +24,23 @@ class AppointmentRemoteDataSorce {
     }
   }
 
+  Future<List<AppointmentModel>> getAppointmentByDpid(String dpID) async {
+    try {
+      final resposne = await client
+          .from(table)
+          .select()
+          .eq('doctorPatientID', dpID)
+          .timeout(duration);
+      return resposne.map((e) => AppointmentModel.fromMap(e)).toList();
+    } on TimeoutException {
+      throw RequestTimeExeption(message: 'time out');
+    } on PostgrestException catch (e) {
+      throw ServerExeption(message: 'server${e.message}');
+    } catch (e) {
+      throw ServerExeption(message: 'server${e.toString()}');
+    }
+  }
+
   Future<AppointmentModel> addAppointment(
     AppointmentModel appointmentModel,
   ) async {

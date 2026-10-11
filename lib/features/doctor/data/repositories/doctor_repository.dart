@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:mysen/core/exeption.dart';
 import 'package:mysen/core/failure.dart';
@@ -29,23 +31,23 @@ class DoctorRepositoryImp implements DoctorRepository {
         }
         return Right(doctors);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
       }
     }
     try {
       final doctors = await doctorLocalDataSource.getDoctors();
       return Right(doctors);
     } on RequestTimeExeption catch (e) {
-      return left(RequetsTimeFailure(e.message));
+      return Left(RequetsTimeFailure(e.message));
     } on CachExeption catch (e) {
-      return left(CachFailure(e.message));
+      return Left(CachFailure(e.message));
     }
   }
 
   @override
-  Future<Either<Failure, Doctor>> getDoctorByUserID() async {
+  Future<Either<Failure, Doctor?>> getDoctorByUserID() async {
     final doctorSql = await doctorLocalDataSource.getDoctor();
     if (doctorSql != null) {
       return right(doctorSql);
@@ -54,18 +56,21 @@ class DoctorRepositoryImp implements DoctorRepository {
       try {
         final doctor = await doctorRemotDataSource.getDoctorByUserID();
         if (doctor == null) {
-          return Left(ServerFailure('error'));
+          return Right(null);
         }
+
         doctorLocalDataSource.addDoctor(doctor);
 
         return Right(doctor);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
+      } on CachExeption catch (e) {
+        return Left(CachFailure(e.message));
       }
     }
-    return Left(ServerFailure('error network'));
+    return Left(InternetFailure('error network'));
   }
 
   @override
@@ -89,13 +94,44 @@ class DoctorRepositoryImp implements DoctorRepository {
 
         return Right(doctorUpdate);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
       } on CachExeption catch (e) {
-        return left(CachFailure(e.message));
+        return Left(CachFailure(e.message));
       }
     }
-    return Left(ServerFailure('errror'));
+    return Left(InternetFailure('errror'));
+  }
+
+  @override
+  Future<Either<Failure, String>> uploadImage(File file, Doctor doctor) async {
+    if (await internetService.checkNow()) {
+      try {
+        final imgUrl = await doctorRemotDataSource.uploadImage(file, doctor);
+        final model = DoctorModel(
+          id: doctor.id,
+          userID: doctorRemotDataSource.client.auth.currentUser?.id,
+          fullName: doctor.fullName,
+          phone: doctor.phone,
+          gender: doctor.gender,
+          equlatifications: doctor.equlatifications,
+          imgUrl: imgUrl,
+          isWorking: doctor.isWorking,
+          location: doctor.location,
+        );
+        final doctorUpdate = await doctorRemotDataSource.updateDoctor(model);
+        await doctorLocalDataSource.updateDoctor(doctorUpdate);
+
+        return Right(imgUrl);
+      } on RequestTimeExeption catch (e) {
+        return Left(RequetsTimeFailure(e.message));
+      } on ServerExeption catch (e) {
+        return Left(ServerFailure(e.message));
+      } on CachExeption catch (e) {
+        return Left(CachFailure(e.message));
+      }
+    }
+    return Left(InternetFailure('error network'));
   }
 }

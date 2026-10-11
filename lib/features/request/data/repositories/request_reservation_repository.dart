@@ -19,7 +19,7 @@ class RequestReservationRepositoryImp implements RequestReservationRepository {
   });
 
   @override
-  Future<Either<Failure, RequestReservation>> upsertRequestReservation(
+  Future<Either<Failure, void>> upsertRequestReservation(
     RequestReservation requestReservation,
   ) async {
     if (await internetService.checkNow()) {
@@ -33,22 +33,20 @@ class RequestReservationRepositoryImp implements RequestReservationRepository {
           phone: requestReservation.phone,
         );
 
-        final requestReservationAdd = await requestReservationRemoteDataSource
-            .upsertRequestReservation(model);
-        await requestReservationLocalDataSource.upsertRequestReservation(
-          requestReservationAdd,
+        await requestReservationRemoteDataSource.upsertRequestReservation(
+          model,
         );
 
-        return Right(requestReservationAdd);
+        return Right(null);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
       } on CachExeption catch (e) {
-        return left(CachFailure(e.message));
+        return Left(CachFailure(e.message));
       }
     }
-    return Left(ServerFailure('errror'));
+    return Left(InternetFailure('errror'));
   }
 
   @override
@@ -63,24 +61,28 @@ class RequestReservationRepositoryImp implements RequestReservationRepository {
         }
         return Right(requestReservation);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
       }
     }
     try {
       final requestReservation = await requestReservationLocalDataSource
           .getRequestReservation();
+
+      for (var r in requestReservation) {
+        await requestReservationLocalDataSource.upsertRequestReservation(r);
+      }
       return Right(requestReservation);
     } on RequestTimeExeption catch (e) {
-      return left(RequetsTimeFailure(e.message));
+      return Left(RequetsTimeFailure(e.message));
     } on CachExeption catch (e) {
-      return left(CachFailure(e.message));
+      return Left(CachFailure(e.message));
     }
   }
 
   @override
-  Future<Either<Failure, RequestReservation>> updateRequestReservation(
+  Future<Either<Failure, void>> updateRequestReservation(
     RequestReservation requestReservation,
   ) async {
     if (await internetService.checkNow()) {
@@ -94,21 +96,17 @@ class RequestReservationRepositoryImp implements RequestReservationRepository {
           phone: requestReservation.phone,
         );
 
-        final requestReservationAdd = await requestReservationRemoteDataSource
-            .updateRequestReservation(model);
-        await requestReservationLocalDataSource.updateRequestReservation(
-          requestReservationAdd,
-        );
+        requestReservationRemoteDataSource.updateRequestReservation(model);
 
-        return Right(requestReservationAdd);
+        return Right(null);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
       } on CachExeption catch (e) {
-        return left(CachFailure(e.message));
+        return Left(CachFailure(e.message));
       }
     }
-    return Left(ServerFailure('errror'));
+    return Left(InternetFailure('errror'));
   }
 }

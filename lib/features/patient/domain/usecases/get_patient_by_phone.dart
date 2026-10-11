@@ -7,7 +7,7 @@ class GetPatientByPhone {
   final PatientRepository repository;
   GetPatientByPhone({required this.repository});
 
-  Future<Either<Failure, Patient>> call(String phone) {
+  Future<Either<Failure, Patient?>> call(String phone) {
     return repository.getPatientByPhone(phone);
   }
 }

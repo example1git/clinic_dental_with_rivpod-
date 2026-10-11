@@ -3,12 +3,10 @@ import 'package:mysen/core/failure.dart';
 import 'package:mysen/features/request/domain/entities/request_reservation.dart';
 import 'package:mysen/features/request/domain/repositories/request_reservation_repository.dart';
 
-class AddRequestReservation {
+class UpsertRequestReservation {
   final RequestReservationRepository repository;
-  AddRequestReservation({required this.repository});
-  Future<Either<Failure, RequestReservation>> call(
-    RequestReservation requestReservation,
-  ) {
+  UpsertRequestReservation({required this.repository});
+  Future<Either<Failure, void>> call(RequestReservation requestReservation) {
     return repository.upsertRequestReservation(requestReservation);
   }
 }

@@ -33,57 +33,58 @@ class PatientRepositoryImp implements PatientRepository {
 
         return Right(patientAdd);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
       } on CachExeption catch (e) {
-        return left(CachFailure(e.message));
+        return Left(CachFailure(e.message));
       }
     }
-    return Left(ServerFailure('errror'));
+    return Left(InternetFailure('internt'));
   }
 
   @override
-  Future<Either<Failure, Patient>> getPatientByPhone(String phone) async {
+  Future<Either<Failure, Patient?>> getPatientByPhone(String phone) async {
     if (await internetService.checkNow()) {
       try {
         final patient = await patientRemoteDataSorce.getPatientByPhone(phone);
         if (patient == null) {
-          return Left(ServerFailure('error'));
+          return Right(null);
         }
         patientLocalDataSource.addPatient(patient);
 
         return Right(patient);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
       }
     }
-    return Left(ServerFailure('error network failer'));
+
+    return Left(InternetFailure('error network failer'));
   }
 
   @override
-  Future<Either<Failure, Patient>> getPatientByUserID() async {
+  Future<Either<Failure, Patient?>> getPatientByUserID() async {
     final patient = await patientLocalDataSource.getPatient();
     if (patient != null) {
-      return right(patient);
+      return Right(patient);
     }
     if (await internetService.checkNow()) {
       try {
         final patient = await patientRemoteDataSorce.getPatientByuserID();
         if (patient == null) {
-          return Left(ServerFailure('error'));
+          return Right(null);
         }
         patientLocalDataSource.addPatient(patient);
 
         return Right(patient);
       } on RequestTimeExeption catch (e) {
-        return left(RequetsTimeFailure(e.message));
+        return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
-        return left(ServerFailure(e.message));
+        return Left(ServerFailure(e.message));
       }
     }
-    return Left(ServerFailure('error network failer'));
+    return Left(InternetFailure('error network failer'));
   }
 }

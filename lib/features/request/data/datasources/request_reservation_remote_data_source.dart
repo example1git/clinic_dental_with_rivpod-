@@ -27,20 +27,17 @@ class RequestReservationRemoteDataSource {
     }
   }
 
-  Future<RequestReservationModel> upsertRequestReservation(
+  Future<void> upsertRequestReservation(
     RequestReservationModel requestReservationModel,
   ) async {
     try {
-      final resposne = await client
+      await client
           .from(table)
           .upsert(
             requestReservationModel.toMap(),
             onConflict: 'patientID,doctorID',
           )
-          .select("*,patient(fullName,phone)")
-          .single()
           .timeout(duration);
-      return RequestReservationModel.fromMap(resposne);
     } on TimeoutException {
       throw RequestTimeExeption(message: 'time out');
     } on PostgrestException catch (e) {
@@ -50,18 +47,15 @@ class RequestReservationRemoteDataSource {
     }
   }
 
-  Future<RequestReservationModel> updateRequestReservation(
+  Future<void> updateRequestReservation(
     RequestReservationModel requestReservationModel,
   ) async {
     try {
-      final response = await client
+      await client
           .from(table)
           .update(requestReservationModel.toMap())
           .eq('id', requestReservationModel.id)
-          .select("*,patient(fullName,phone)")
-          .single()
           .timeout(duration);
-      return RequestReservationModel.fromMap(response);
     } on TimeoutException {
       throw RequestTimeExeption(message: 'time out');
     } on PostgrestException catch (e) {

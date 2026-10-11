@@ -55,4 +55,20 @@ class TreatmentLocalDataSource {
       throw CachExeption(message: 'local cach${e.toString()}');
     }
   }
+
+  Future<TreatmentCaseModel> deleteTreatmentCase(
+    TreatmentCaseModel treatmentCaseModel,
+  ) async {
+    try {
+      await databaseHelper
+          .delete(table, treatmentCaseModel.id)
+          .timeout(duration);
+
+      return treatmentCaseModel;
+    } on TimeoutException {
+      throw RequestTimeExeption(message: 'local time out');
+    } catch (e) {
+      throw CachExeption(message: 'local cach${e.toString()}');
+    }
+  }
 }

@@ -1,0 +1,167 @@
+{
+  "@@locale": "en",
+
+  "titleRequest": "Do you really want to request a booking?",
+  "titleRequestCancel": "Do you really want to cancel the booking request?",
+
+  "stRequestCount": "You already have an accepted request",
+  "smRequestCount": "You cannot request a new appointment until your current appointment has ended.",
+  "stRequestw": "You have a pending booking",
+  "smRequestw": "You can request another booking after the current request is rejected or cancelled.",
+  "requestTitle": "Booking Request",
+  "cancelRequest": "Cancel",
+
+  "holiday": "On Leave",
+  "accountSuspendedT": "Account Suspended",
+  "accountSuspendedM": "Your account has been suspended by the app administration. Please contact the app administration for more information.",
+
+  "doctorMale": "Dr.",
+  "doctorFemale": "Dr.",
+
+  "sThemeSelectT": "Notice",
+  "sThemeSelectM": "Please choose a theme to save changes.",
+  "sThemeT": "Theme Applied",
+  "sThemeM": "Please restart the application to apply the changes.",
+  "setTheme": "Set Theme",
+  "theme": "Theme",
+
+  "language": "Language",
+  "chooseLanguage": "Choose Language",
+  "arabic": "Arabic",
+  "english": "English",
+
+  "deleteT": "✔",
+  "deleteM": "Deleted Successfully",
+  "addT": "✔",
+  "addM": "Added Successfully",
+
+  "totalPrice": "Total Amount",
+  "currentPaid": "Current Paid Amount",
+  "paidAmount": "Paid Amount",
+  "treatmentCase": "Treatment Plan",
+  "addTreatmentPlan": "Add Treatment Plan",
+  "deletedTreatmentPlans": "Deleted Treatment Plans",
+  "timeCreate": "Creation Time",
+
+  "previouslyPaid": "Previously Paid Amount",
+  "remainingPrice": "Remaining Amount",
+
+  "signOut": "Sign Out",
+  "done": "OK",
+
+  "reservesList": "Reservations List",
+
+  "deleteConfirmation": "Are you sure you want to delete?",
+  "cancel": "Back",
+  "ok": "Yes",
+  "doctorAbbreviation": "D",
+
+  "refreshT": "Updated",
+  "refreshM": "Data has been updated. Please try again later.",
+
+  "internetT": "No Internet Connection",
+  "internetM": "Please check your internet connection and try again.",
+
+  "errorT": "Error",
+  "errorM": "Something went wrong. Please try again.",
+  "errorSignM": "This account already exists. You can use another account or log in.",
+
+  "fieldIsEmpty": "Field is empty",
+  "failedNames": "Please enter the full name correctly.",
+  "failedNicknames": "Please enter a valid nickname.",
+  "passwordTooShort": "Password is too short.",
+  "invalidPhoneNumber": "Invalid phone number.",
+  "phoneNumberNotFound": "Phone number is not found.",
+  "addName": "Add Name",
+
+  "timeoutT": "Connection Timeout",
+  "timeoutM": "Your internet connection is unstable. Please try again.",
+
+  "roleChoice": "Select your role in the application.",
+
+  "code": "Code",
+  "codeError": "Invalid code",
+  "loadError": "An error occurred while loading  data",
+  "retry": "Retry",
+  "right": "Right",
+  "left": "Left",
+
+  "searchShow": "Show Search Bar",
+  "searchHide": "Hide Search Bar",
+  "searchFieldTitle": "...search record",
+
+  "rowLevelT": "Error",
+  "rowLevelM": "Your account has been suspended by the developer.",
+
+  "isWorkT": "Updated",
+  "isWorkM": "You can change your status again after 2 minutes.",
+
+  "doctorProfile": "Doctor Profile",
+  "createPatients": "Create Patient Record",
+
+  "addLocation": "Edit Location",
+  "location": "Location",
+
+  "phoneChangeT": "Change Phone Number",
+  "phoneChangeM": "To change the phone number registered to your account, please contact the app administrator.",
+
+  "equalzation": "Enter Qualifications",
+  "editQualifications": "Edit Qualifications",
+
+  "signUp": "Signup",
+  "signIn": "Login",
+  "verify": "Verify your phone number",
+
+  "messageResend": "Didn't receive the code?",
+  "resend": "Resend",
+
+  "name": "Full Name",
+  "nickName": "Nickname",
+
+  "phone": "Phone Number",
+  "whatsApp": "WhatsApp Number",
+
+  "editPhone": "Edit Numbers",
+  "add": "Add",
+
+  "addAppointment": "Add Appointment",
+  "appointmentTime": "Appointment Time",
+  "appointmentDay": "Today's Appointments",
+
+  "changeToHolidayM": "Are you sure you want to change your status to On Leave?",
+  "changeToWorkM": "Are you sure you want to change your status to Available for Work?",
+
+  "holidayStatus": "On Leave",
+  "workStatus": "Available for Work",
+
+  "date": "Date",
+
+  "addTeeth": "Add Teeth",
+  "addDescription": "Add Tooth Description",
+  "description": "Tooth Description",
+
+  "empty": "Empty",
+  "noAppointment": "No Appointment",
+
+  "restoreTreatmentPlanM": "Are you sure you want to restore this treatment plan?",
+
+  "notificationReservation": "Booking Requests",
+  "titleReject": "Are you sure you want to reject?",
+
+  "accept": "Accept",
+  "reject": "Reject",
+  "allReservations": "All Reservations",
+
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "specificDate": "Specific Date",
+
+  "addImage": "Add Image",
+  "newItem": "New",
+
+  "patientExistT": "Notice",
+  "patientExistM": "Patient record already exists.",
+
+  "noWhatsApp": "No WhatsApp Number",
+  "noPhone": "No Phone Number"
+}

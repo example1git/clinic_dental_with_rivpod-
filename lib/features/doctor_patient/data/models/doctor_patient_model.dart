@@ -13,6 +13,7 @@ class DoctorPatientModel extends DoctorPateint {
     super.createdAt,
   });
 
+  @override
   DoctorPatientModel copyWith({
     String? id,
     String? doctorID,
@@ -54,8 +55,8 @@ class DoctorPatientModel extends DoctorPateint {
       'doctorFullName': doctorFullName,
       'patientFullName': patientFullName,
       'patientphone': patientphone,
-      'isDeleteDoctor': isDeleteDoctor,
-      'isDeletePatient': isDeletePatient,
+      'isDeleteDoctor': isDeleteDoctor ? 1 : 0,
+      'isDeletePatient': isDeletePatient ? 1 : 0,
     };
   }
 
@@ -82,12 +83,9 @@ class DoctorPatientModel extends DoctorPateint {
       doctorFullName: map['doctor'] as String,
       patientFullName: map['patient'] as String,
       patientphone: map['patient'] as String,
-      isDeleteDoctor: map['isDeleteDoctor'] == 1
-          ? true
-          : false as bool? ?? false,
-      isDeletePatient: map['isDeletePatient'] == 1
-          ? true
-          : false as bool? ?? false,
+      isDeleteDoctor: map['isDeleteDoctor'] == 1,
+      isDeletePatient: map['isDeletePatient'] == 1,
+
       // createdAt: map['createdAt'] != null
       //     ? DateTime.parse(map['createdAt'])
       //     : null,

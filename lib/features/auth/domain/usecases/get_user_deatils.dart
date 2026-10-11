@@ -6,7 +6,7 @@ import 'package:mysen/features/auth/domain/repositories/auth_repository.dart';
 class GetUserDeatils {
   final AuthRepository repository;
   GetUserDeatils({required this.repository});
-  Future<Either<Failure, UserDetails>> call() {
+  Future<Either<Failure, UserDetails?>> call() {
     return repository.getUserDetails();
   }
 }

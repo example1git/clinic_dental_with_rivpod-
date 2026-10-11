@@ -24,6 +24,23 @@ class TreatmentRemoteDataSource {
     }
   }
 
+  Future<List<TreatmentCaseModel>> getTreatmentCaseByDpID(String dpID) async {
+    try {
+      final resposne = await client
+          .from(table)
+          .select()
+          .eq('doctorPatientID', dpID)
+          .timeout(duration);
+      return resposne.map((e) => TreatmentCaseModel.fromMap(e)).toList();
+    } on TimeoutException {
+      throw RequestTimeExeption(message: 'time out');
+    } on PostgrestException catch (e) {
+      throw ServerExeption(message: 'server${e.message}');
+    } catch (e) {
+      throw ServerExeption(message: 'server${e.toString()}');
+    }
+  }
+
   Future<TreatmentCaseModel> addTreatmentCase(
     TreatmentCaseModel treatmentCaseModel,
   ) async {
@@ -56,6 +73,24 @@ class TreatmentRemoteDataSource {
           .single()
           .timeout(duration);
       return TreatmentCaseModel.fromMap(resposne);
+    } on TimeoutException {
+      throw RequestTimeExeption(message: 'time out');
+    } on PostgrestException catch (e) {
+      throw ServerExeption(message: 'server${e.message}');
+    } catch (e) {
+      throw ServerExeption(message: 'server${e.toString()}');
+    }
+  }
+
+  Future<String> deleteTreatmentCase(
+    TreatmentCaseModel treatmentCaseModel,
+  ) async {
+    try {
+      final String response = await client.rpc(
+        'cancel_or_delete_treatment_case',
+        params: {'p_treatment_case_id': treatmentCaseModel.id},
+      );
+      return response;
     } on TimeoutException {
       throw RequestTimeExeption(message: 'time out');
     } on PostgrestException catch (e) {
