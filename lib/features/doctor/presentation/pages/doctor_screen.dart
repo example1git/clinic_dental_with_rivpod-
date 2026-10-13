@@ -21,12 +21,12 @@ class DoctorScreen extends ConsumerWidget {
       child: doctor.when(
         data: (data) {
           return Scaffold(
-            floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                // print(await DatabaseHelper.instance.queryAll('doctorPatient'));
-                // await DatabaseHelper.instance.deleteDatabaseFile();
-              },
-            ),
+            // floatingActionButton: FloatingActionButton(
+            //   onPressed: () async {
+            //     // print(await DatabaseHelper.instance.queryAll('doctorPatient'));
+            //     // await DatabaseHelper.instance.deleteDatabaseFile();
+            //   },
+            // ),
             backgroundColor: context.primarycolor,
             bottomNavigationBar: BottomNavgiationBarDoctor(),
 

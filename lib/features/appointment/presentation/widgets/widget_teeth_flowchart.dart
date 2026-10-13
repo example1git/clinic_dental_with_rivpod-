@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/my_form_textfiled.dart';
 import 'package:mysen/core/utiles.dart';
@@ -87,7 +88,8 @@ class _WidgetTeethFlowChartState extends ConsumerState<WidgetTeethFlowChart> {
                                 child: OutlinedButton(
                                   style: context.outlinedButtonStyle,
                                   onPressed: () {
-                                    addDescription(index, teethAdd);
+                                    addDescription(teethAdd[index], ref);
+                                    context.pop();
                                   },
                                   child: Text(
                                     context.tr.done,
@@ -124,9 +126,11 @@ class _WidgetTeethFlowChartState extends ConsumerState<WidgetTeethFlowChart> {
     );
   }
 
-  void addDescription(int index, List<Map> teethAdd) {
+  void addDescription(Map teethAdd, WidgetRef ref) {
     if (descruptionController.text.isNotEmpty) {
-      teethAdd[index]['description'] = descruptionController.text;
+      final map = teethAdd;
+      teethAdd['description'] = descruptionController.text;
+      ref.read(teehtProvider.notifier).updateTeeh(map);
       descruptionController.clear();
     }
   }

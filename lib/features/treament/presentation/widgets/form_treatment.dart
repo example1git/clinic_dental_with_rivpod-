@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mysen/core/my_form_textfiled.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/close.dart';
 import 'package:mysen/features/doctor_patient/domain/entities/doctor_patient.dart';
+import 'package:mysen/features/treament/domain/entities/treatment_case.dart';
+import 'package:mysen/features/treament/presentation/controllers/dependecies.dart';
 
 class FormTreatment extends StatefulWidget {
   const FormTreatment({super.key, required this.dp});
@@ -51,12 +55,24 @@ class _FormTreatmentState extends State<FormTreatment> {
             validate: Validate.price,
           ),
 
-          OutlinedButton(
-            style: context.outlinedButtonStyle,
-            onPressed: () {
-              // treatmentController.addTreatmentCase(dp.id);
-            },
-            child: Text(context.tr.done, style: context.bodyMeduim),
+          Consumer(
+            builder: (context, ref, child) => OutlinedButton(
+              style: context.outlinedButtonStyle,
+              onPressed: () {
+                final treament = TreatmentCase(
+                  id: '',
+                  doctorPatientID: widget.dp.id,
+                  totalPrice: int.parse(totalPriceController.text.trim()),
+                  treatmentSatus: TreatmentSatus.active,
+                  createdTime: DateTime.now(),
+                );
+                ref
+                    .read(treatmentProvider.notifier)
+                    .addTreatmentCases(treament);
+                context.pop();
+              },
+              child: Text(context.tr.done, style: context.bodyMeduim),
+            ),
           ),
         ],
       ),

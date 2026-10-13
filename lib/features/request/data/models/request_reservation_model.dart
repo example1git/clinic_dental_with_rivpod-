@@ -1,3 +1,4 @@
+import 'package:mysen/core/utiles.dart';
 import 'package:mysen/features/request/domain/entities/request_reservation.dart';
 
 class RequestReservationModel extends RequestReservation {
@@ -12,7 +13,8 @@ class RequestReservationModel extends RequestReservation {
     super.sendTime,
   });
 
-  RequestReservation copyWith({
+  @override
+  RequestReservationModel copyWith({
     String? id,
     String? doctorID,
     String? patientID,
@@ -23,7 +25,7 @@ class RequestReservationModel extends RequestReservation {
     DateTime? sendTime,
     DateTime? reciveTime,
   }) {
-    return RequestReservation(
+    return RequestReservationModel(
       id: id ?? this.id,
       doctorID: doctorID ?? this.doctorID,
       patientID: patientID ?? this.patientID,

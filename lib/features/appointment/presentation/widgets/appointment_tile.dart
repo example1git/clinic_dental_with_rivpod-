@@ -1,37 +1,29 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/utiles.dart';
+import 'package:mysen/features/appointment/domain/entities/appointment.dart';
 import 'package:mysen/features/appointment/presentation/widgets/appointment_table.dart';
 import 'package:mysen/features/appointment/presentation/widgets/teeth_floawchart_button.dart';
 
 class AppointmentTile extends StatelessWidget {
   const AppointmentTile({
     super.key,
-    required this.title,
-    required this.index,
-    required this.colorized,
-    required this.isButtonAddTeeth,
-    this.widgetTeethButton,
-    this.widgetDescription,
     required this.totalPrice,
+    required this.appointment,
     required this.prevoiuspaid,
-    required this.payPrice,
   });
 
-  final String title;
+  final Appointment appointment;
   final int totalPrice;
   final int prevoiuspaid;
-  final int payPrice;
-
-  final int index;
-  final Map<String, Color> colorized;
-  final bool isButtonAddTeeth;
-  final Widget? widgetTeethButton;
-  final Widget? widgetDescription;
 
   @override
   Widget build(BuildContext context) {
+    final payPrice = appointment.payPrice;
     return Padding(
       padding: EdgeInsets.all(context.padding),
       child: ExpansionTile(
@@ -45,10 +37,9 @@ class AppointmentTile extends StatelessWidget {
             Utils.showMyDialog(
               context: context,
               child: TeethFlowchart(
-                widgetDescription: widgetDescription,
-                isButtonAddTeeth: isButtonAddTeeth,
-
-                widgetTeethButton: widgetTeethButton,
+                isWidgetTeeth: false,
+                teethSelected: appointment.teethSelected ?? [],
+                isButtonAddTeeth: false,
               ),
             );
           },
@@ -69,9 +60,11 @@ class AppointmentTile extends StatelessWidget {
           children: [
             Text(context.tr.appointmentTime, style: context.bodyMeduim),
             Directionality(
-              textDirection: TextDirection.ltr,
+              textDirection: ui.TextDirection.ltr,
               child: Text(
-                title,
+                DateFormat('yyyy-MM-dd hh:mm a')
+                    .format(appointment.timeAppointment),
+
                 style: context.bodyMeduim,
                 textAlign: TextAlign.center,
               ),
@@ -86,7 +79,7 @@ class AppointmentTile extends StatelessWidget {
           ),
           AppointmentTable(
             title: context.tr.previouslyPaid,
-            traling: index == 0 ? '0' : "$prevoiuspaid",
+            traling: prevoiuspaid.toString(),
           ),
           AppointmentTable(
             title: context.tr.paidAmount,

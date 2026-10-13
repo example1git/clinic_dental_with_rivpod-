@@ -6,15 +6,12 @@ import 'package:mysen/features/patient/presentation/controllers/dependecies.dart
 
 class PatientProvider extends AsyncNotifier<Patient?> {
   @override
-  FutureOr<Patient?> build() {
-    return getPatient();
-  }
-
-  Future<Patient?> getPatient() async {
+  FutureOr<Patient?> build() async {
     final patient = await ref.read(getPatientByUserIDProvider)();
     return patient.fold(
       (l) {
         state = AsyncValue.error(l, StackTrace.current);
+        return null;
       },
       (r) {
         return r;

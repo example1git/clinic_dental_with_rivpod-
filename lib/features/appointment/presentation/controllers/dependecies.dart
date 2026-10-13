@@ -6,9 +6,12 @@ import 'package:mysen/features/appointment/data/datasources/appointment_remote_d
 import 'package:mysen/features/appointment/data/repositories/appointment_repository.dart';
 import 'package:mysen/features/appointment/domain/entities/appointment.dart';
 import 'package:mysen/features/appointment/domain/repositories/appointment_repository.dart';
+import 'package:mysen/features/appointment/domain/usecases/add_appointment.dart';
 import 'package:mysen/features/appointment/domain/usecases/get_appointment.dart';
 import 'package:mysen/features/appointment/domain/usecases/get_appointment_by_dpID.dart';
-import 'package:mysen/features/appointment/presentation/controllers/treatments_provider.dart';
+import 'package:mysen/features/appointment/presentation/controllers/appointment_date.dart';
+import 'package:mysen/features/appointment/presentation/controllers/appointments_provider.dart';
+import 'package:mysen/features/appointment/presentation/pages/appointment_dialog.dart';
 
 final appointmentRepositoryProvider = Provider<AppointmentRepository>(
   (ref) => AppointmentRepositoryImp(
@@ -32,6 +35,9 @@ final getAppointmentByDpIDProvider = Provider<GetAppointmentByDpid>(
     repository: ref.watch(appointmentRepositoryProvider),
   ),
 );
+final addAppointmentProvider = Provider<AddAppointment>(
+  (ref) => AddAppointment(repository: ref.watch(appointmentRepositoryProvider)),
+);
 final appointmentProvider =
     AsyncNotifierProvider<AppointmentProvider, List<Appointment>>(
       AppointmentProvider.new,
@@ -39,3 +45,10 @@ final appointmentProvider =
 final teehtProvider = NotifierProvider<TeethAddProvider, List<Map>>(
   TeethAddProvider.new,
 );
+final payPaidProvider = NotifierProvider<PayPaidProvider, int>(
+  PayPaidProvider.new,
+);
+final appointmentDateProvider =
+    NotifierProvider<AppointmentDateProvider, DateTime>(
+      AppointmentDateProvider.new,
+    );

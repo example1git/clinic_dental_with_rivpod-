@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:mysen/features/appointment/presentation/widgets/all_appointment_day.dart';
 import 'package:mysen/features/auth/presentation/pages/sigin_screen.dart';
 import 'package:mysen/features/auth/presentation/pages/sign_up_complete.dart';
 import 'package:mysen/features/auth/presentation/pages/sigup_screen.dart';
@@ -74,6 +75,13 @@ final GoRouter appRouter = GoRouter(
       name: 'doctorProfile',
       pageBuilder: (context, state) {
         return const NoTransitionPage(child: DoctorProfile());
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.allreserve,
+      name: 'reservation',
+      pageBuilder: (context, state) {
+        return NoTransitionPage(child: AllAppointmenteday());
       },
     ),
 

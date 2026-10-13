@@ -1,4 +1,4 @@
-enum StateRequest { completed, reject, waiting, accepted, none }
+import 'package:mysen/core/utiles.dart';
 
 class RequestReservation {
   final String id;
@@ -20,4 +20,27 @@ class RequestReservation {
     this.sendTime,
     this.reciveTime,
   });
+  RequestReservation copyWith({
+    String? id,
+    String? doctorID,
+    String? patientID,
+    String? patientName,
+
+    StateRequest? stateRequest,
+    String? phone,
+    DateTime? sendTime,
+    DateTime? reciveTime,
+  }) {
+    return RequestReservation(
+      id: id ?? this.id,
+      doctorID: doctorID ?? this.doctorID,
+      patientID: patientID ?? this.patientID,
+      patientName: patientName ?? this.patientName,
+      stateRequest: stateRequest ?? this.stateRequest,
+      phone: phone ?? this.phone,
+
+      sendTime: sendTime ?? this.sendTime,
+      reciveTime: reciveTime ?? this.reciveTime,
+    );
+  }
 }

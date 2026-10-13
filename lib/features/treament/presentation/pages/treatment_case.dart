@@ -5,8 +5,8 @@ import 'package:mysen/features/doctor_patient/domain/entities/doctor_patient.dar
 import 'package:mysen/features/treament/presentation/widgets/body_treatment.dart';
 import 'package:mysen/features/treament/presentation/widgets/bottomnavigationbar_treatment.dart';
 
-class TreatmentCase extends StatelessWidget {
-  const TreatmentCase({super.key, required this.dp});
+class TreatmentCaseScreen extends StatelessWidget {
+  const TreatmentCaseScreen({super.key, required this.dp});
   final DoctorPateint dp;
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class TreatmentCase extends StatelessWidget {
 
         backgroundColor: context.primarycolor,
       ),
-      body: BodyTreatment(dp: dp),
+      body: BodyTreatment(dp: dp, isWidgetAddAppointment: true),
     );
   }
 }

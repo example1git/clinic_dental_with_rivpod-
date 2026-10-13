@@ -80,9 +80,9 @@ class DoctorPatientModel extends DoctorPateint {
       id: map['id'] as String,
       doctorID: map['doctorID'] as String,
       patientID: map['patientID'] as String,
-      doctorFullName: map['doctor'] as String,
-      patientFullName: map['patient'] as String,
-      patientphone: map['patient'] as String,
+      doctorFullName: map['doctorFullName'] as String,
+      patientFullName: map['patientFullName'] as String,
+      patientphone: map['patientphone'] as String,
       isDeleteDoctor: map['isDeleteDoctor'] == 1,
       isDeletePatient: map['isDeletePatient'] == 1,
 

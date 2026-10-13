@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mysen/features/shared/model/appointment.dart';
 import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/utiles.dart';
 
 class DescriptionFlowchartList extends StatelessWidget {
   const DescriptionFlowchartList({
     super.key,
-    required this.appointMent,
     required this.isNumber,
+    required this.teethSelected,
   });
 
-  final Appointment appointMent;
   final bool isNumber;
+  final List<Map> teethSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +19,9 @@ class DescriptionFlowchartList extends StatelessWidget {
       child: ListView.separated(
         separatorBuilder: (context, index) =>
             Divider(color: context.primaryContainer),
-        itemCount: appointMent.teethSelected?.length ?? 0,
+        itemCount: teethSelected.length,
         itemBuilder: (BuildContext context, int index) {
-          final teeth = appointMent.teethSelected![index];
+          final teeth = teethSelected[index];
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

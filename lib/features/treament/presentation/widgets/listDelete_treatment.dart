@@ -1,30 +1,22 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:intl/intl.dart';
 import 'package:mysen/core/utiles.dart';
-import 'package:mysen/features/doctor/controller/appointment_controller.dart';
-import 'package:mysen/features/doctor/controller/treatment_controller.dart';
-import 'package:mysen/features/doctor/widget/child_phone.dart';
-import 'package:mysen/features/shared/model/patientsfordoctor.dart';
-import 'package:mysen/features/shared/widget/alert.dart';
-import 'package:mysen/features/shared/widget/appointment_show.dart';
-import 'package:mysen/features/shared/widget/close.dart';
+import 'package:mysen/core/widget/alert.dart';
+import 'package:mysen/core/widget/close.dart';
+import 'package:mysen/features/doctor_patient/domain/entities/doctor_patient.dart';
+import 'package:mysen/features/treament/domain/entities/treatment_case.dart';
+
 
 class ListDeleteTreatment extends StatelessWidget {
   const ListDeleteTreatment({
     super.key,
-    required this.treatmentController,
     required this.dp,
-    required this.appointmentController,
   });
 
-  final TreatmentController treatmentController;
-  final AppointmentController appointmentController;
 
-  final Patientsfordoctor dp;
+  final DoctorPateint dp;
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +26,17 @@ class ListDeleteTreatment extends StatelessWidget {
           alignment: AlignmentGeometry.center,
 
           children: [
-            Text('deletedTreatmentPlans'.tr, style: context.titleLarge),
+            Text( context.tr.deletedTreatmentPlans, style: context.titleLarge),
             const Closed(),
           ],
         ),
         Expanded(
-          child: Obx(
-            () => ListView.builder(
-              itemCount: treatmentController.treatmentCaseCanceled.length,
+          child:  ListView.builder(
+              // itemCount: treatmentController.treatmentCaseCanceled.length,
+              itemCount:2,
               itemBuilder: (BuildContext context, int index) {
-                final treatment =
-                    treatmentController.treatmentCaseCanceled[index];
+                final treatment = TreatmentCase(id: '', doctorPatientID: '', totalPrice: 100, treatmentSatus: TreatmentSatus.active, createdTime: DateTime.now());
+                    // treatmentController.treatmentCaseCanceled[index];
 
                 return Card(
                   margin: EdgeInsets.all(context.margin),
@@ -58,22 +50,23 @@ class ListDeleteTreatment extends StatelessWidget {
                           onPressed: () {
                             Utils.showMyDialog(
                               context: context,
-                              child: Obx(
-                                () => AppointmentShow(
-                                  appointments: appointmentController
-                                      .appointMentsTreatemnt(treatment),
+                              child:SizedBox.shrink(),
+                                // AppointmentShow(
+                                //   appointments: appointmentController
+                                //       .appointMentsTreatemnt(treatment),
 
-                                  phone: dp.phone,
+                                //   phone: dp.phone,
 
-                                  colorized: appointmentController
-                                      .colorizedLeading(treatment.id),
-                                  treatment: treatment,
-                                  childAppointment: ChildPhone(phone: dp.phone),
-                                  payPaid: appointmentController.payPaid(
-                                    treatment,
-                                  ),
-                                ),
-                              ),
+                                //   colorized: appointmentController
+                                //       .colorizedLeading(treatment.id),
+                                //   treatment: treatment,
+                                //   childAppointment: ChildPhone(phone: dp.phone),
+                                //   payPaid: appointmentController.payPaid(
+                                //     treatment,
+                                //   ),
+                                // ),
+                              
+                              
                             );
                           },
                           icon: const Icon(Icons.bookmark_add),
@@ -84,7 +77,7 @@ class ListDeleteTreatment extends StatelessWidget {
                             children: [
                               Text(
                                 textAlign: TextAlign.center,
-                                'treatmentcase'.tr,
+                                context.tr.treatmentCase,
                                 style: context.bodyLarge,
                               ),
                               Text(
@@ -110,12 +103,12 @@ class ListDeleteTreatment extends StatelessWidget {
 
                               child: Alert(
                                 confirme: () {
-                                  treatmentController.updateTreatmentCase(
-                                    treatment,
-                                  );
+                                  // treatmentController.updateTreatmentCase(
+                                  //   treatment,
+                                  // );
                                 },
-                                title: 'restoreTreatmentPlanM'.tr,
-                                isLoading: treatmentController.isLoading,
+                                title:  context.tr.restoreTreatmentPlanM,
+                                isLoading:false
                               ),
                             );
                           },
@@ -130,7 +123,7 @@ class ListDeleteTreatment extends StatelessWidget {
                 );
               },
             ),
-          ),
+          
         ),
       ],
     );

@@ -4,20 +4,25 @@ import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/alert.dart';
 import 'package:mysen/core/widget/card_treatment.dart';
 import 'package:mysen/core/widget/error_widget.dart';
-import 'package:mysen/features/appointment/presentation/widgets/appointment_dialog.dart';
-import 'package:mysen/features/appointment/presentation/widgets/appointment_show.dart';
+import 'package:mysen/features/appointment/presentation/pages/appointment_dialog.dart';
+import 'package:mysen/features/appointment/presentation/pages/appointment_list.dart';
 import 'package:mysen/features/doctor_patient/domain/entities/doctor_patient.dart';
 import 'package:mysen/features/treament/domain/entities/treatment_case.dart';
 import 'package:mysen/features/treament/presentation/controllers/dependecies.dart';
 
 class BodyTreatment extends ConsumerWidget {
-  const BodyTreatment({super.key, required this.dp});
+  const BodyTreatment({
+    super.key,
+    required this.dp,
+    required this.isWidgetAddAppointment,
+  });
 
   final DoctorPateint dp;
+  final bool isWidgetAddAppointment;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final refTreatment = ref.read(treatmentProvider);
+    final refTreatment = ref.watch(treatmentProvider);
     final notfire = ref.read(treatmentProvider.notifier);
 
     return refTreatment.when(
@@ -67,7 +72,7 @@ class BodyTreatment extends ConsumerWidget {
                         onPressed: () {
                           Utils.showMyDialog(
                             context: context,
-                            child: AppointmentShow(
+                            child: AppointmentList(
                               treatment: treatment,
                               doctorPateint: dp,
                             ),
@@ -76,16 +81,25 @@ class BodyTreatment extends ConsumerWidget {
                         icon: const Icon(Icons.bookmark_added),
                       ),
                     ),
-                    Expanded(
-                      child: IconButton(
-                        style: context.iconButtonStyle,
-                        onPressed: () {
-                          AppointmetDialog(treatmentCase: treatment);
-                        },
+                    isWidgetAddAppointment
+                        ? Expanded(
+                            child: IconButton(
+                              style: context.iconButtonStyle,
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => AppointmetDialog(
+                                      treatmentCase: treatment,
+                                      dp: dp,
+                                    ),
+                                  ),
+                                );
+                              },
 
-                        icon: const Icon(Icons.add),
-                      ),
-                    ),
+                              icon: const Icon(Icons.add),
+                            ),
+                          )
+                        : SizedBox.shrink(),
                   ],
                 ),
               ),

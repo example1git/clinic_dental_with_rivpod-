@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mysen/core/approut.dart';
 import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/features/doctor/presentation/controllers/dependecies.dart';
@@ -31,7 +33,7 @@ class BottomNavgiationBarDoctor extends StatelessWidget {
           CardBottomNavigationBar(
             iconData: Icons.view_timeline_outlined,
             onPressed: () {
-              // rout to All reserv
+              context.push(AppRoutes.allreserve);
             },
           ),
 

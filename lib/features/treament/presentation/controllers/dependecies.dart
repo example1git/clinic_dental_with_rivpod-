@@ -5,9 +5,11 @@ import 'package:mysen/features/treament/data/datasources/treatment_local_data_so
 import 'package:mysen/features/treament/data/datasources/treatment_remote_data_source.dart';
 import 'package:mysen/features/treament/data/repositories/treatment_repository.dart';
 import 'package:mysen/features/treament/domain/entities/treatment_case.dart';
+import 'package:mysen/features/treament/domain/usecases/add_treatment_case.dart';
 import 'package:mysen/features/treament/domain/usecases/delete_treatment.dart';
 import 'package:mysen/features/treament/domain/usecases/get_treatment_case.dart';
 import 'package:mysen/features/treament/domain/usecases/get_treatment_case_by_dp_id.dart';
+import 'package:mysen/features/treament/domain/usecases/update_treatment_case.dart';
 import 'package:mysen/features/treament/presentation/controllers/treatments_provider.dart';
 
 final treatemntRepositoryProvider = Provider<TreatmentRepositoryImp>(
@@ -30,6 +32,13 @@ final getTreatmentByDpIDProvider = Provider<GetTreatmentCaseByDpId>(
   (ref) => GetTreatmentCaseByDpId(
     repository: ref.watch(treatemntRepositoryProvider),
   ),
+);
+final addTreatmentProvider = Provider<AddTreatmentCase>(
+  (ref) => AddTreatmentCase(repository: ref.watch(treatemntRepositoryProvider)),
+);
+final updateTreatmentProvider = Provider<UpdateTreatmentCase>(
+  (ref) =>
+      UpdateTreatmentCase(repository: ref.watch(treatemntRepositoryProvider)),
 );
 final deleteTreatmentProvider = Provider<DeleteTreatment>(
   (ref) => DeleteTreatment(repository: ref.watch(treatemntRepositoryProvider)),

@@ -6,6 +6,7 @@ import 'package:mysen/features/doctor/presentation/controllers/dependecies.dart'
 import 'package:mysen/features/doctor/presentation/widgets/card_dp.dart';
 import 'package:mysen/features/doctor/presentation/widgets/search.dart';
 import 'package:mysen/features/doctor_patient/presentation/controllers/dependecies.dart';
+import 'package:mysen/features/treament/presentation/pages/treatment_case.dart';
 
 class BodyDoctor extends StatelessWidget {
   const BodyDoctor({super.key});
@@ -73,10 +74,12 @@ class BodyDoctor extends StatelessWidget {
                           leading: IconButton(
                             style: context.iconButtonStyle,
                             onPressed: () {
-                              // Get.to(
-                              //   transition: Transition.noTransition,
-                              //   () => TreatmentCaseScreenDoctor(dp: dp),
-                              // );
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      TreatmentCaseScreen(dp: dp),
+                                ),
+                              );
                             },
                             icon: const Icon(Icons.bookmark_sharp),
                           ),

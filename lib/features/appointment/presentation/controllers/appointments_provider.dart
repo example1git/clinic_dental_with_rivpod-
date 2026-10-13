@@ -6,12 +6,7 @@ import 'package:mysen/features/appointment/presentation/controllers/dependecies.
 
 class AppointmentProvider extends AsyncNotifier<List<Appointment>> {
   @override
-  FutureOr<List<Appointment>> build() {
-    return getAppointment();
-  }
-
-  Future<List<Appointment>> getAppointment() async {
-    state = const AsyncLoading();
+  FutureOr<List<Appointment>> build() async {
     final getAppointment = await ref.read(getAppointmentProvider)();
     return getAppointment.fold((l) {
       state = AsyncValue.error(l, StackTrace.current);
@@ -32,6 +27,20 @@ class AppointmentProvider extends AsyncNotifier<List<Appointment>> {
       },
     );
   }
+
+  Future<void> addppointment(Appointment appointemnt) async {
+    state = const AsyncLoading();
+    final getAppointment = await ref.read(addAppointmentProvider)(appointemnt);
+    return getAppointment.fold(
+      (l) {
+        state = AsyncValue.error(l, StackTrace.current);
+      },
+      (r) {
+        final currentTreatment = state.value ?? [];
+        state = AsyncData([...currentTreatment, r]);
+      },
+    );
+  }
 }
 
 class TeethAddProvider extends Notifier<List<Map>> {
@@ -44,10 +53,28 @@ class TeethAddProvider extends Notifier<List<Map>> {
     state = [...state, map];
   }
 
+  void updateTeeh(Map map) {
+    final teehts = state
+        .where((element) => element['number'] != map['number'])
+        .toList();
+    state = [...teehts, map];
+  }
+
   void removTeeh(List<String> teethSelect) {
     final currentState = state.where(
       (element) => teethSelect.contains(element['number']),
     );
     state = [...currentState];
+  }
+}
+
+class PayPaidProvider extends Notifier<int> {
+  @override
+  build() {
+    return 0;
+  }
+
+  void setPayPaid(int payPaid) {
+    state = payPaid;
   }
 }

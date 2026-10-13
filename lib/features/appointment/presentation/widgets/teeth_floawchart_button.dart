@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/close.dart';
+import 'package:mysen/features/appointment/presentation/controllers/dependecies.dart';
+import 'package:mysen/features/appointment/presentation/widgets/description_flowchartList.dart';
+import 'package:mysen/features/appointment/presentation/widgets/widget_teeth_flowchart.dart';
 import 'package:teeth_selector/teeth_selector.dart';
 
 class TeethFlowchart extends StatelessWidget {
@@ -9,28 +13,51 @@ class TeethFlowchart extends StatelessWidget {
     super.key,
     required this.isButtonAddTeeth,
     this.ignoring = true,
-    required this.colorized,
-    required this.widgetTeethButton,
-    this.onPressedAdd,
-    required this.initiallySelected,
-    this.widgetDescription,
+    required this.isWidgetTeeth,
+    required this.teethSelected,
   });
 
   final bool isButtonAddTeeth;
-  final Widget? widgetTeethButton;
-  final Widget? widgetDescription;
+  final bool isWidgetTeeth;
+  final List<Map> teethSelected;
   final bool ignoring;
-  final List<String> initiallySelected;
-  final Map<String, Color> colorized;
-  final void Function()? onPressedAdd;
-  void onChangeSelectTeeth(List<String> teethSelect) {
+
+  void onChangeSelectTeeth(
+    List<String> teethSelect,
+    WidgetRef ref,
+    BuildContext context,
+  ) {
+    final teethAdd = ref.read(teehtProvider);
+    final teethAddNotfire = ref.read(teehtProvider.notifier);
     for (var number in teethSelect) {
       final isExist = teethAdd.any((element) => element['number'] == number);
       if (!isExist) {
-        teethAdd.add({'number': number, "description": 'empty'.tr});
+        teethAddNotfire.setTeeh({
+          'number': number,
+          "description": context.tr.empty,
+        });
       }
     }
-    teethAdd.removeWhere((element) => !teethSelect.contains(element['number']));
+    teethAddNotfire.removTeeh(teethSelect);
+  }
+
+  List<String> initiallySelectedTeeth(WidgetRef ref) {
+    final teethAdd = ref.read(teehtProvider);
+    final List<String> number = teethAdd
+        .map((element) => element['number'] as String)
+        .toList();
+    return number;
+  }
+
+  Map<String, Color> colorized(List<Map>? teeth) {
+    final Map<String, Color> map = {};
+    if (teeth == null) {
+      return {};
+    }
+    for (var t in teeth) {
+      map.addAll({t['number']: whitecolor});
+    }
+    return map;
   }
 
   @override
@@ -46,7 +73,34 @@ class TeethFlowchart extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Closed(),
-                widgetDescription ?? const SizedBox.shrink(),
+                IconButton(
+                  style: context.iconButtonStyle,
+                  onPressed: () {
+                    Utils.showMyDialog(
+                      context: context,
+                      child: Column(
+                        spacing: context.mediaSize.shortestSide * .02,
+                        children: [
+                          Stack(
+                            alignment: AlignmentGeometry.center,
+                            children: [
+                              Text(
+                                context.tr.description,
+                                style: context.titleLarge,
+                              ),
+                              const Closed(),
+                            ],
+                          ),
+                          DescriptionFlowchartList(
+                            isNumber: true,
+                            teethSelected: teethSelected,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.description_sharp),
+                ),
               ],
             ),
           ),
@@ -60,21 +114,29 @@ class TeethFlowchart extends StatelessWidget {
                   child: FractionallySizedBox(
                     widthFactor: .9,
                     heightFactor: .9,
-                    child: TeethSelector(
-                      initiallySelected: initiallySelected,
-                      textStyle: context.bodyLarge?.copyWith(
-                        color: context.primaryContainer,
-                      ),
-                      rightString: '',
-                      leftString: '',
-                      unselectedColor: context.primaryContainer.withAlpha(150),
+                    child: Consumer(
+                      builder: (context, ref, child) {
+                        final teethAdd = ref.read(teehtProvider);
+                        return TeethSelector(
+                          initiallySelected: initiallySelectedTeeth(ref),
+                          textStyle: context.bodyLarge?.copyWith(
+                            color: context.primaryContainer,
+                          ),
+                          rightString: '',
+                          leftString: '',
+                          unselectedColor: context.primaryContainer.withAlpha(
+                            150,
+                          ),
 
-                      colorized: colorized,
-                      selectedColor: whitecolor,
-                      showPermanent: true,
+                          colorized: colorized(teethAdd),
+                          selectedColor: whitecolor,
+                          showPermanent: true,
 
-                      multiSelect: true,
-                      onChange: onChangeSelectTeeth,
+                          multiSelect: true,
+                          onChange: (selected) =>
+                              onChangeSelectTeeth(selected, ref, context),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -106,7 +168,7 @@ class TeethFlowchart extends StatelessWidget {
               ],
             ),
           ),
-          widgetTeethButton ?? const SizedBox.shrink(),
+          isWidgetTeeth ? WidgetTeethFlowChart() : const SizedBox.shrink(),
 
           isButtonAddTeeth
               ? Center(
@@ -114,7 +176,9 @@ class TeethFlowchart extends StatelessWidget {
                     widthFactor: .9,
                     child: OutlinedButton(
                       style: context.outlinedButtonStyle,
-                      onPressed: onPressedAdd,
+                      onPressed: () {
+                        // appointmentController.addTeethAdd();
+                      },
                       child: Text(
                         context.tr.addTeeth,
                         style: context.bodyMeduim,
