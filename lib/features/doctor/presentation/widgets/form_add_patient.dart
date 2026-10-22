@@ -106,10 +106,7 @@ class _FormAddpatientState extends State<FormAddpatient> {
     if (!formKey.currentState!.validate()) return;
     final dp = await ref.read(doctorPatientProvider.future);
     if (dp.any((e) => e.patientphone == phoneController.text.trim())) {
-      if (!contex.mounted) {}
       MessageHandle.handleMessage(MessageType.patientExist, contex);
-
-      return;
     }
     final doctorPatientNotfir = ref.read(doctorPatientProvider.notifier);
 

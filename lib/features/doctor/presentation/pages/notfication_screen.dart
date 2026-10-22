@@ -64,7 +64,7 @@ class Notfictionscreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final requestReservationRef = ref.read(requestReservationProvider);
+    final refRequestReservation = ref.read(requestReservationProvider);
     final doctorPatient = ref.read(doctorPatientProvider).value;
 
     return Scaffold(
@@ -84,10 +84,11 @@ class Notfictionscreen extends ConsumerWidget {
         ),
         centerTitle: true,
       ),
-      body: requestReservationRef.when(
+      body: refRequestReservation.when(
         data: (data) {
           return RefreshIndicator(
             onRefresh: () async {
+
               // if (notficationcontroller.isfetch) {
               //   notficationcontroller.fetchRequest();
               // }
@@ -113,7 +114,6 @@ class Notfictionscreen extends ConsumerWidget {
                           onPressed: () {
                             Utils.showMyDialog(
                               widthFactor: .9,
-
                               context: context,
                               child: Accept(
                                 onPressed: () {

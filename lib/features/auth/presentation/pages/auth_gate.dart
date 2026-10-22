@@ -6,7 +6,7 @@ import 'package:mysen/features/auth/presentation/controllers/auth_gate_provider.
 import 'package:mysen/features/auth/presentation/pages/sigin_screen.dart';
 import 'package:mysen/features/auth/presentation/pages/sign_up_complete.dart';
 import 'package:mysen/features/doctor/presentation/pages/doctor_screen.dart';
-import 'package:mysen/features/patient/presentation/pages/patient_screen.dart';
+import 'package:mysen/features/patient/presentation/pages/patient_start.dart';
 
 class AuthGate extends ConsumerWidget {
   const AuthGate({super.key});

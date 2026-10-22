@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mysen/core/failure.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/alert.dart';
 import 'package:mysen/core/widget/card_treatment.dart';
@@ -11,14 +12,10 @@ import 'package:mysen/features/treament/domain/entities/treatment_case.dart';
 import 'package:mysen/features/treament/presentation/controllers/dependecies.dart';
 
 class BodyTreatment extends ConsumerWidget {
-  const BodyTreatment({
-    super.key,
-    required this.dp,
-    required this.isWidgetAddAppointment,
-  });
+  const BodyTreatment({super.key, required this.dp, required this.isDoctor});
 
   final DoctorPateint dp;
-  final bool isWidgetAddAppointment;
+  final bool isDoctor;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,26 +38,28 @@ class BodyTreatment extends ConsumerWidget {
 
             return CardTreatment(
               treatment: treatment,
-              delete: IconButton(
-                style: context.iconButtonStyle,
-                onPressed: () {
-                  Utils.showMyDialog(
-                    context: context,
-                    heightFactor: .3,
-                    widthFactor: .8,
+              delete: isDoctor
+                  ? IconButton(
+                      style: context.iconButtonStyle,
+                      onPressed: () {
+                        Utils.showMyDialog(
+                          context: context,
+                          heightFactor: .3,
+                          widthFactor: .8,
 
-                    colorDialog: context.colorScheme.error,
-                    child: Alert(
-                      confirme: () {
-                        notfire.deleteTreatmentCases(treatment);
+                          colorDialog: context.colorScheme.error,
+                          child: Alert(
+                            confirme: () {
+                              notfire.deleteTreatmentCases(treatment);
+                            },
+                            title: context.tr.deleteConfirmation,
+                            isLoading: false,
+                          ),
+                        );
                       },
-                      title: context.tr.deleteConfirmation,
-                      isLoading: false,
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.delete),
-              ),
+                      icon: const Icon(Icons.delete),
+                    )
+                  : null,
 
               leading: SizedBox(
                 width: context.mediaSize.width * .2,
@@ -75,13 +74,14 @@ class BodyTreatment extends ConsumerWidget {
                             child: AppointmentList(
                               treatment: treatment,
                               doctorPateint: dp,
+                              isDcotor: isDoctor,
                             ),
                           );
                         },
                         icon: const Icon(Icons.bookmark_added),
                       ),
                     ),
-                    isWidgetAddAppointment
+                    isDoctor
                         ? Expanded(
                             child: IconButton(
                               style: context.iconButtonStyle,
@@ -108,6 +108,11 @@ class BodyTreatment extends ConsumerWidget {
         );
       },
       error: (error, stackTrace) {
+        print(error);
+        if (error is ServerFailure) {
+          ref.invalidate(treatmentProvider);
+          print(error);
+        }
         return CustomErrorWidget(ref: ref, error: error, onPressed: () {});
       },
       loading: () => Center(

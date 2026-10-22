@@ -10,8 +10,7 @@ class PatientProvider extends AsyncNotifier<Patient?> {
     final patient = await ref.read(getPatientByUserIDProvider)();
     return patient.fold(
       (l) {
-        state = AsyncValue.error(l, StackTrace.current);
-        return null;
+        Error.throwWithStackTrace(l, StackTrace.current);
       },
       (r) {
         return r;

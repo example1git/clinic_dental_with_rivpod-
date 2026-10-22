@@ -17,4 +17,19 @@ class TreatmentCase {
     required this.createdTime,
     this.createdAt,
   });
+  TreatmentCase copyWith({
+    String? id,
+    String? doctorPatientID,
+    int? totalPrice,
+    TreatmentSatus? treatmentSatus,
+    DateTime? createdTime,
+  }) {
+    return TreatmentCase(
+      id: id ?? this.id,
+      doctorPatientID: doctorPatientID ?? this.doctorPatientID,
+      totalPrice: totalPrice ?? this.totalPrice,
+      treatmentSatus: treatmentSatus ?? this.treatmentSatus,
+      createdTime: createdTime ?? this.createdTime,
+    );
+  }
 }

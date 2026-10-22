@@ -18,6 +18,8 @@ class DoctorEditDetails extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isloading = ref.watch(doctorProvider).isLoading;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -50,7 +52,7 @@ class DoctorEditDetails extends ConsumerWidget {
             context.tr.addImage,
             style: context.bodyMeduim?.copyWith(color: whitecolor),
           ),
-        ),
+        ).loading(isloading, context.primaryContainer),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

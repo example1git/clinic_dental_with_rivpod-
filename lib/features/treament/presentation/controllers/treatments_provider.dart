@@ -43,6 +43,27 @@ class TreatmentsProvider extends AsyncNotifier<List<TreatmentCase>> {
     );
   }
 
+  Future<void> updateTreatmentCases(TreatmentCase treament) async {
+    state = const AsyncLoading();
+    final treatments = await ref.read(updateTreatmentProvider)(treament);
+    return treatments.fold(
+      (l) {
+        state = AsyncValue.error(l, StackTrace.current);
+      },
+      (r) {
+        final currentTreatment = state.value ?? [];
+        final treatments = currentTreatment.map((e) {
+          if (e.id == r.id) {
+            return r;
+          }
+          return e;
+        });
+
+        state = AsyncData([...treatments]);
+      },
+    );
+  }
+
   Future<void> deleteTreatmentCases(TreatmentCase treament) async {
     state = const AsyncLoading();
     final treatments = await ref.read(deleteTreatmentProvider)(treament);

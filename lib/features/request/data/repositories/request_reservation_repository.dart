@@ -19,7 +19,7 @@ class RequestReservationRepositoryImp implements RequestReservationRepository {
   });
 
   @override
-  Future<Either<Failure, void>> upsertRequestReservation(
+  Future<Either<Failure, RequestReservation>> upsertRequestReservation(
     RequestReservation requestReservation,
   ) async {
     if (await internetService.checkNow()) {
@@ -31,13 +31,15 @@ class RequestReservationRepositoryImp implements RequestReservationRepository {
           patientName: requestReservation.patientName,
           stateRequest: requestReservation.stateRequest,
           phone: requestReservation.phone,
+          reciveTime: requestReservation.reciveTime,
+          sendTime: requestReservation.sendTime,
         );
 
         await requestReservationRemoteDataSource.upsertRequestReservation(
           model,
         );
 
-        return Right(null);
+        return Right(model);
       } on RequestTimeExeption catch (e) {
         return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
@@ -82,7 +84,7 @@ class RequestReservationRepositoryImp implements RequestReservationRepository {
   }
 
   @override
-  Future<Either<Failure, void>> updateRequestReservation(
+  Future<Either<Failure, RequestReservation>> updateRequestReservation(
     RequestReservation requestReservation,
   ) async {
     if (await internetService.checkNow()) {
@@ -94,11 +96,13 @@ class RequestReservationRepositoryImp implements RequestReservationRepository {
           patientName: requestReservation.patientName,
           stateRequest: requestReservation.stateRequest,
           phone: requestReservation.phone,
+          reciveTime: requestReservation.reciveTime,
+          sendTime: requestReservation.sendTime,
         );
 
         requestReservationRemoteDataSource.updateRequestReservation(model);
 
-        return Right(null);
+        return Right(model);
       } on RequestTimeExeption catch (e) {
         return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {

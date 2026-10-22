@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mysen/features/appointment/domain/entities/appointment.dart';
 import 'package:mysen/features/appointment/presentation/controllers/dependecies.dart';
+import 'package:mysen/features/treament/domain/entities/treatment_case.dart';
 
 class AppointmentProvider extends AsyncNotifier<List<Appointment>> {
   @override
@@ -74,7 +75,26 @@ class PayPaidProvider extends Notifier<int> {
     return 0;
   }
 
-  void setPayPaid(int payPaid) {
-    state = payPaid;
+  Future<void> getPayPaid(TreatmentCase treatment) async {
+    int paypaid = 0;
+    final appointMents = await ref.read(appointmentProvider.future);
+    final appointMentsTreatment = appointMents.where(
+      (element) => element.treatmentCaseID == treatment.id,
+    );
+    for (var app in appointMentsTreatment) {
+      paypaid = paypaid + app.payPrice;
+    }
+    state = paypaid;
+  }
+}
+
+class RemainingProvider extends Notifier<int> {
+  @override
+  build() {
+    return 0;
+  }
+
+  Future<void> setRemaining(int remaining) async {
+    state = remaining;
   }
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/close.dart';
+import 'package:mysen/features/appointment/presentation/controllers/appointments_provider.dart';
 import 'package:mysen/features/appointment/presentation/controllers/dependecies.dart';
 import 'package:mysen/features/appointment/presentation/widgets/description_flowchartList.dart';
 import 'package:mysen/features/appointment/presentation/widgets/widget_teeth_flowchart.dart';
@@ -73,33 +75,36 @@ class TeethFlowchart extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Closed(),
-                IconButton(
-                  style: context.iconButtonStyle,
-                  onPressed: () {
-                    Utils.showMyDialog(
-                      context: context,
-                      child: Column(
-                        spacing: context.mediaSize.shortestSide * .02,
-                        children: [
-                          Stack(
-                            alignment: AlignmentGeometry.center,
-                            children: [
-                              Text(
-                                context.tr.description,
-                                style: context.titleLarge,
-                              ),
-                              const Closed(),
-                            ],
-                          ),
-                          DescriptionFlowchartList(
-                            isNumber: true,
-                            teethSelected: teethSelected,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.description_sharp),
+                Consumer(
+                  builder: (context, ref, child) => IconButton(
+                    style: context.iconButtonStyle,
+                    onPressed: () {
+                      print(ref.read(teehtProvider));
+                      Utils.showMyDialog(
+                        context: context,
+                        child: Column(
+                          spacing: context.mediaSize.shortestSide * .02,
+                          children: [
+                            Stack(
+                              alignment: AlignmentGeometry.center,
+                              children: [
+                                Text(
+                                  context.tr.description,
+                                  style: context.titleLarge,
+                                ),
+                                const Closed(),
+                              ],
+                            ),
+                            DescriptionFlowchartList(
+                              isNumber: true,
+                              teethSelected: teethSelected,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.description_sharp),
+                  ),
                 ),
               ],
             ),
@@ -116,7 +121,6 @@ class TeethFlowchart extends StatelessWidget {
                     heightFactor: .9,
                     child: Consumer(
                       builder: (context, ref, child) {
-                        final teethAdd = ref.read(teehtProvider);
                         return TeethSelector(
                           initiallySelected: initiallySelectedTeeth(ref),
                           textStyle: context.bodyLarge?.copyWith(
@@ -128,7 +132,7 @@ class TeethFlowchart extends StatelessWidget {
                             150,
                           ),
 
-                          colorized: colorized(teethAdd),
+                          colorized: colorized(teethSelected),
                           selectedColor: whitecolor,
                           showPermanent: true,
 
@@ -177,7 +181,7 @@ class TeethFlowchart extends StatelessWidget {
                     child: OutlinedButton(
                       style: context.outlinedButtonStyle,
                       onPressed: () {
-                        // appointmentController.addTeethAdd();
+                        context.pop();
                       },
                       child: Text(
                         context.tr.addTeeth,

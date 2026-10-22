@@ -6,25 +6,35 @@ import 'package:mysen/features/treament/presentation/widgets/body_treatment.dart
 import 'package:mysen/features/treament/presentation/widgets/bottomnavigationbar_treatment.dart';
 
 class TreatmentCaseScreen extends StatelessWidget {
-  const TreatmentCaseScreen({super.key, required this.dp});
+  const TreatmentCaseScreen({
+    super.key,
+    required this.dp,
+    required this.isDoctor,
+  });
   final DoctorPateint dp;
+  final bool isDoctor;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.primarycolor,
-      bottomNavigationBar: BottomNavigationBarTreatment(dp: dp),
+      bottomNavigationBar: isDoctor
+          ? BottomNavigationBarTreatment(dp: dp)
+          : null,
       appBar: AppBar(
         toolbarHeight: context.mediaSize.shortestSide * .15,
         leadingWidth: context.mediaSize.shortestSide * .15,
 
         leading: const Backed(),
         automaticallyImplyLeading: false,
-        title: Text(dp.patientFullName, style: context.titleLarge),
+        title: Text(
+          isDoctor ? dp.patientFullName : dp.doctorFullName,
+          style: context.titleLarge,
+        ),
         centerTitle: true,
 
         backgroundColor: context.primarycolor,
       ),
-      body: BodyTreatment(dp: dp, isWidgetAddAppointment: true),
+      body: BodyTreatment(dp: dp, isDoctor: isDoctor),
     );
   }
 }

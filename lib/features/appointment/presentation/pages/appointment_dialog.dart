@@ -8,7 +8,6 @@ import 'package:mysen/core/my_form_textfiled.dart';
 import 'dart:ui' as ui;
 
 import 'package:mysen/core/utiles.dart';
-import 'package:mysen/core/widget/backed.dart';
 import 'package:mysen/features/appointment/domain/entities/appointment.dart';
 import 'package:mysen/features/appointment/presentation/controllers/dependecies.dart';
 import 'package:mysen/features/appointment/presentation/widgets/RowPrice.dart';
@@ -32,9 +31,6 @@ class AppointmetDialog extends ConsumerStatefulWidget {
 class _AppointmetDialogState extends ConsumerState<AppointmetDialog> {
   GlobalKey<FormState> formKeyAppointment = GlobalKey();
   late TextEditingController payPriceController;
-  int totoal = 0;
-  int payPaid = 0;
-  int remaining = 0;
 
   @override
   void initState() {
@@ -47,22 +43,25 @@ class _AppointmetDialogState extends ConsumerState<AppointmetDialog> {
   void dispose() {
     super.dispose();
     payPriceController.dispose();
-    setPrice();
   }
 
-  void setPrice() {
-    totoal = widget.treatmentCase.totalPrice;
-    payPaid = ref.watch(payPaidProvider);
-    remaining = totoal - payPaid;
-    setState(() {});
+  void setPrice() async {
+    await ref.read(payPaidProvider.notifier).getPayPaid(widget.treatmentCase);
+    final payPaid = ref.read(payPaidProvider);
+    final totoal = widget.treatmentCase.totalPrice;
+    final remaining = totoal - payPaid;
+    await ref.read(remainingProvider.notifier).setRemaining(remaining);
   }
 
-  void setRemainingPric(int total, int payPaid) {
+  void setRemainingPric() {
+    final payPaid = ref.read(payPaidProvider);
+    final total = widget.treatmentCase.totalPrice;
     if (payPriceController.text.isNotEmpty) {
-      remaining = 0;
-      remaining = (total - payPaid - int.parse(payPriceController.text));
+      final remaining = (total - payPaid - int.parse(payPriceController.text));
+      ref.read(remainingProvider.notifier).setRemaining(remaining);
     } else {
-      remaining = (total - payPaid);
+      final remaining = (total - payPaid);
+      ref.read(remainingProvider.notifier).setRemaining(remaining);
     }
     setState(() {});
   }
@@ -71,7 +70,6 @@ class _AppointmetDialogState extends ConsumerState<AppointmetDialog> {
   Widget build(BuildContext context) {
     final appointmentDateNotfir = ref.read(appointmentDateProvider.notifier);
     final getAppointmentDateProvider = ref.read(appointmentDateProvider);
-    final teeth = ref.watch(teehtProvider);
 
     return GestureDetector(
       onTap: () {
@@ -82,7 +80,13 @@ class _AppointmetDialogState extends ConsumerState<AppointmetDialog> {
         appBar: AppBar(
           toolbarHeight: context.mediaSize.shortestSide * .15,
           leadingWidth: context.mediaSize.shortestSide * .15,
-          leading: const Backed(),
+          leading: IconButton(
+            style: context.iconButtonStyle,
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Icon(Icons.arrow_back),
+          ),
           title: Text(
             context.tr.addAppointment,
             style: context.titleLarge?.copyWith(color: whitecolor),
@@ -148,9 +152,12 @@ class _AppointmetDialogState extends ConsumerState<AppointmetDialog> {
                   ],
                 ),
 
-                RowPrice(price: totoal, title: "${context.tr.totalPrice}:"),
                 RowPrice(
-                  price: payPaid,
+                  price: widget.treatmentCase.totalPrice,
+                  title: "${context.tr.totalPrice}:",
+                ),
+                RowPrice(
+                  price: ref.watch(payPaidProvider),
                   title: "${context.tr.previouslyPaid} :",
                 ),
 
@@ -175,7 +182,7 @@ class _AppointmetDialogState extends ConsumerState<AppointmetDialog> {
                           keyboardType: TextInputType.number,
 
                           onChanged: (p0) {
-                            setRemainingPric(totoal, payPaid);
+                            setRemainingPric();
                           },
                           controller: payPriceController,
                           label: '',
@@ -186,7 +193,7 @@ class _AppointmetDialogState extends ConsumerState<AppointmetDialog> {
                 ),
 
                 RowPrice(
-                  price: remaining,
+                  price: ref.watch(remainingProvider),
                   title: "${context.tr.remainingPrice} :",
                 ),
 
@@ -199,7 +206,7 @@ class _AppointmetDialogState extends ConsumerState<AppointmetDialog> {
                         isButtonAddTeeth: true,
 
                         isWidgetTeeth: true,
-                        teethSelected: teeth,
+                        teethSelected: [],
                       ),
                     );
                   },

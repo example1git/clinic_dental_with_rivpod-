@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/alert.dart';
 import 'package:mysen/features/doctor/presentation/controllers/dependecies.dart';
@@ -55,12 +56,16 @@ class BodyDoctor extends StatelessWidget {
                                 colorDialog: context.colorScheme.error,
                                 context: context,
                                 child: Alert(
-                                  isLoading: true,
+                                  isLoading: provider.isLoading,
                                   confirme: () {
                                     ref
                                         .read(doctorPatientProvider.notifier)
-                                        .deleteDoctorPatient(dp);
+                                        .deleteDoctorPatient(
+                                          dp.copyWith(isDeleteDoctor: true),
+                                        );
+                                    context.pop();
                                   },
+
                                   title: context.tr.deleteConfirmation,
                                 ),
                               );
@@ -76,8 +81,10 @@ class BodyDoctor extends StatelessWidget {
                             onPressed: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      TreatmentCaseScreen(dp: dp),
+                                  builder: (context) => TreatmentCaseScreen(
+                                    dp: dp,
+                                    isDoctor: true,
+                                  ),
                                 ),
                               );
                             },

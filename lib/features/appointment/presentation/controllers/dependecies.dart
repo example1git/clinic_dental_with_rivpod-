@@ -48,6 +48,9 @@ final teehtProvider = NotifierProvider<TeethAddProvider, List<Map>>(
 final payPaidProvider = NotifierProvider<PayPaidProvider, int>(
   PayPaidProvider.new,
 );
+final remainingProvider = NotifierProvider<RemainingProvider, int>(
+  RemainingProvider.new,
+);
 final appointmentDateProvider =
     NotifierProvider<AppointmentDateProvider, DateTime>(
       AppointmentDateProvider.new,

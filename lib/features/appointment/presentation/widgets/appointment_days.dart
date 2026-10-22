@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/utiles.dart';
-import 'package:mysen/features/appointment/presentation/widgets/all_appointment_day.dart';
+import 'package:mysen/features/appointment/presentation/pages/all_appointment_day.dart';
 import 'package:mysen/features/appointment/presentation/widgets/teeth_floawchart_button.dart';
 
 class AppointmentDays extends StatelessWidget {

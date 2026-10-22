@@ -74,19 +74,23 @@ class _LocationDoctorEditState extends State<LocationDoctorEdit> {
         FractionallySizedBox(
           widthFactor: 1,
           child: Consumer(
-            builder: (context, ref, child) => OutlinedButton(
-              style: context.outlinedButtonStyle,
-              onPressed: () {
-                if (!formKeyLocation.currentState!.validate()) {
-                  return;
-                }
-                final doctor = widget.doctor.copyWith(
-                  location: locationcontroller.text.trim(),
-                );
-                ref.read(doctorProvider.notifier).updateDoctor(doctor);
-              },
-              child: Text(context.tr.done, style: context.bodyMeduim),
-            ),
+            builder: (context, ref, child) {
+              final isloading = ref.watch(doctorProvider).isLoading;
+
+              return OutlinedButton(
+                style: context.outlinedButtonStyle,
+                onPressed: () {
+                  if (!formKeyLocation.currentState!.validate()) {
+                    return;
+                  }
+                  final doctor = widget.doctor.copyWith(
+                    location: locationcontroller.text.trim(),
+                  );
+                  ref.read(doctorProvider.notifier).updateDoctor(doctor);
+                },
+                child: Text(context.tr.done, style: context.bodyMeduim),
+              ).loading(isloading, context.primaryContainer);
+            },
           ),
         ),
       ],

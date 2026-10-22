@@ -7,12 +7,7 @@ import 'package:mysen/features/request/presentation/controllers/dependecies.dart
 class RequestReservationProvider
     extends AsyncNotifier<List<RequestReservation>> {
   @override
-  FutureOr<List<RequestReservation>> build() {
-    return getRequestReservation();
-  }
-
-  Future<List<RequestReservation>> getRequestReservation() async {
-    state = const AsyncLoading();
+  FutureOr<List<RequestReservation>> build() async {
     final getRequestReservation = await ref.read(
       getRequestReservationProvider,
     )();
@@ -34,9 +29,9 @@ class RequestReservationProvider
         state = AsyncValue.error(l, StackTrace.current);
       },
       (r) {
-        // final currentrequestReservation = state.value ?? [];
+        final currentrequestReservation = state.value ?? [];
 
-        // state = AsyncData([...currentrequestReservation, r]);
+        state = AsyncData([...currentrequestReservation, r]);
       },
     );
   }
@@ -53,9 +48,9 @@ class RequestReservationProvider
         state = AsyncValue.error(l, StackTrace.current);
       },
       (r) {
-        // final currentrequestReservation = state.value ?? [];
+        final currentrequestReservation = state.value ?? [];
 
-        // state = AsyncData([...currentrequestReservation, r]);
+        state = AsyncData([...currentrequestReservation, r]);
       },
     );
   }

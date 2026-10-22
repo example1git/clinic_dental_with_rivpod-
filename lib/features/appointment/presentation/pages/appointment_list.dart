@@ -17,11 +17,13 @@ class AppointmentList extends ConsumerWidget {
     super.key,
     required this.treatment,
     required this.doctorPateint,
+    required this.isDcotor,
   });
 
   final TreatmentCase treatment;
 
   final DoctorPateint doctorPateint;
+  final bool isDcotor;
 
   int getPrevoiuspaid(int index, List<Appointment> appointments) {
     final prevoiusAppointment = appointments.sublist(0, index);
@@ -34,6 +36,7 @@ class AppointmentList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.read(payPaidProvider.notifier).getPayPaid(treatment);
     final appointemntProvider = ref.watch(appointmentProvider);
     return appointemntProvider.when(
       data: (data) {
@@ -47,7 +50,7 @@ class AppointmentList extends ConsumerWidget {
             Stack(
               alignment: Alignment.center,
               children: [
-                PrcieDetailes(treatment: treatment, appointMents: appointments),
+                PrcieDetailes(treatment: treatment),
                 Text(
                   textAlign: TextAlign.center,
                   context.tr.reservesList,
@@ -71,7 +74,9 @@ class AppointmentList extends ConsumerWidget {
                 },
               ),
             ),
-            ChildPhone(phone: doctorPateint.patientphone),
+            isDcotor
+                ? ChildPhone(phone: doctorPateint.patientphone)
+                : SizedBox.shrink(),
           ],
         );
       },
@@ -88,21 +93,9 @@ class AppointmentList extends ConsumerWidget {
 }
 
 class PrcieDetailes extends ConsumerWidget {
-  const new({super.key, required this.treatment, required this.appointMents});
+  const new({super.key, required this.treatment});
 
   final TreatmentCase treatment;
-  final List<Appointment> appointMents;
-  void payPaid(
-    TreatmentCase treatment,
-    List<Appointment> appointMents,
-    WidgetRef ref,
-  ) {
-    int paypaid = 0;
-    for (var app in appointMents) {
-      paypaid = paypaid + app.payPrice;
-    }
-    ref.read(payPaidProvider.notifier).setPayPaid(paypaid);
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -112,7 +105,6 @@ class PrcieDetailes extends ConsumerWidget {
       child: IconButton(
         style: context.iconButtonStyle,
         onPressed: () {
-          payPaid(treatment, appointMents, ref);
           Utils.showMyDialog(
             dismissible: true,
             widthFactor: .9,

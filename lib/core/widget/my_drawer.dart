@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/card_drawer.dart';
@@ -29,6 +30,7 @@ class MyDrawer extends StatelessWidget {
                 iconData: Icons.logout,
                 onTap: () {
                   ref.read(authProvider.notifier).signOut();
+                  context.pop();
                 },
               ),
             ),

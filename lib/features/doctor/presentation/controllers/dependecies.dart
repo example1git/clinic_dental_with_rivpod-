@@ -8,9 +8,11 @@ import 'package:mysen/features/doctor/data/repositories/doctor_repository.dart';
 import 'package:mysen/features/doctor/domain/entities/doctor.dart';
 import 'package:mysen/features/doctor/domain/repositories/repository.dart';
 import 'package:mysen/features/doctor/domain/usecases/get_doctor_by_userid.dart';
+import 'package:mysen/features/doctor/domain/usecases/get_doctors.dart';
 import 'package:mysen/features/doctor/domain/usecases/update_doctor.dart';
 import 'package:mysen/features/doctor/domain/usecases/upload_image.dart';
 import 'package:mysen/features/doctor/presentation/controllers/doctor_provider.dart';
+import 'package:mysen/features/doctor/presentation/controllers/doctors_provider.dart';
 
 final doctorRepositoryProvider = Provider<DoctorRepository>(
   (ref) => DoctorRepositoryImp(
@@ -29,6 +31,9 @@ final doctorLocalDataSourceProvider = Provider<DoctorLocalDataSourc>(
 final getDoctorByUseridProvider = Provider<GetDoctorByUserid>(
   (ref) => GetDoctorByUserid(repository: ref.watch(doctorRepositoryProvider)),
 );
+final getDoctorsProvider = Provider<GetDoctors>(
+  (ref) => GetDoctors(repository: ref.watch(doctorRepositoryProvider)),
+);
 final updateDoctorProvider = Provider<UpdateDoctor>(
   (ref) => UpdateDoctor(repository: ref.watch(doctorRepositoryProvider)),
 );
@@ -37,6 +42,9 @@ final uploadImageProvider = Provider<UploadImage>(
 );
 final doctorProvider = AsyncNotifierProvider<DoctorProvider, Doctor?>(
   DoctorProvider.new,
+);
+final doctorsProvider = AsyncNotifierProvider<DoctorsProvider, List<Doctor>>(
+  DoctorsProvider.new,
 );
 final equlatificationsProvider =
     NotifierProvider<EqulatificationsProvider, List<String>>(

@@ -62,6 +62,9 @@ class TreatmentRepositoryImp implements TreatmentCaseRepository {
         return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
         return Left(ServerFailure(e.message));
+      } on CachExeption catch (e) {
+        print('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+        return Left(CachFailure(e.message));
       }
     }
     try {

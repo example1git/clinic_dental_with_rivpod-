@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:mysen/features/appointment/presentation/widgets/all_appointment_day.dart';
+import 'package:mysen/features/appointment/presentation/pages/all_appointment_day.dart';
 import 'package:mysen/features/auth/presentation/pages/sigin_screen.dart';
 import 'package:mysen/features/auth/presentation/pages/sign_up_complete.dart';
 import 'package:mysen/features/auth/presentation/pages/sigup_screen.dart';
@@ -7,6 +7,7 @@ import 'package:mysen/features/auth/presentation/pages/start_screen.dart';
 import 'package:mysen/features/auth/presentation/pages/verify.dart';
 import 'package:mysen/features/doctor/presentation/pages/doctor_profile.dart';
 import 'package:mysen/features/doctor/presentation/pages/doctor_screen.dart';
+import 'package:mysen/features/patient/presentation/pages/patient_screen.dart';
 
 class AppRoutes {
   AppRoutes._();
@@ -20,8 +21,8 @@ class AppRoutes {
   static const doctorProfile = '/doctorProfile';
   static const notifications = '/notifications';
   static const mainscreen = '/mainscreen';
-  static const reservation = '/reservation';
-  static const allreserve = '/all-reserve';
+  static const patientBody = '/patientBody';
+  static const allreserve = '/allreserve';
 }
 
 final GoRouter appRouter = GoRouter(
@@ -79,11 +80,18 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.allreserve,
-      name: 'reservation',
+      name: 'allreserve',
       pageBuilder: (context, state) {
         return NoTransitionPage(child: AllAppointmenteday());
       },
     ),
+    // GoRoute(
+    //   path: AppRoutes.patientBody,
+    //   name: 'patientBody',
+    //   pageBuilder: (context, state) {
+    //     return NoTransitionPage(child: AllAppointmenteday());
+    //   },
+    // ),
 
     // GoRoute(
     //   path: AppRoutes.login,
