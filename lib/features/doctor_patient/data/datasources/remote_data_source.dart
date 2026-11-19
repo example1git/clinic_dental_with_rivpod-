@@ -35,7 +35,6 @@ class DoctorPatientRemoteDatasource {
       final resposne = await client
           .from(table)
           .upsert(doctorPatientModel.toMap(), onConflict: 'patientID,doctorID')
-          .eq('id', doctorPatientModel.id)
           .select("*,doctor(fullName),patient(fullName,phone)")
           .single()
           .timeout(duration);

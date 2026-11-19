@@ -38,6 +38,8 @@
   "totalPrice": "المبلغ الإجمالي",
   "currentPaid": "المبلغ المدفوع حاليًا",
   "paidAmount": "المبلغ المدفوع",
+  "sar": "ر.س",
+
   "treatmentCase": "الخطة العلاجية",
   "addTreatmentPlan": "إضافة خطة علاجية",
   "deletedTreatmentPlans": "الخطط العلاجية المحذوفة",

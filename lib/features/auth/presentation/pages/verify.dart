@@ -100,7 +100,7 @@ class _VerifyState extends ConsumerState<Verify> {
                 ),
               ),
             ),
-
+            // Material(child: Pinput(length: 4, onCompleted: (value) {})),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -201,8 +201,8 @@ class _VerifyState extends ConsumerState<Verify> {
 
     if (code.length == 4) {
       final codeSend = ref.read(codeSendProvider.notifier).state;
-      clearController();
       if (codeSend != code) {
+      clearController();
         ErrorHndel.handleError(ErrorType.code, context);
         return;
       }

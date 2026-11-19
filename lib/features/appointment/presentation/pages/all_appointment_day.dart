@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/backed.dart';
 import 'package:mysen/features/appointment/domain/entities/appointment.dart';
+import 'package:mysen/features/appointment/presentation/controllers/dependecies.dart';
+import 'package:mysen/features/appointment/presentation/widgets/appointment_days.dart';
 import 'package:mysen/features/doctor_patient/domain/entities/doctor_patient.dart';
+import 'package:mysen/features/doctor_patient/presentation/controllers/dependecies.dart';
 import 'package:mysen/features/request/domain/entities/request_reservation.dart';
+import 'package:mysen/features/request/presentation/controllers/dependecies.dart';
 import 'package:mysen/features/treament/domain/entities/treatment_case.dart';
+import 'package:mysen/features/treament/presentation/controllers/dependecies.dart';
 
 class Appointmentwithpatient {
   final Appointment appointment;
@@ -17,9 +23,21 @@ class Appointmentwithpatient {
   });
 }
 
-class AllAppointmenteday extends StatelessWidget {
-  AllAppointmenteday({super.key});
-  DateTime dateTimeAppointemntDays = DateTime(0, 0, 0, 0);
+class AllAppointmenteday extends ConsumerStatefulWidget {
+  const AllAppointmenteday({super.key});
+
+  @override
+  ConsumerState<AllAppointmenteday> createState() => _AllAppointmentedayState();
+}
+
+class _AllAppointmentedayState extends ConsumerState<AllAppointmenteday> {
+  DateTime dateTimeAppointemntDays = DateTime.now();
+
+  bool isSameDate(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
+  }
 
   List<Appointmentwithpatient> fetchAllReserv(
     DateTime datTime,
@@ -28,52 +46,54 @@ class AllAppointmenteday extends StatelessWidget {
     List<Appointment> appointMents,
     List<TreatmentCase> treatments,
   ) {
-    final List<RequestReservation> requests = requestRservation
-        .where((p0) => p0.stateRequest == StateRequest.accepted)
-        .toList();
+    final List<Appointmentwithpatient> result = [];
 
-    List<Appointmentwithpatient> result = [];
-    for (var r in requests) {
-      if (r.reciveTime != null) {
-        final isSameDate =
-            r.reciveTime?.year == datTime.year &&
-            r.reciveTime?.month == datTime.month &&
-            r.reciveTime?.day == datTime.day;
-        if (!isSameDate) continue;
-        result.add(
-          Appointmentwithpatient(
-            appointment: Appointment(
-              treatmentCaseID: '',
-              timeAppointment: r.reciveTime!,
-              payPrice: 0,
-              id: '',
-              doctorPatientID: '',
-            ),
-            patientName: r.patientName,
+    final requests = requestRservation.where(
+      (element) => element.stateRequest == StateRequest.accepted,
+    );
+
+    for (final request in requests) {
+      final receiveTime = request.reciveTime;
+
+      if (receiveTime == null) continue;
+
+      if (!isSameDate(receiveTime, datTime)) continue;
+
+      result.add(
+        Appointmentwithpatient(
+          appointment: Appointment(
+            treatmentCaseID: '',
+            timeAppointment: receiveTime,
+            payPrice: 0,
+            id: '',
+            doctorPatientID: '',
           ),
-        );
-      }
+          patientName: request.patientName,
+        ),
+      );
     }
-    for (var appointment in appointMents) {
-      final appoimentDate = appointment.timeAppointment;
-      final isSameDate =
-          appoimentDate.year == datTime.year &&
-          appoimentDate.month == datTime.month &&
-          appoimentDate.day == datTime.day;
-      if (!isSameDate) continue;
-      final List<TreatmentCase> treatmentCaseActive = treatments
-          .where((element) => element.treatmentSatus == TreatmentSatus.active)
-          .toList();
 
-      final treatment = treatmentCaseActive.firstWhere(
-        (element) => element.id == appointment.treatmentCaseID,
-      );
-      // if ( treatment == null) continue;
+    final activeTreatments = treatments.where(
+      (element) => element.treatmentSatus == TreatmentSatus.active,
+    );
 
-      final patient = doctorPatient.firstWhere(
-        (element) => element.id == treatment.doctorPatientID,
-      );
-      // if (patient == null) continue;
+    for (final appointment in appointMents) {
+      if (!isSameDate(appointment.timeAppointment, datTime)) {
+        continue;
+      }
+
+      final treatment = activeTreatments
+          .where((element) => element.id == appointment.treatmentCaseID)
+          .firstOrNull;
+
+      if (treatment == null) continue;
+
+      final patient = doctorPatient
+          .where((element) => element.id == treatment.doctorPatientID)
+          .firstOrNull;
+
+      if (patient == null) continue;
+
       result.add(
         Appointmentwithpatient(
           appointment: appointment,
@@ -82,35 +102,84 @@ class AllAppointmenteday extends StatelessWidget {
       );
     }
 
+    result.sort(
+      (a, b) => a.appointment.timeAppointment.compareTo(
+        b.appointment.timeAppointment,
+      ),
+    );
+
     return result;
   }
 
   void setDateDays(DateTime date) {
-    dateTimeAppointemntDays = DateTime(
-      date.year,
-      date.month,
-      date.day,
-      dateTimeAppointemntDays.hour,
-      dateTimeAppointemntDays.minute,
-    );
+    setState(() {
+      dateTimeAppointemntDays = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        dateTimeAppointemntDays.hour,
+        dateTimeAppointemntDays.minute,
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final doctorPatientAsync = ref.watch(doctorPatientProvider);
+    final requestReservationAsync = ref.watch(requestReservationProvider);
+    final appointmentAsync = ref.watch(appointmentProvider);
+    final treatmentCaseAsync = ref.watch(treatmentProvider);
+
+    if (doctorPatientAsync.isLoading ||
+        requestReservationAsync.isLoading ||
+        appointmentAsync.isLoading ||
+        treatmentCaseAsync.isLoading) {
+      return Scaffold(
+        backgroundColor: context.primarycolor,
+        body: Center(
+          child: CircularProgressIndicator(color: context.primaryContainer),
+        ),
+      );
+    }
+
+    if (doctorPatientAsync.hasError ||
+        requestReservationAsync.hasError ||
+        appointmentAsync.hasError ||
+        treatmentCaseAsync.hasError) {
+      return Scaffold(
+        body: Center(
+          child: Text(
+            context.tr.internetM,
+            // 'حدث خطأ أثناء تحميل البيانات',
+            style: context.bodyMeduim,
+          ),
+        ),
+      );
+    }
+
+    final doctorPatients = doctorPatientAsync.value!;
+    final requests = requestReservationAsync.value!;
+    final appointments = appointmentAsync.value!;
+    final treatments = treatmentCaseAsync.value!;
+
+    final today = DateTime.now();
+
+    final yesterday = today.subtract(const Duration(days: 1));
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         backgroundColor: context.primarycolor,
+
         appBar: AppBar(
           leading: const Backed(),
           centerTitle: true,
           leadingWidth: context.mediaSize.shortestSide * .15,
-
           toolbarHeight: context.mediaSize.shortestSide * .15,
-
           backgroundColor: context.primarycolor,
 
           title: Text(context.tr.allReservations, style: context.titleLarge),
+
           bottom: TabBar(
             tabs: [
               Tab(child: Text(context.tr.today, style: context.bodyMeduim)),
@@ -121,30 +190,41 @@ class AllAppointmenteday extends StatelessWidget {
             ],
           ),
         ),
+
         body: TabBarView(
           children: [
-            // AppointmentDays(
-            //   appointmenstWithPatients: fetchAllReserv(DateTime.now()),
-            // ),
-            // AppointmentDays(
-            //   appointmenstWithPatients: fetchAllReserv(
-            //     DateTime(
-            //       DateTime.now().year,
-            //       DateTime.now().month,
-            //       DateTime.now().day - 1,
-            //     ),
-            //   ),
-            // ),
+            AppointmentDays(
+              appointmenstWithPatients: fetchAllReserv(
+                today,
+                doctorPatients,
+                requests,
+                appointments,
+                treatments,
+              ),
+            ),
+
+            AppointmentDays(
+              appointmenstWithPatients: fetchAllReserv(
+                yesterday,
+                doctorPatients,
+                requests,
+                appointments,
+                treatments,
+              ),
+            ),
 
             Stack(
-              alignment: AlignmentGeometry.topRight,
+              alignment: Alignment.topRight,
               children: [
-                // AppointmentDays(
-                //   appointmenstWithPatients: appointmentController
-                //       .fetchAllReserv(
-                //         appointmentController.dateTimeAppointemntDays.value,
-                //       ),
-                // ),
+                AppointmentDays(
+                  appointmenstWithPatients: fetchAllReserv(
+                    dateTimeAppointemntDays,
+                    doctorPatients,
+                    requests,
+                    appointments,
+                    treatments,
+                  ),
+                ),
 
                 Card(
                   color: context.primarycolor,
@@ -152,19 +232,22 @@ class AllAppointmenteday extends StatelessWidget {
                   elevation: elevation,
                   child: IconButton(
                     style: context.iconButtonStyle,
+
                     onPressed: () async {
-                      final dateappintemt = await showDatePicker(
+                      final dateAppointment = await showDatePicker(
+                        context: context,
                         builder: (context, child) =>
                             FractionallySizedBox(child: child),
-                        context: context,
                         firstDate: DateTime(2000),
                         lastDate: DateTime(3000),
+                        initialDate: dateTimeAppointemntDays,
                       );
 
-                      if (dateappintemt != null) {
-                        setDateDays(dateappintemt);
+                      if (dateAppointment != null) {
+                        setDateDays(dateAppointment);
                       }
                     },
+
                     icon: const Icon(Icons.calendar_month),
                   ),
                 ),

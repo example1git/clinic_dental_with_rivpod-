@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mysen/core/error.dart';
 import 'package:mysen/core/my_form_textfiled.dart';
 import 'package:mysen/core/utiles.dart';
@@ -23,7 +24,6 @@ class _EditnumbersState extends State<Editnumbers> {
   void initState() {
     super.initState();
     whatscontroller = TextEditingController();
-    whatscontroller.text = widget.doctor.phone['whatsApp'];
   }
 
   @override
@@ -54,6 +54,7 @@ class _EditnumbersState extends State<Editnumbers> {
               IconButton(
                 style: context.iconButtonStyle,
                 onPressed: () {
+                  context.pop();
                   MessageHandle.handleMessage(
                     MessageType.phoneDoctorEdit,
                     context,
@@ -68,7 +69,7 @@ class _EditnumbersState extends State<Editnumbers> {
             filled: false,
             keyboardType: TextInputType.number,
             controller: whatscontroller,
-            label: context.tr.whatsApp,
+            label: "${context.tr.whatsApp}:${widget.doctor.phone['whatsApp']}",
             validate: Validate.phone,
             prefixText: '966+:',
           ),
@@ -80,10 +81,12 @@ class _EditnumbersState extends State<Editnumbers> {
                 if (!formKeyPhone.currentState!.validate()) {
                   return;
                 }
-                final doctor = widget.doctor.copyWith(
-                  phone: {'whatsApp': whatscontroller.text},
-                );
+                final phone = widget.doctor.phone;
+                phone['whatsApp'] = whatscontroller.text.trim();
+                final doctor = widget.doctor.copyWith(phone: phone);
+
                 ref.read(doctorProvider.notifier).updateDoctor(doctor);
+                context.pop();
               },
               child: Text(context.tr.done, style: context.bodyMeduim),
             ),

@@ -9,6 +9,7 @@ class TreatmentCaseModel extends TreatmentCase {
     required super.createdTime,
   });
 
+  @override
   TreatmentCaseModel copyWith({
     String? id,
     String? doctorPatientID,

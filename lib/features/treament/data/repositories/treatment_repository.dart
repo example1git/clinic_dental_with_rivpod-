@@ -63,7 +63,6 @@ class TreatmentRepositoryImp implements TreatmentCaseRepository {
       } on ServerExeption catch (e) {
         return Left(ServerFailure(e.message));
       } on CachExeption catch (e) {
-        print('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
         return Left(CachFailure(e.message));
       }
     }

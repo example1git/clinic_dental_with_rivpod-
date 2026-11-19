@@ -74,6 +74,9 @@ class DoctorEditDetails extends ConsumerWidget {
               size: context.iconSize,
               color: context.primaryContainer,
               onPressed: (value) {
+                ref
+                    .read(equlatificationsProvider.notifier)
+                    .setEqulatifications(doctor.equlatifications!);
                 Utils.showMyDialog(
                   context: context,
                   child: DoctorEditEqu(doctor: doctor),

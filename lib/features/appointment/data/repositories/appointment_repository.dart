@@ -51,7 +51,6 @@ class AppointmentRepositoryImp implements AppointmentRepository {
 
   @override
   Future<Either<Failure, List<Appointment>>> getAppointment() async {
-    print('getttttttttttttttttttttttttttttttttt');
     if (await internetService.checkNow()) {
       try {
         final appointment = await appointmentRemoteDataSorce.getAppointment();

@@ -35,7 +35,7 @@ class RequestReservationRemoteDataSource {
           .from(table)
           .upsert(
             requestReservationModel.toMap(),
-            onConflict: 'patientID,doctorID',
+            onConflict: 'doctorID,patientID',
           )
           .timeout(duration);
     } on TimeoutException {

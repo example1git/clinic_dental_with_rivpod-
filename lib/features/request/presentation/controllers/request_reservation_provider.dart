@@ -24,16 +24,9 @@ class RequestReservationProvider
     final upsertRequestReservation = await ref.read(
       upsertRequestReservationProvider,
     )(requestReservation);
-    upsertRequestReservation.fold(
-      (l) {
-        state = AsyncValue.error(l, StackTrace.current);
-      },
-      (r) {
-        final currentrequestReservation = state.value ?? [];
-
-        state = AsyncData([...currentrequestReservation, r]);
-      },
-    );
+    upsertRequestReservation.fold((l) {
+      state = AsyncValue.error(l, StackTrace.current);
+    }, (r) {});
   }
 
   Future<void> updateRequestReservation(
@@ -43,15 +36,8 @@ class RequestReservationProvider
     final updateRequestReservation = await ref.read(
       updateRequestReservationProvider,
     )(requestReservation);
-    updateRequestReservation.fold(
-      (l) {
-        state = AsyncValue.error(l, StackTrace.current);
-      },
-      (r) {
-        final currentrequestReservation = state.value ?? [];
-
-        state = AsyncData([...currentrequestReservation, r]);
-      },
-    );
+    updateRequestReservation.fold((l) {
+      state = AsyncValue.error(l, StackTrace.current);
+    }, (r) {});
   }
 }

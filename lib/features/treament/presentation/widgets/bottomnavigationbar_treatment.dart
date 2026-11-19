@@ -3,7 +3,7 @@ import 'package:mysen/core/utiles.dart';
 import 'package:mysen/features/doctor/presentation/widgets/card_bottom_navigation_bar.dart';
 import 'package:mysen/features/doctor_patient/domain/entities/doctor_patient.dart';
 import 'package:mysen/features/treament/presentation/widgets/form_treatment.dart';
-import 'package:mysen/features/treament/presentation/widgets/listDelete_treatment.dart';
+import 'package:mysen/features/treament/presentation/widgets/list_delete_treatment.dart';
 
 class BottomNavigationBarTreatment extends StatelessWidget {
   const BottomNavigationBarTreatment({super.key, required this.dp});

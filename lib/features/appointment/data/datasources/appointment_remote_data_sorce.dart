@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/exeption.dart';
 import 'package:mysen/features/appointment/data/models/appointment_model.dart';

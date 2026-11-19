@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/alert.dart';
+import 'package:mysen/core/widget/error_widget.dart';
 import 'package:mysen/features/doctor/presentation/widgets/card_dp.dart';
 import 'package:mysen/features/doctor_patient/presentation/controllers/dependecies.dart';
 import 'package:mysen/features/treament/presentation/pages/treatment_case.dart';
@@ -75,7 +76,13 @@ class BodyPatient extends StatelessWidget {
               );
             },
             error: (error, stackTrace) {
-              return Center(child: Text('error'));
+              return CustomErrorWidget(
+                ref: ref,
+                error: error,
+                onPressed: () {
+                  ref.invalidate(doctorPatientProvider);
+                },
+              );
             },
             loading: () {
               return Center(

@@ -1,19 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mysen/core/sql.dart';
+import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/error_widget.dart';
 import 'package:mysen/features/doctor/presentation/controllers/dependecies.dart';
 import 'package:mysen/features/doctor/presentation/widgets/body_doctor.dart';
 import 'package:mysen/features/doctor/presentation/widgets/bottomnavgiationbar_doctor.dart';
 import 'package:mysen/features/doctor/presentation/widgets/drawer_doctor.dart';
+import 'package:mysen/features/request/presentation/controllers/dependecies.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-class DoctorScreen extends ConsumerWidget {
+class DoctorScreen extends ConsumerStatefulWidget {
   const new({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<DoctorScreen> createState() => _DoctorScreenState();
+}
+
+class _DoctorScreenState extends ConsumerState<DoctorScreen> {
+  late final RealtimeChannel channel;
+
+  @override
+  void initState() {
+    channel = Utils.setupRealtimeChannel(
+      tableName: 'requestreservation',
+
+      onInsert: (payload) async {
+        ref.invalidate(requestReservationProvider);
+      },
+
+      onUpdate: (payload) async {
+        ref.invalidate(requestReservationProvider);
+      },
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    client.removeChannel(channel);
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final doctor = ref.watch(doctorProvider);
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -21,13 +54,15 @@ class DoctorScreen extends ConsumerWidget {
       child: doctor.when(
         data: (data) {
           return Scaffold(
-            floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                // print(await DatabaseHelper.instance.queryAll('doctorPatient'));
-                print(await DatabaseHelper.instance.queryAll('doctorPatient'));
-                // await DatabaseHelper.instance.deleteDatabaseFile();
-              },
-            ),
+            // floatingActionButton: FloatingActionButton(
+            //   onPressed: () async {
+            //     print(await DatabaseHelper.instance.queryAll('doctor'));
+            //     // print(await DatabaseHelper.instance.queryAll('doctorPatient'));
+            //     // print(client.auth.currentUser?.id);
+
+            //     await DatabaseHelper.instance.deleteDatabaseFile();
+            //   },
+            // ),
             backgroundColor: context.primarycolor,
             bottomNavigationBar: BottomNavgiationBarDoctor(),
 

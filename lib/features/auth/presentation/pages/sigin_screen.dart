@@ -23,19 +23,18 @@ class _SiginScreenState extends ConsumerState<SiginScreen> {
   @override
   void initState() {
     super.initState();
+    ref.invalidate(authProvider);
     phone = TextEditingController();
   }
 
   @override
   void dispose() {
-    print('dispossssssssssssssssssssssssssssssssss');
     phone.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = ref.watch(authProvider).isLoading;
     ref.listen(authProvider, (previous, next) {
       next.whenOrNull(
         loading: () => Center(
@@ -99,42 +98,41 @@ class _SiginScreenState extends ConsumerState<SiginScreen> {
                 ),
               ),
 
-              isLoading
-                  ? Center(
-                      child: CircularProgressIndicator(
-                        color: context.primaryContainer,
-                      ),
-                    )
-                  : FractionallySizedBox(
-                      widthFactor: .8,
-                      child: OutlinedButton(
-                        onPressed: () async {
-                          if (!siginKey.currentState!.validate()) {
-                            return;
-                          }
-                          await ref
-                              .read(authProvider.notifier)
-                              .signIn(phone.text);
-                        },
-                        style: context.iconButtonStyle?.copyWith(
-                          backgroundColor: WidgetStatePropertyAll(
-                            context.primaryContainer,
-                          ),
-                        ),
-                        child: Text(
-                          context.tr.done,
-                          style: context.bodyMeduim?.copyWith(
-                            color: context.primarycolor,
-                          ),
+              FractionallySizedBox(
+                widthFactor: .8,
+                child:
+                    OutlinedButton(
+                      onPressed: () async {
+                        if (!siginKey.currentState!.validate()) {
+                          return;
+                        }
+                        await ref
+                            .read(authProvider.notifier)
+                            .signIn(phone.text);
+                      },
+                      style: context.iconButtonStyle?.copyWith(
+                        backgroundColor: WidgetStatePropertyAll(
+                          context.primaryContainer,
                         ),
                       ),
+                      child: Text(
+                        context.tr.done,
+                        style: context.bodyMeduim?.copyWith(
+                          color: context.primarycolor,
+                        ),
+                      ),
+                    ).loading(
+                      ref.watch(authProvider).isLoading,
+                      context.primaryContainer,
                     ),
+              ),
 
               FractionallySizedBox(
                 widthFactor: .8,
                 child: OutlinedButton(
                   onPressed: () {
                     context.push(AppRoutes.sigup);
+                    // context.push(AppRoutes.verfiy);
                   },
                   style: context.iconButtonStyle?.copyWith(
                     backgroundColor: WidgetStatePropertyAll(

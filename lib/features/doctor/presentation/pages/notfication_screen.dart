@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/utiles.dart';
@@ -11,6 +12,7 @@ import 'package:mysen/core/widget/backed.dart';
 import 'package:mysen/core/widget/error_widget.dart';
 import 'package:mysen/features/appointment/presentation/controllers/dependecies.dart';
 import 'package:mysen/features/doctor/presentation/widgets/accept.dart';
+import 'package:mysen/features/doctor_patient/domain/entities/doctor_patient.dart';
 import 'package:mysen/features/doctor_patient/presentation/controllers/dependecies.dart';
 import 'package:mysen/features/request/domain/entities/request_reservation.dart';
 import 'package:mysen/features/request/presentation/controllers/dependecies.dart';
@@ -18,21 +20,21 @@ import 'package:mysen/features/request/presentation/controllers/dependecies.dart
 class Notfictionscreen extends ConsumerWidget {
   const Notfictionscreen({super.key});
 
-  void accept(RequestReservation request, WidgetRef ref) async {
-    final doctorPatients = ref.read(doctorPatientProvider).value;
+  Future<void> accept(RequestReservation request, WidgetRef ref) async {
+    final doctorPatients = await ref.read(doctorPatientProvider.future);
     final dpNotfir = ref.read(doctorPatientProvider.notifier);
     final requestNotfir = ref.read(requestReservationProvider.notifier);
     final appointmentDate = ref.read(appointmentDateProvider);
-    final ispatientExist = doctorPatients?.any(
+    final ispatientExist = doctorPatients.any(
       (element) => element.patientID == request.patientID,
     );
-    final doctorPatient = doctorPatients?.firstWhere(
-      (element) => element.id == request.patientID,
-    );
 
-    if (ispatientExist!) {
+    if (ispatientExist) {
+      final doctorPatient = doctorPatients.firstWhere(
+        (element) => element.patientID == request.patientID,
+      );
       dpNotfir.updateDoctorPatient(
-        doctorPatient!.copyWith(isDeletePatient: false),
+        doctorPatient.copyWith(isDeletePatient: false),
       );
 
       requestNotfir.updateRequestReservation(
@@ -45,7 +47,16 @@ class Notfictionscreen extends ConsumerWidget {
 
       return;
     }
-    dpNotfir.upsertDoctorPatientAndAllTreamentAndAppointment(doctorPatient!);
+    final doctorPatient = DoctorPateint(
+      id: '',
+      doctorID: request.doctorID,
+      patientID: request.patientID,
+
+      doctorFullName: '',
+      patientFullName: request.patientName,
+      patientphone: request.phone,
+    );
+    dpNotfir.upsertDoctorPatientAndAllTreamentAndAppointment(doctorPatient);
     requestNotfir.updateRequestReservation(
       request.copyWith(
         stateRequest: StateRequest.accepted,
@@ -64,7 +75,7 @@ class Notfictionscreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final refRequestReservation = ref.read(requestReservationProvider);
+    final refRequestReservation = ref.watch(requestReservationProvider);
     final doctorPatient = ref.read(doctorPatientProvider).value;
 
     return Scaffold(
@@ -86,17 +97,17 @@ class Notfictionscreen extends ConsumerWidget {
       ),
       body: refRequestReservation.when(
         data: (data) {
+          final requests = data
+              .where((element) => element.stateRequest == StateRequest.waiting)
+              .toList();
           return RefreshIndicator(
             onRefresh: () async {
-
-              // if (notficationcontroller.isfetch) {
-              //   notficationcontroller.fetchRequest();
-              // }
+              ref.invalidate(requestReservationProvider);
             },
             child: ListView.builder(
-              itemCount: data.length,
+              itemCount: requests.length,
               itemBuilder: (BuildContext context, int index) {
-                final RequestReservation request = data[index];
+                final RequestReservation request = requests[index];
 
                 final isExist = doctorPatient?.any(
                   (element) => element.patientID == request.patientID,
@@ -117,7 +128,9 @@ class Notfictionscreen extends ConsumerWidget {
                               context: context,
                               child: Accept(
                                 onPressed: () {
+                                  // print(request.patientName);
                                   accept(request, ref);
+                                  context.pop();
                                 },
                               ),
                             );

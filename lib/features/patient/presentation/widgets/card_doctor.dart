@@ -5,7 +5,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:mysen/core/error.dart';
+import 'package:mysen/core/provider/providers.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/alert.dart';
 import 'package:mysen/features/doctor/domain/entities/doctor.dart';
@@ -15,25 +18,19 @@ import 'package:mysen/features/request/domain/entities/request_reservation.dart'
 import 'package:mysen/features/request/presentation/controllers/dependecies.dart';
 import 'package:ntp/ntp.dart';
 
-class CardDoctor extends StatefulWidget {
-  const CardDoctor({
-    super.key,
-    required this.doctor,
-    required this.requests,
-    required this.patient,
-    required this.animationController,
-  });
+class CardDoctor extends ConsumerStatefulWidget {
+  const CardDoctor({super.key, required this.doctor, required this.patient});
 
   final Doctor doctor;
   final Patient patient;
-  final List<RequestReservation> requests;
-  final AnimationController animationController;
 
   @override
-  State<CardDoctor> createState() => _CardDoctorState();
+  ConsumerState<CardDoctor> createState() => _CardDoctorState();
 }
 
-class _CardDoctorState extends State<CardDoctor> {
+class _CardDoctorState extends ConsumerState<CardDoctor>
+    with SingleTickerProviderStateMixin {
+  late AnimationController animationController;
   Color getColor(StateRequest state, BuildContext context) {
     switch (state) {
       case StateRequest.waiting:
@@ -51,29 +48,29 @@ class _CardDoctorState extends State<CardDoctor> {
 
   void handleRequestState(StateRequest state) {
     if (state == StateRequest.waiting) {
-      if (!widget.animationController.isAnimating) {
-        widget.animationController.repeat(reverse: true);
+      if (!animationController.isAnimating) {
+        animationController.repeat(reverse: true);
       }
     } else {
-      if (widget.animationController.isAnimating) {
-        widget.animationController.stop();
+      if (animationController.isAnimating) {
+        animationController.stop();
       }
     }
   }
 
   double getWidthBorder(StateRequest state) {
-    if (widget.animationController.isAnimating) {
-      return widget.animationController.value;
+    if (animationController.isAnimating) {
+      return animationController.value;
     } else {
       if (state == StateRequest.none) {
-        return widget.animationController.lowerBound;
+        return animationController.lowerBound;
       } else {
-        return widget.animationController.upperBound;
+        return animationController.upperBound;
       }
     }
   }
 
-  void addResqustReserv(WidgetRef ref) async {
+  void addResqustReserv(BuildContext context) async {
     final reservation = RequestReservation(
       doctorID: widget.doctor.id,
       patientID: widget.patient.id,
@@ -84,19 +81,25 @@ class _CardDoctorState extends State<CardDoctor> {
       id: '',
     );
 
-    if (widget.requests.any((p0) => p0.stateRequest == StateRequest.waiting)) {
-      // MessageHandle.handleMessage(MessageType.requestWaiting);
+    final requests = await ref.read(requestReservationProvider.future);
+
+    if (requests.any((p0) => p0.stateRequest == StateRequest.waiting)) {
+      if (context.mounted) {
+        MessageHandle.handleMessage(MessageType.requestWaiting, context);
+      }
 
       return;
     }
-    final request = widget.requests
+    final request = requests
         .where((element) => element.doctorID == widget.doctor.id)
         .firstOrNull;
 
     if (request != null &&
         (request.stateRequest == StateRequest.completed ||
             request.stateRequest == StateRequest.accepted)) {
-      // MessageHandle.handleMessage(MessageType.requestComplete);
+      if (context.mounted) {
+        MessageHandle.handleMessage(MessageType.requestComplete, context);
+      }
 
       return;
     }
@@ -106,18 +109,26 @@ class _CardDoctorState extends State<CardDoctor> {
         .upsertRequestReservation(reservation);
   }
 
-  Future<void> updateRequestToNon(WidgetRef ref) async {
-    // if (!await internetService.checkNow()) {
-    //   ErrorHndel.handleError(ErrorType.internet);
+  Future<void> updateRequestToNon(BuildContext context) async {
+    if (!await ref.read(internetServiceProvider).checkNow()) {
+      if (!context.mounted) {
+        return;
+      }
+      ErrorHndel.handleError(ErrorType.internet, context);
 
-    //   return;
-    // }
-    final request = widget.requests
+      return;
+    }
+    final requests = await ref.read(requestReservationProvider.future);
+
+    final request = requests
         .where((element) => element.doctorID == widget.doctor.id)
         .firstOrNull;
 
     if (request == null) {
-      // ErrorHndel.handleError(ErrorType.error);
+      if (!context.mounted) {
+        return;
+      }
+      ErrorHndel.handleError(ErrorType.error, context);
 
       return;
     }
@@ -129,15 +140,39 @@ class _CardDoctorState extends State<CardDoctor> {
   }
 
   @override
+  void initState() {
+    animationController = AnimationController(
+      vsync: this,
+      lowerBound: 0,
+      upperBound: 5,
+      duration: const Duration(seconds: 1),
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.stop();
+    animationController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final request = widget.requests
-        .where((r) => r.doctorID == widget.doctor.id)
+    final requestsAsync = ref.watch(requestReservationProvider);
+
+    final requests = requestsAsync.value ?? [];
+
+    final request = requests
+        .where((element) => element.doctorID == widget.doctor.id)
         .firstOrNull;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       handleRequestState(request?.stateRequest ?? StateRequest.none);
     });
     return AnimatedBuilder(
-      animation: widget.animationController,
+      animation: animationController,
       builder: (context, child) => FractionallySizedBox(
         widthFactor: .8,
         heightFactor: .5,
@@ -276,10 +311,13 @@ class _CardDoctorState extends State<CardDoctor> {
                                           confirme: () {
                                             request?.stateRequest ==
                                                     StateRequest.waiting
-                                                ? updateRequestToNon(ref)
-                                                : addResqustReserv(ref);
+                                                ? updateRequestToNon(context)
+                                                : addResqustReserv();
+                                            context.pop();
                                           },
-                                          isLoading: false,
+                                          isLoading: ref
+                                              .watch(requestReservationProvider)
+                                              .isLoading,
                                         ),
                                       ),
                                     );
@@ -297,29 +335,27 @@ class _CardDoctorState extends State<CardDoctor> {
                       ),
 
                       Directionality(
-                        textDirection:
-                            // Get.locale?.languageCode == 'ar'
-                            //     ? ui.TextDirection.ltr
-                            //     :
-                            ui.TextDirection.rtl,
-
+                        textDirection: Directionality.of(context),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text(
-                              textAlign: TextAlign.center,
-
-                              request?.reciveTime == null
-                                  ? context.tr.noAppointment
-                                  : DateFormat('yyyy-MM-dd hh:mm a')
-                                        .format(request!.reciveTime!),
-                              textDirection: ui.TextDirection.ltr,
-                              style: context.textAppointment,
+                            Expanded(
+                              child: Text(
+                                textAlign: TextAlign.center,
+                                context.tr.appointmentTime,
+                                style: context.bodyMeduim,
+                              ),
                             ),
-                            Text(
-                              textAlign: TextAlign.center,
-                              context.tr.appointmentTime,
-                              style: context.bodyMeduim,
+                            Expanded(
+                              child: Text(
+                                textAlign: TextAlign.center,
+                                textDirection: ui.TextDirection.ltr,
+
+                                request?.reciveTime == null
+                                    ? context.tr.noAppointment
+                                    : DateFormat('yyyy-MM-dd hh:mm a')
+                                          .format(request!.reciveTime!),
+                                style: context.textAppointment,
+                              ),
                             ),
                           ],
                         ),

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mysen/core/provider/providers.dart';
+import 'package:mysen/core/sql.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/features/auth/presentation/controllers/auth_dependcies.dart';
 import 'package:mysen/features/auth/presentation/controllers/auth_gate_provider.dart';
@@ -67,13 +68,10 @@ class AuthProvider extends AsyncNotifier<void> {
     ref.read(phoneProvider);
     return result.fold(
       (l) {
-        print('errrrrrrrrrrrrrrrrrrrrrrrrrrr');
         state = AsyncValue.error(l, StackTrace.current);
         ref.watch(isBackProvider.notifier).state = true;
       },
       (r) {
-        print('succccccccccccccccccccccccccccccccc');
-        print(r);
         if (r == Role.doctor.name) {
           final authSatte = AuthState(
             authStateEnum: AuthStateEnum.auth,
@@ -142,13 +140,14 @@ class AuthProvider extends AsyncNotifier<void> {
       (l) {
         state = AsyncValue.error(l, StackTrace.current);
       },
-      (r) {
+      (r) async {
         final authSatte = AuthState(
           authStateEnum: AuthStateEnum.sigin,
           role: null,
         );
 
-        ref.read(sharedPrefServiceProvider).removeRole();
+        await ref.read(sharedPrefServiceProvider).removeRole();
+        await DatabaseHelper.instance.deleteDatabaseFile();
         authGateNotifier.setSatate(authSatte);
       },
     );

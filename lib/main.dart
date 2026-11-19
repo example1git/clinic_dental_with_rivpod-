@@ -26,7 +26,7 @@ void main() async {
 
         localNotificationServiceProvider.overrideWithValue(notificationService),
       ],
-      child: DevicePreview(enabled: true, builder: (context) => const MyApp()),
+      child: DevicePreview(enabled: false, builder: (context) => const MyApp()),
     ),
   );
 }

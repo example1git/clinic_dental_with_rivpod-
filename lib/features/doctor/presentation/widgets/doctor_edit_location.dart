@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mysen/core/my_form_textfiled.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/close.dart';
@@ -66,31 +67,54 @@ class _LocationDoctorEditState extends State<LocationDoctorEdit> {
           ),
         ),
 
-        FractionallySizedBox(
-          widthFactor: 1,
-          child: Text(widget.doctor.location, style: context.bodyMeduim),
-        ),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              spacing: context.mediaSize.shortestSide * .05,
 
-        FractionallySizedBox(
-          widthFactor: 1,
-          child: Consumer(
-            builder: (context, ref, child) {
-              final isloading = ref.watch(doctorProvider).isLoading;
+              children: [
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(context.raduis),
+                    border: Border.all(color: context.primaryContainer),
+                  ),
+                  child: FractionallySizedBox(
+                    widthFactor: 1,
+                    child: Padding(
+                      padding: EdgeInsets.all(context.padding),
+                      child: Text(
+                        widget.doctor.location,
+                        style: context.bodyMeduim,
+                      ),
+                    ),
+                  ),
+                ),
 
-              return OutlinedButton(
-                style: context.outlinedButtonStyle,
-                onPressed: () {
-                  if (!formKeyLocation.currentState!.validate()) {
-                    return;
-                  }
-                  final doctor = widget.doctor.copyWith(
-                    location: locationcontroller.text.trim(),
-                  );
-                  ref.read(doctorProvider.notifier).updateDoctor(doctor);
-                },
-                child: Text(context.tr.done, style: context.bodyMeduim),
-              ).loading(isloading, context.primaryContainer);
-            },
+                FractionallySizedBox(
+                  widthFactor: 1,
+                  child: Consumer(
+                    builder: (context, ref, child) {
+                      return OutlinedButton(
+                        style: context.outlinedButtonStyle,
+                        onPressed: () {
+                          if (!formKeyLocation.currentState!.validate()) {
+                            return;
+                          }
+                          final doctor = widget.doctor.copyWith(
+                            location: locationcontroller.text.trim(),
+                          );
+                          ref
+                              .read(doctorProvider.notifier)
+                              .updateDoctor(doctor);
+                          context.pop();
+                        },
+                        child: Text(context.tr.done, style: context.bodyMeduim),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],

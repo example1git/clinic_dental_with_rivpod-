@@ -104,6 +104,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paidAmount => 'Paid Amount';
 
   @override
+  String get sar => 'SAR';
+
+  @override
   String get treatmentCase => 'Treatment Plan';
 
   @override

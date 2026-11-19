@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/alert.dart';
@@ -106,9 +107,10 @@ class ListDeleteTreatment extends ConsumerWidget {
                                         treatmentSatus: TreatmentSatus.active,
                                       ),
                                     );
+                                    context.pop();
                                   },
                                   title: context.tr.restoreTreatmentPlanM,
-                                  isLoading: false,
+                                  isLoading: refTreatment.isLoading,
                                 ),
                               );
                             },

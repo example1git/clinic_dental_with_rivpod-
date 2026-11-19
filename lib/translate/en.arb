@@ -38,6 +38,7 @@
   "totalPrice": "Total Amount",
   "currentPaid": "Current Paid Amount",
   "paidAmount": "Paid Amount",
+  "sar": "SAR",
   "treatmentCase": "Treatment Plan",
   "addTreatmentPlan": "Add Treatment Plan",
   "deletedTreatmentPlans": "Deleted Treatment Plans",

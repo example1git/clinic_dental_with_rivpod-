@@ -22,7 +22,7 @@ class RowPrice extends StatelessWidget {
           child: Text(
             textAlign: TextAlign.center,
 
-            "$price",
+            "$price ${context.tr.sar}",
             style: context.textAppointment,
           ),
         ),

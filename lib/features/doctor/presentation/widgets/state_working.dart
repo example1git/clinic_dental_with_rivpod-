@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/alert.dart';
@@ -32,6 +33,7 @@ class StateWorking extends StatelessWidget {
                       ref
                           .read(doctorProvider.notifier)
                           .updateDoctor(doctor.copyWith(isWorking: value));
+                      context.pop();
                     },
                     title: doctor.isWorking
                         ? context.tr.changeToHolidayM

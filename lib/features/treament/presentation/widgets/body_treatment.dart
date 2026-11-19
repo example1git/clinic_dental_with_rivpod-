@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mysen/core/failure.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/alert.dart';
 import 'package:mysen/core/widget/card_treatment.dart';
@@ -51,9 +51,10 @@ class BodyTreatment extends ConsumerWidget {
                           child: Alert(
                             confirme: () {
                               notfire.deleteTreatmentCases(treatment);
+                              context.pop();
                             },
                             title: context.tr.deleteConfirmation,
-                            isLoading: false,
+                            isLoading: refTreatment.isLoading,
                           ),
                         );
                       },
@@ -108,12 +109,13 @@ class BodyTreatment extends ConsumerWidget {
         );
       },
       error: (error, stackTrace) {
-        print(error);
-        if (error is ServerFailure) {
-          ref.invalidate(treatmentProvider);
-          print(error);
-        }
-        return CustomErrorWidget(ref: ref, error: error, onPressed: () {});
+        return CustomErrorWidget(
+          ref: ref,
+          error: error,
+          onPressed: () {
+            ref.invalidate(treatmentProvider);
+          },
+        );
       },
       loading: () => Center(
         child: CircularProgressIndicator(color: context.primaryContainer),

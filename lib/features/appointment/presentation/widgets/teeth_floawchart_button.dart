@@ -4,9 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/close.dart';
-import 'package:mysen/features/appointment/presentation/controllers/appointments_provider.dart';
 import 'package:mysen/features/appointment/presentation/controllers/dependecies.dart';
-import 'package:mysen/features/appointment/presentation/widgets/description_flowchartList.dart';
+import 'package:mysen/features/appointment/presentation/widgets/description_flowchart_list.dart';
 import 'package:mysen/features/appointment/presentation/widgets/widget_teeth_flowchart.dart';
 import 'package:teeth_selector/teeth_selector.dart';
 
@@ -79,7 +78,6 @@ class TeethFlowchart extends StatelessWidget {
                   builder: (context, ref, child) => IconButton(
                     style: context.iconButtonStyle,
                     onPressed: () {
-                      print(ref.read(teehtProvider));
                       Utils.showMyDialog(
                         context: context,
                         child: Column(

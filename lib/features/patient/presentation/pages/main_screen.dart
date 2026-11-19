@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mysen/core/constant.dart';
+import 'package:mysen/core/error.dart';
 import 'package:mysen/core/provider/providers.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/error_widget.dart';
@@ -14,7 +15,6 @@ import 'package:mysen/features/doctor/presentation/controllers/dependecies.dart'
 import 'package:mysen/features/patient/domain/entities/patient.dart';
 import 'package:mysen/features/patient/presentation/pages/patient_screen.dart';
 import 'package:mysen/features/patient/presentation/widgets/card_doctor.dart';
-import 'package:mysen/features/request/domain/entities/request_reservation.dart';
 import 'package:mysen/features/request/presentation/controllers/dependecies.dart';
 import 'package:ntp/ntp.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -27,36 +27,18 @@ class MainScreen extends ConsumerStatefulWidget {
   ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends ConsumerState<MainScreen>
-    with SingleTickerProviderStateMixin {
+class _MainScreenState extends ConsumerState<MainScreen> {
   late PageController doctorsPageController;
   late PageController pageControllerCard;
-  late AnimationController animationController;
+
   StreamSubscription<bool>? subscription;
   late final RealtimeChannel channel;
 
   int currentpage = 0;
-  final List<RequestReservation> requests = [];
-
-  void handleRequestState(StateRequest state) {
-    if (state == StateRequest.waiting) {
-      if (!animationController.isAnimating) {
-        animationController.repeat(reverse: true);
-      }
-    } else {
-      if (animationController.isAnimating) {
-        animationController.stop();
-      }
-    }
-  }
-
-  void setRequest() async {
-    final r = await ref.read(requestReservationProvider.future);
-    requests.addAll(r);
-  }
 
   Future<void> getNotifications(List<Doctor> doctors) async {
     final localNotificationService = ref.read(localNotificationServiceProvider);
+    final requests = await ref.read(requestReservationProvider.future);
     await localNotificationService.cancelAll();
 
     final now = DateTime.now();
@@ -68,9 +50,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
 
     for (final r in requestsCheck) {
       if (r.reciveTime == null) continue;
-      if (r.reciveTime!.isBefore(now)) continue; // تجاهل المنتهية
-
-      // print('✅ تم جدولة الإشعارات موعدًا');
+      if (r.reciveTime!.isBefore(now)) continue;
 
       final doctor = doctors.firstWhere((d) => d.id == r.doctorID);
 
@@ -82,10 +62,11 @@ class _MainScreenState extends ConsumerState<MainScreen>
   }
 
   Future<void> changeStateRequest() async {
-    // if (!await internetService.checkNow()) {
-    //   return;
-    // }
+    if (!await ref.read(internetServiceProvider).checkNow()) {
+      return;
+    }
 
+    final requests = await ref.read(requestReservationProvider.future);
     final now = await NTP.now();
     final nowDate = DateTime(now.year, now.month, now.day);
     final requestsCheck = requests.where(
@@ -134,12 +115,6 @@ class _MainScreenState extends ConsumerState<MainScreen>
       }
     });
 
-    animationController = AnimationController(
-      vsync: this,
-      lowerBound: 0,
-      upperBound: 5,
-      duration: const Duration(seconds: 1),
-    );
     subscription = ref
         .read(internetServiceProvider)
         .onStatusChange
@@ -147,8 +122,6 @@ class _MainScreenState extends ConsumerState<MainScreen>
         .listen((hasInternet) {
           if (hasInternet) {
             changeStateRequest();
-          } else {
-            // loadRequestFromSql();
           }
         });
 
@@ -156,11 +129,11 @@ class _MainScreenState extends ConsumerState<MainScreen>
       tableName: 'requestreservation',
 
       onInsert: (payload) async {
-        ref.refresh(requestReservationProvider);
+        ref.invalidate(requestReservationProvider);
       },
 
       onUpdate: (payload) async {
-        ref.refresh(requestReservationProvider);
+        ref.invalidate(requestReservationProvider);
       },
     );
   }
@@ -169,11 +142,9 @@ class _MainScreenState extends ConsumerState<MainScreen>
   void dispose() {
     doctorsPageController.dispose();
     pageControllerCard.dispose();
-    animationController.stop();
-    animationController.dispose();
+
     client.removeChannel(channel);
 
-    // internetService.dispose();
     subscription?.cancel();
     super.dispose();
   }
@@ -182,6 +153,22 @@ class _MainScreenState extends ConsumerState<MainScreen>
   Widget build(BuildContext context) {
     final getdoctorsProvider = ref.watch(doctorsProvider);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          if (!await ref.read(internetServiceProvider).checkNow()) {
+            if (!context.mounted) {
+              return;
+            }
+            ErrorHndel.handleError(ErrorType.internet, context);
+
+            return;
+          }
+          if (!context.mounted) {
+            return;
+          }
+          MessageHandle.handleMessage(MessageType.add, context);
+        },
+      ),
       backgroundColor: context.primarycolor,
 
       body: getdoctorsProvider.when(
@@ -220,18 +207,6 @@ class _MainScreenState extends ConsumerState<MainScreen>
                 ),
                 Positioned.fill(
                   child: PageView(
-                    onPageChanged: (value) {
-                      final doctor = data[value];
-                      final request = requests
-                          .where((r) => r.doctorID == doctor.id)
-                          .firstOrNull;
-
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        handleRequestState(
-                          request?.stateRequest ?? StateRequest.none,
-                        );
-                      });
-                    },
                     controller: pageControllerCard,
                     children: [
                       ...List.generate(
@@ -239,8 +214,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
                         (index) =>
                             CardDoctor(
                               doctor: data[index],
-                              requests: requests,
-                              animationController: animationController,
+
                               patient: widget.patient,
                             ).animate().shimmer(
                               size: 2,
@@ -275,8 +249,13 @@ class _MainScreenState extends ConsumerState<MainScreen>
             ),
           );
         },
-        error: (error, stackTrace) =>
-            CustomErrorWidget(ref: ref, error: error, onPressed: () {}),
+        error: (error, stackTrace) => CustomErrorWidget(
+          ref: ref,
+          error: error,
+          onPressed: () {
+            ref.invalidate(doctorsProvider);
+          },
+        ),
         loading: () => Center(
           child: CircularProgressIndicator(color: context.primaryContainer),
         ),

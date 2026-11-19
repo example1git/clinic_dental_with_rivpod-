@@ -31,7 +31,7 @@ class Accept extends StatelessWidget {
             final appointmentDateNotfir = ref.read(
               appointmentDateProvider.notifier,
             );
-            final getAppointmentDateProvider = ref.read(
+            final getAppointmentDateProvider = ref.watch(
               appointmentDateProvider,
             );
 

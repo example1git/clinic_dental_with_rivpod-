@@ -77,6 +77,7 @@ class DoctorModel extends Doctor {
     );
   }
 
+  @override
   DoctorModel copyWith({
     String? id,
     String? userID,

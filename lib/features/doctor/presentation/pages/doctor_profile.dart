@@ -14,7 +14,7 @@ class DoctorProfile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final refDoctor = ref.read(doctorProvider);
+    final refDoctor = ref.watch(doctorProvider);
     return Scaffold(
       backgroundColor: context.primarycolor,
       resizeToAvoidBottomInset: false,

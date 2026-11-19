@@ -278,6 +278,12 @@ abstract class AppLocalizations {
   /// **'المبلغ المدفوع'**
   String get paidAmount;
 
+  /// No description provided for @sar.
+  ///
+  /// In ar, this message translates to:
+  /// **'ر.س'**
+  String get sar;
+
   /// No description provided for @treatmentCase.
   ///
   /// In ar, this message translates to:

@@ -103,6 +103,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get paidAmount => 'المبلغ المدفوع';
 
   @override
+  String get sar => 'ر.س';
+
+  @override
   String get treatmentCase => 'الخطة العلاجية';
 
   @override

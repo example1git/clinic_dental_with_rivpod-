@@ -10,7 +10,7 @@ import 'dart:ui' as ui;
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/features/appointment/domain/entities/appointment.dart';
 import 'package:mysen/features/appointment/presentation/controllers/dependecies.dart';
-import 'package:mysen/features/appointment/presentation/widgets/RowPrice.dart';
+import 'package:mysen/features/appointment/presentation/widgets/row_price.dart';
 import 'package:mysen/features/appointment/presentation/widgets/teeth_floawchart_button.dart';
 import 'package:mysen/features/doctor_patient/domain/entities/doctor_patient.dart';
 import 'package:mysen/features/treament/domain/entities/treatment_case.dart';
@@ -154,7 +154,7 @@ class _AppointmetDialogState extends ConsumerState<AppointmetDialog> {
 
                 RowPrice(
                   price: widget.treatmentCase.totalPrice,
-                  title: "${context.tr.totalPrice}:",
+                  title: "${context.tr.totalPrice} :",
                 ),
                 RowPrice(
                   price: ref.watch(payPaidProvider),
@@ -219,24 +219,30 @@ class _AppointmetDialogState extends ConsumerState<AppointmetDialog> {
 
                 FractionallySizedBox(
                   widthFactor: .8,
-                  child: OutlinedButton(
-                    style: context.outlinedButtonStyle,
-                    onPressed: () {
-                      final teethSelected = ref.read(teehtProvider);
-                      final appointment = Appointment(
-                        timeAppointment: getAppointmentDateProvider,
-                        payPrice: int.parse(payPriceController.text.trim()),
-                        treatmentCaseID: widget.treatmentCase.id,
-                        teethSelected: teethSelected,
-                        id: '',
-                        doctorPatientID: widget.dp.id,
-                      );
-                      ref
-                          .read(appointmentProvider.notifier)
-                          .addppointment(appointment);
-                    },
-                    child: Text(context.tr.done, style: context.bodyMeduim),
-                  ),
+                  child:
+                      OutlinedButton(
+                        style: context.outlinedButtonStyle,
+                        onPressed: () {
+                          final teethSelected = ref.read(teehtProvider);
+                          final appointment = Appointment(
+                            timeAppointment: getAppointmentDateProvider,
+                            payPrice: int.parse(payPriceController.text.trim()),
+                            treatmentCaseID: widget.treatmentCase.id,
+                            teethSelected: teethSelected,
+                            id: '',
+                            doctorPatientID: widget.dp.id,
+                          );
+                          ref
+                              .read(appointmentProvider.notifier)
+                              .addppointment(appointment);
+
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(context.tr.done, style: context.bodyMeduim),
+                      ).loading(
+                        ref.watch(appointmentProvider).isLoading,
+                        context.primaryContainer,
+                      ),
                 ),
               ],
             ),

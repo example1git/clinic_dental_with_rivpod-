@@ -22,7 +22,6 @@ class DatabaseHelper {
       version: 1,
       onCreate: _createDB,
       onOpen: (db) async {
-        // تفعيل العلاقات الخارجية (FK)
         await db.execute('PRAGMA foreign_keys = ON');
       },
     );
@@ -114,46 +113,8 @@ class DatabaseHelper {
         reciveTime TEXT
       )
     ''');
-
-    // await db.execute('''
-    //   CREATE TABLE doctorsForPatient (
-    //     id TEXT PRIMARY KEY,
-    //     fullName TEXT,
-    //     doctorID TEXT,
-    //     patientID TEXT
-    //   )
-    // ''');
-
-    // await db.execute('''
-    //   CREATE TABLE appointmentP (
-    //     id TEXT PRIMARY KEY,
-    //     treatmentCaseID TEXT,
-    //     timeAppointment TEXT,
-    //     payPrice INTEGER,
-    //     teethSelected TEXT,
-    //     descriptionTeeth TEXT,
-    //     FOREIGN KEY (treatmentCaseID) REFERENCES treatmentCaseP(id) ON DELETE CASCADE
-    //   )
-    // ''');
-
-    // await db.execute('''
-    //   CREATE TABLE treatmentCaseP (
-    //     id TEXT PRIMARY KEY,
-    //     doctorPatientID TEXT,
-    //     numberTreatmentCase INTEGER,
-    //     totalPrice INTEGER,
-    //     treatmentStatus TEXT,
-    //     createdTime TEXT,
-    //     createdAt TEXT,
-    //     FOREIGN KEY (doctorPatientID) REFERENCES doctorsForPatient(id) ON DELETE CASCADE ON UPDATE CASCADE
-
-    //   )
-    // ''');
-
-    // print('✅ Database created successfully');
   }
 
-  // ====== عمليات CRUD ======
   Future<int> insert(String table, Map<String, dynamic> row) async {
     final db = await instance.database;
     return await db.insert(
@@ -182,7 +143,6 @@ class DatabaseHelper {
     if (_database != null) {
       await _database!.close();
       _database = null;
-      // print('✅ Database closed');
     }
   }
 
@@ -190,14 +150,11 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'dintest.db');
 
-    // ✅ أغلق القاعدة أولاً إذا كانت مفتوحة
     if (_database != null) {
       await _database!.close();
       _database = null;
-      // print('🔒 Database connection closed before deletion');
     }
 
     await deleteDatabase(path);
-    print('🗑️ تم حذف قاعدة البيانات بنجاح');
   }
 }

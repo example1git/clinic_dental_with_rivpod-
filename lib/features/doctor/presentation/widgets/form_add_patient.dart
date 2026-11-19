@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mysen/core/error.dart';
 import 'package:mysen/core/my_form_textfiled.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/close.dart';
@@ -87,13 +86,17 @@ class _FormAddpatientState extends State<FormAddpatient> {
             Consumer(
               builder: (context, ref, child) => FractionallySizedBox(
                 widthFactor: .8,
-                child: OutlinedButton(
-                  style: context.outlinedButtonStyle,
-                  onPressed: () {
-                    addPatient(ref, context);
-                  },
-                  child: Text(context.tr.add, style: context.bodyMeduim),
-                ),
+                child:
+                    OutlinedButton(
+                      style: context.outlinedButtonStyle,
+                      onPressed: () {
+                        addPatient(ref, context);
+                      },
+                      child: Text(context.tr.add, style: context.bodyMeduim),
+                    ).loading(
+                      ref.watch(doctorPatientProvider).isLoading,
+                      context.primaryContainer,
+                    ),
               ),
             ),
           ],
@@ -106,7 +109,8 @@ class _FormAddpatientState extends State<FormAddpatient> {
     if (!formKey.currentState!.validate()) return;
     final dp = await ref.read(doctorPatientProvider.future);
     if (dp.any((e) => e.patientphone == phoneController.text.trim())) {
-      MessageHandle.handleMessage(MessageType.patientExist, contex);
+      // MessageHandle.handleMessage(MessageType.patientExist, contex);
+      return;
     }
     final doctorPatientNotfir = ref.read(doctorPatientProvider.notifier);
 
@@ -144,6 +148,8 @@ class _FormAddpatientState extends State<FormAddpatient> {
           isDeletePatient: addPatient.userID == null,
         ),
       );
+      clearController();
+
       return;
     }
     await doctorPatientNotfir.upsertDoctorPatientAndAllTreamentAndAppointment(
@@ -152,5 +158,12 @@ class _FormAddpatientState extends State<FormAddpatient> {
         isDeletePatient: patient.userID == null,
       ),
     );
+    clearController();
+  }
+
+  void clearController() {
+    nameController.clear();
+    nickNamecontroller.clear();
+    phoneController.clear();
   }
 }

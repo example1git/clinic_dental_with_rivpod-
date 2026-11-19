@@ -45,7 +45,7 @@ class AppointmentTable extends StatelessWidget {
                     textAlign: TextAlign.center,
                     textStyle: context.number,
 
-                    traling,
+                    "$traling ${context.tr.sar}",
                     speed: const Duration(milliseconds: 150),
                   ),
                 ],

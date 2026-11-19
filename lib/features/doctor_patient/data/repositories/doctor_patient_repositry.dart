@@ -56,7 +56,7 @@ class DoctorPatientRepositryImp implements DoctorPatientRepository {
           patientID: doctorPateint.patientID,
           isDeleteDoctor: doctorPateint.isDeleteDoctor,
           isDeletePatient: doctorPateint.isDeletePatient,
-          id: '',
+          id: doctorPateint.id,
           doctorFullName: '',
           patientFullName: '',
           patientphone: '',

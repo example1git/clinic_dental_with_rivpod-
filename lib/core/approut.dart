@@ -7,7 +7,7 @@ import 'package:mysen/features/auth/presentation/pages/start_screen.dart';
 import 'package:mysen/features/auth/presentation/pages/verify.dart';
 import 'package:mysen/features/doctor/presentation/pages/doctor_profile.dart';
 import 'package:mysen/features/doctor/presentation/pages/doctor_screen.dart';
-import 'package:mysen/features/patient/presentation/pages/patient_screen.dart';
+import 'package:mysen/features/doctor/presentation/pages/notfication_screen.dart';
 
 class AppRoutes {
   AppRoutes._();
@@ -83,6 +83,13 @@ final GoRouter appRouter = GoRouter(
       name: 'allreserve',
       pageBuilder: (context, state) {
         return NoTransitionPage(child: AllAppointmenteday());
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.notifications,
+      name: 'notifications',
+      pageBuilder: (context, state) {
+        return NoTransitionPage(child: Notfictionscreen());
       },
     ),
     // GoRoute(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/my_form_textfiled.dart';
 import 'package:mysen/core/utiles.dart';
@@ -70,6 +71,7 @@ class _DoctorEditEquState extends State<DoctorEditEqu> {
                           .addEqulatifications(
                             equlatificationsController.text.trim(),
                           );
+                      equlatificationsController.clear();
                     },
                     icon: Icon(
                       size: context.iconSize,
@@ -122,6 +124,7 @@ class _DoctorEditEquState extends State<DoctorEditEqu> {
                     final eq = ref.watch(equlatificationsProvider);
                     final doctor = widget.doctor.copyWith(equlatifications: eq);
                     ref.read(doctorProvider.notifier).updateDoctor(doctor);
+                    context.pop();
                   },
                   child: Text(context.tr.done, style: context.bodyMeduim),
                 ),
