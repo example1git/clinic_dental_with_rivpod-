@@ -69,7 +69,7 @@ class _AppointmetDialogState extends ConsumerState<AppointmetDialog> {
   @override
   Widget build(BuildContext context) {
     final appointmentDateNotfir = ref.read(appointmentDateProvider.notifier);
-    final getAppointmentDateProvider = ref.read(appointmentDateProvider);
+    final getAppointmentDateProvider = ref.watch(appointmentDateProvider);
 
     return GestureDetector(
       onTap: () {
@@ -222,7 +222,10 @@ class _AppointmetDialogState extends ConsumerState<AppointmetDialog> {
                   child:
                       OutlinedButton(
                         style: context.outlinedButtonStyle,
-                        onPressed: () {
+                        onPressed: () async {
+                          if (!formKeyAppointment.currentState!.validate()) {
+                            return;
+                          }
                           final teethSelected = ref.read(teehtProvider);
                           final appointment = Appointment(
                             timeAppointment: getAppointmentDateProvider,
@@ -232,11 +235,12 @@ class _AppointmetDialogState extends ConsumerState<AppointmetDialog> {
                             id: '',
                             doctorPatientID: widget.dp.id,
                           );
-                          ref
+                          await ref
                               .read(appointmentProvider.notifier)
                               .addppointment(appointment);
-
-                          Navigator.of(context).pop();
+                          if (context.mounted) {
+                            Navigator.of(context).pop();
+                          }
                         },
                         child: Text(context.tr.done, style: context.bodyMeduim),
                       ).loading(

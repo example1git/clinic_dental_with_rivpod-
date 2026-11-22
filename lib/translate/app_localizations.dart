@@ -110,12 +110,6 @@ abstract class AppLocalizations {
   /// **'هل أنت متأكد من إلغاء طلب الحجز؟'**
   String get titleRequestCancel;
 
-  /// No description provided for @stRequestCount.
-  ///
-  /// In ar, this message translates to:
-  /// **'لديك طلب حجز مقبول'**
-  String get stRequestCount;
-
   /// No description provided for @smRequestCount.
   ///
   /// In ar, this message translates to:
@@ -131,7 +125,7 @@ abstract class AppLocalizations {
   /// No description provided for @smRequestw.
   ///
   /// In ar, this message translates to:
-  /// **'يمكنك إرسال طلب جديد بعد login الطلب الحالي أو إلغائه.'**
+  /// **'يمكنك إرسال طلب جديد بعد انتهاء الطلب الحالي أو إلغائه.'**
   String get smRequestw;
 
   /// No description provided for @requestTitle.
@@ -146,17 +140,41 @@ abstract class AppLocalizations {
   /// **'إلغاء'**
   String get cancelRequest;
 
+  /// No description provided for @requestStatus.
+  ///
+  /// In ar, this message translates to:
+  /// **'حالة الطلب'**
+  String get requestStatus;
+
+  /// No description provided for @waiting.
+  ///
+  /// In ar, this message translates to:
+  /// **'انتظار الرد'**
+  String get waiting;
+
+  /// No description provided for @rejected.
+  ///
+  /// In ar, this message translates to:
+  /// **'مرفوض'**
+  String get rejected;
+
+  /// No description provided for @accepted.
+  ///
+  /// In ar, this message translates to:
+  /// **'مقبول'**
+  String get accepted;
+
+  /// No description provided for @none.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد'**
+  String get none;
+
   /// No description provided for @holiday.
   ///
   /// In ar, this message translates to:
   /// **'في إجازة'**
   String get holiday;
-
-  /// No description provided for @accountSuspendedT.
-  ///
-  /// In ar, this message translates to:
-  /// **'تم إيقاف الحساب'**
-  String get accountSuspendedT;
 
   /// No description provided for @accountSuspendedM.
   ///
@@ -175,30 +193,6 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الدكتورة'**
   String get doctorFemale;
-
-  /// No description provided for @sThemeSelectT.
-  ///
-  /// In ar, this message translates to:
-  /// **'تنبيه'**
-  String get sThemeSelectT;
-
-  /// No description provided for @sThemeSelectM.
-  ///
-  /// In ar, this message translates to:
-  /// **'يرجى اختيار سمة لحفظ التغييرات.'**
-  String get sThemeSelectM;
-
-  /// No description provided for @sThemeT.
-  ///
-  /// In ar, this message translates to:
-  /// **'تم تطبيق السمة'**
-  String get sThemeT;
-
-  /// No description provided for @sThemeM.
-  ///
-  /// In ar, this message translates to:
-  /// **'يرجى إعادة تشغيل التطبيق لتطبيق التغييرات.'**
-  String get sThemeM;
 
   /// No description provided for @setTheme.
   ///
@@ -236,23 +230,11 @@ abstract class AppLocalizations {
   /// **'الإنجليزية'**
   String get english;
 
-  /// No description provided for @deleteT.
-  ///
-  /// In ar, this message translates to:
-  /// **'✔'**
-  String get deleteT;
-
   /// No description provided for @deleteM.
   ///
   /// In ar, this message translates to:
   /// **'تم الحذف بنجاح'**
   String get deleteM;
-
-  /// No description provided for @addT.
-  ///
-  /// In ar, this message translates to:
-  /// **'✔'**
-  String get addT;
 
   /// No description provided for @addM.
   ///
@@ -301,12 +283,6 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الخطط العلاجية المحذوفة'**
   String get deletedTreatmentPlans;
-
-  /// No description provided for @timeCreate.
-  ///
-  /// In ar, this message translates to:
-  /// **'وقت الإنشاء'**
-  String get timeCreate;
 
   /// No description provided for @previouslyPaid.
   ///
@@ -368,12 +344,6 @@ abstract class AppLocalizations {
   /// **'تم التحديث'**
   String get refreshT;
 
-  /// No description provided for @refreshM.
-  ///
-  /// In ar, this message translates to:
-  /// **'تم تحديث البيانات، يمكنك المحاولة مرة أخرى لاحقًا.'**
-  String get refreshM;
-
   /// No description provided for @internetT.
   ///
   /// In ar, this message translates to:
@@ -385,12 +355,6 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.'**
   String get internetM;
-
-  /// No description provided for @errorT.
-  ///
-  /// In ar, this message translates to:
-  /// **'خطأ'**
-  String get errorT;
 
   /// No description provided for @errorM.
   ///
@@ -446,6 +410,12 @@ abstract class AppLocalizations {
   /// **'إضافة الاسم'**
   String get addName;
 
+  /// No description provided for @data.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد بيانات'**
+  String get data;
+
   /// No description provided for @timeoutT.
   ///
   /// In ar, this message translates to:
@@ -457,12 +427,6 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'اتصال الإنترنت غير مستقر، يرجى المحاولة مرة أخرى.'**
   String get timeoutM;
-
-  /// No description provided for @roleChoice.
-  ///
-  /// In ar, this message translates to:
-  /// **'حدد دورك في التطبيق'**
-  String get roleChoice;
 
   /// No description provided for @code.
   ///
@@ -518,29 +482,11 @@ abstract class AppLocalizations {
   /// **'ابحث عن سجل...'**
   String get searchFieldTitle;
 
-  /// No description provided for @rowLevelT.
-  ///
-  /// In ar, this message translates to:
-  /// **'تنبيه'**
-  String get rowLevelT;
-
   /// No description provided for @rowLevelM.
   ///
   /// In ar, this message translates to:
   /// **'تم إيقاف حسابك من قبل إدارة النظام.'**
   String get rowLevelM;
-
-  /// No description provided for @isWorkT.
-  ///
-  /// In ar, this message translates to:
-  /// **'تم التحديث'**
-  String get isWorkT;
-
-  /// No description provided for @isWorkM.
-  ///
-  /// In ar, this message translates to:
-  /// **'يمكنك تغيير الحالة مرة أخرى بعد دقيقتين.'**
-  String get isWorkM;
 
   /// No description provided for @doctorProfile.
   ///
@@ -632,6 +578,12 @@ abstract class AppLocalizations {
   /// **'اللقب'**
   String get nickName;
 
+  /// No description provided for @add.
+  ///
+  /// In ar, this message translates to:
+  /// **'اضافة'**
+  String get add;
+
   /// No description provided for @phone.
   ///
   /// In ar, this message translates to:
@@ -649,12 +601,6 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تعديل أرقام التواصل'**
   String get editPhone;
-
-  /// No description provided for @add.
-  ///
-  /// In ar, this message translates to:
-  /// **'إضافة'**
-  String get add;
 
   /// No description provided for @addAppointment.
   ///
@@ -799,12 +745,6 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'جديد'**
   String get newItem;
-
-  /// No description provided for @patientExistT.
-  ///
-  /// In ar, this message translates to:
-  /// **'تنبيه'**
-  String get patientExistT;
 
   /// No description provided for @patientExistM.
   ///

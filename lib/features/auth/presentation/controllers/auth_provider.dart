@@ -30,7 +30,7 @@ class AuthProvider extends AsyncNotifier<void> {
               authStateEnum: AuthStateEnum.auth,
               role: Role.doctor,
             );
-            authGateNotifier.setSatate(authSatte);
+            authGateNotifier.setStateAuth(authSatte);
 
             ref.read(sharedPrefServiceProvider).setRole(Role.doctor);
             return;
@@ -41,7 +41,7 @@ class AuthProvider extends AsyncNotifier<void> {
               role: Role.user,
             );
 
-            authGateNotifier.setSatate(authSatte);
+            authGateNotifier.setStateAuth(authSatte);
 
             ref.read(sharedPrefServiceProvider).setRole(Role.user);
             return;
@@ -52,7 +52,7 @@ class AuthProvider extends AsyncNotifier<void> {
           role: null,
         );
 
-        authGateNotifier.setSatate(authSatte);
+        authGateNotifier.setStateAuth(authSatte);
       },
     );
   }
@@ -78,7 +78,7 @@ class AuthProvider extends AsyncNotifier<void> {
             role: Role.doctor,
           );
 
-          authGateNotifier.setSatate(authSatte);
+          authGateNotifier.setStateAuth(authSatte);
 
           ref.read(sharedPrefServiceProvider).setRole(Role.doctor);
           return;
@@ -89,7 +89,7 @@ class AuthProvider extends AsyncNotifier<void> {
             role: Role.user,
           );
 
-          authGateNotifier.setSatate(authSatte);
+          authGateNotifier.setStateAuth(authSatte);
 
           ref.read(sharedPrefServiceProvider).setRole(Role.user);
           return;
@@ -99,7 +99,7 @@ class AuthProvider extends AsyncNotifier<void> {
           role: null,
         );
 
-        authGateNotifier.setSatate(authSatte);
+        authGateNotifier.setStateAuth(authSatte);
       },
     );
   }
@@ -125,7 +125,7 @@ class AuthProvider extends AsyncNotifier<void> {
           role: Role.user,
         );
 
-        authGateNotifier.setSatate(authSatte);
+        authGateNotifier.setStateAuth(authSatte);
 
         ref.read(sharedPrefServiceProvider).setRole(Role.user);
       },
@@ -148,7 +148,7 @@ class AuthProvider extends AsyncNotifier<void> {
 
         await ref.read(sharedPrefServiceProvider).removeRole();
         await DatabaseHelper.instance.deleteDatabaseFile();
-        authGateNotifier.setSatate(authSatte);
+        authGateNotifier.setStateAuth(authSatte);
       },
     );
   }

@@ -20,8 +20,12 @@ class PatientScreen extends ConsumerWidget {
           }
           return SizedBox.shrink();
         },
-        error: (error, stackTrace) =>
-            CustomErrorWidget(ref: ref, error: error, onPressed: () {}),
+        error: (error, stackTrace) => CustomErrorWidget(
+          error: error,
+          onPressed: () {
+            ref.invalidate(patientProvider);
+          },
+        ),
         loading: () => Center(
           child: CircularProgressIndicator(color: context.primaryContainer),
         ),

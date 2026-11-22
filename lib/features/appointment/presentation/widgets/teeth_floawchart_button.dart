@@ -126,9 +126,7 @@ class TeethFlowchart extends StatelessWidget {
                           ),
                           rightString: '',
                           leftString: '',
-                          unselectedColor: context.primaryContainer.withAlpha(
-                            150,
-                          ),
+                          unselectedColor: context.primaryContainer,
 
                           colorized: colorized(teethSelected),
                           selectedColor: whitecolor,

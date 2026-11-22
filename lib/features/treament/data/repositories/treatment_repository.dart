@@ -151,7 +151,7 @@ class TreatmentRepositoryImp implements TreatmentCaseRepository {
           );
           return Right(model.copyWith(treatmentSatus: TreatmentSatus.canceled));
         }
-        if (response == TreatmentSatus.canceled.name) {
+        if (response == TreatmentSatus.deleted.name) {
           await treatmentLocalDataSource.deleteTreatmentCase(
             model.copyWith(treatmentSatus: TreatmentSatus.deleted),
           );

@@ -6,7 +6,7 @@ import 'package:mysen/core/widget/my_drawer.dart';
 import 'package:mysen/core/widget/theme_widget.dart';
 import 'package:mysen/core/widget_language.dart';
 import 'package:mysen/features/patient/domain/entities/patient.dart';
-import 'package:mysen/features/patient/presentation/pages/body_patient.dart';
+import 'package:mysen/features/patient/presentation/widgets/body_patient.dart';
 
 class PatientScreen extends StatelessWidget {
   const PatientScreen({super.key, required this.patient});
@@ -15,8 +15,6 @@ class PatientScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.primarycolor,
-
       drawer: MyDrawer(
         children: [
           CardDrawer(

@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mysen/core/failure.dart';
 import 'package:mysen/core/utiles.dart';
 
 class CustomErrorWidget extends StatelessWidget {
-  const new({
-    super.key,
-    required this.ref,
-    required this.error,
-    required this.onPressed,
-  });
+  const new({super.key, required this.error, required this.onPressed});
 
-  final WidgetRef ref;
   final Object error;
   final void Function() onPressed;
 

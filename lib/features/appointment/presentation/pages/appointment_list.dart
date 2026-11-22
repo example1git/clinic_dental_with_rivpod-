@@ -11,6 +11,7 @@ import 'package:mysen/features/appointment/presentation/widgets/child_phone.dart
 import 'package:mysen/features/appointment/presentation/widgets/price_details.dart';
 import 'package:mysen/features/doctor_patient/domain/entities/doctor_patient.dart';
 import 'package:mysen/features/treament/domain/entities/treatment_case.dart';
+import 'package:mysen/features/treament/presentation/widgets/body_treatment.dart';
 
 class AppointmentList extends ConsumerWidget {
   const AppointmentList({
@@ -37,8 +38,8 @@ class AppointmentList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.read(payPaidProvider.notifier).getPayPaid(treatment);
-    final appointemntProvider = ref.watch(appointmentProvider);
-    return appointemntProvider.when(
+    final getAppointemntProvider = ref.watch(appointmentProvider);
+    return getAppointemntProvider.when(
       data: (data) {
         final appointments = data
             .where((element) => element.treatmentCaseID == treatment.id)
@@ -60,20 +61,23 @@ class AppointmentList extends ConsumerWidget {
                 const Closed(),
               ],
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: appointments.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return AppointmentTile(
-                    totalPrice: treatment.totalPrice,
-                    appointment: appointments[index],
-                    prevoiuspaid: index == 0
-                        ? 0
-                        : getPrevoiuspaid(index, appointments),
-                  );
-                },
+            if (data.isEmpty)
+              Expanded(child: DataEmbity())
+            else
+              Expanded(
+                child: ListView.builder(
+                  itemCount: appointments.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return AppointmentTile(
+                      totalPrice: treatment.totalPrice,
+                      appointment: appointments[index],
+                      prevoiuspaid: index == 0
+                          ? 0
+                          : getPrevoiuspaid(index, appointments),
+                    );
+                  },
+                ),
               ),
-            ),
             isDcotor
                 ? ChildPhone(phone: doctorPateint.patientphone)
                 : SizedBox.shrink(),
@@ -81,7 +85,12 @@ class AppointmentList extends ConsumerWidget {
         );
       },
       error: (error, stackTrace) {
-        return CustomErrorWidget(ref: ref, error: error, onPressed: () {});
+        return CustomErrorWidget(
+          error: error,
+          onPressed: () {
+            ref.invalidate(appointmentProvider);
+          },
+        );
       },
       loading: () {
         return Center(

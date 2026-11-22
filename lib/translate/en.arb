@@ -10,6 +10,11 @@
   "smRequestw": "You can request another booking after the current request is rejected or cancelled.",
   "requestTitle": "Booking Request",
   "cancelRequest": "Cancel",
+  "requestStatus": "Request Status",
+  "waiting": "waiting",
+  "rejected": "rejected",
+  "accepted": "accepted",
+  "none": "none",
 
   "holiday": "On Leave",
   "accountSuspendedT": "Account Suspended",
@@ -74,6 +79,7 @@
   "invalidPhoneNumber": "Invalid phone number.",
   "phoneNumberNotFound": "Phone number is not found.",
   "addName": "Add Name",
+  "data": "No Data Avaliable ?",
 
   "timeoutT": "Connection Timeout",
   "timeoutM": "Your internet connection is unstable. Please try again.",

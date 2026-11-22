@@ -16,6 +16,7 @@ import 'package:mysen/features/doctor_patient/domain/entities/doctor_patient.dar
 import 'package:mysen/features/doctor_patient/presentation/controllers/dependecies.dart';
 import 'package:mysen/features/request/domain/entities/request_reservation.dart';
 import 'package:mysen/features/request/presentation/controllers/dependecies.dart';
+import 'package:mysen/features/treament/presentation/widgets/body_treatment.dart';
 
 class Notfictionscreen extends ConsumerWidget {
   const Notfictionscreen({super.key});
@@ -43,7 +44,6 @@ class Notfictionscreen extends ConsumerWidget {
           reciveTime: appointmentDate,
         ),
       );
-      // MessageHandle.handleMessage(MessageType.add);
 
       return;
     }
@@ -63,7 +63,6 @@ class Notfictionscreen extends ConsumerWidget {
         reciveTime: appointmentDate,
       ),
     );
-    // MessageHandle.handleMessage(MessageType.add);
   }
 
   void reject(RequestReservation request, WidgetRef ref) async {
@@ -79,8 +78,6 @@ class Notfictionscreen extends ConsumerWidget {
     final doctorPatient = ref.read(doctorPatientProvider).value;
 
     return Scaffold(
-      backgroundColor: context.primarycolor,
-
       appBar: AppBar(
         toolbarHeight: context.mediaSize.shortestSide * .15,
         leadingWidth: context.mediaSize.shortestSide * .15,
@@ -100,6 +97,10 @@ class Notfictionscreen extends ConsumerWidget {
           final requests = data
               .where((element) => element.stateRequest == StateRequest.waiting)
               .toList();
+
+          if (requests.isEmpty) {
+            return DataEmbity();
+          }
           return RefreshIndicator(
             onRefresh: () async {
               ref.invalidate(requestReservationProvider);
@@ -115,10 +116,9 @@ class Notfictionscreen extends ConsumerWidget {
 
                 return Card(
                   elevation: elevation,
-                  color: blackcolor.withAlpha(100),
-                  margin: EdgeInsets.all(context.margin),
+                  color: context.primarycolor,
                   child: Padding(
-                    padding: EdgeInsetsGeometry.all(context.padding),
+                    padding: EdgeInsetsGeometry.all(context.padding / 2),
                     child: Row(
                       children: [
                         TextButton(
@@ -128,7 +128,6 @@ class Notfictionscreen extends ConsumerWidget {
                               context: context,
                               child: Accept(
                                 onPressed: () {
-                                  // print(request.patientName);
                                   accept(request, ref);
                                   context.pop();
                                 },
@@ -194,8 +193,12 @@ class Notfictionscreen extends ConsumerWidget {
             ),
           );
         },
-        error: (error, stackTrace) =>
-            CustomErrorWidget(ref: ref, error: error, onPressed: () {}),
+        error: (error, stackTrace) => CustomErrorWidget(
+          error: error,
+          onPressed: () {
+            ref.invalidate(requestReservationProvider);
+          },
+        ),
         loading: () => Center(
           child: CircularProgressIndicator(color: context.primaryContainer),
         ),

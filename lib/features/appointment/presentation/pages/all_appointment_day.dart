@@ -16,10 +16,12 @@ import 'package:mysen/features/treament/presentation/controllers/dependecies.dar
 class Appointmentwithpatient {
   final Appointment appointment;
   final String patientName;
+  final String patientPhone;
 
   Appointmentwithpatient({
     required this.appointment,
     required this.patientName,
+    required this.patientPhone,
   });
 }
 
@@ -69,6 +71,7 @@ class _AllAppointmentedayState extends ConsumerState<AllAppointmenteday> {
             doctorPatientID: '',
           ),
           patientName: request.patientName,
+          patientPhone: request.phone,
         ),
       );
     }
@@ -98,6 +101,7 @@ class _AllAppointmentedayState extends ConsumerState<AllAppointmenteday> {
         Appointmentwithpatient(
           appointment: appointment,
           patientName: patient.patientFullName,
+          patientPhone: patient.patientphone,
         ),
       );
     }
@@ -135,7 +139,6 @@ class _AllAppointmentedayState extends ConsumerState<AllAppointmenteday> {
         appointmentAsync.isLoading ||
         treatmentCaseAsync.isLoading) {
       return Scaffold(
-        backgroundColor: context.primarycolor,
         body: Center(
           child: CircularProgressIndicator(color: context.primaryContainer),
         ),
@@ -148,11 +151,7 @@ class _AllAppointmentedayState extends ConsumerState<AllAppointmenteday> {
         treatmentCaseAsync.hasError) {
       return Scaffold(
         body: Center(
-          child: Text(
-            context.tr.internetM,
-            // 'حدث خطأ أثناء تحميل البيانات',
-            style: context.bodyMeduim,
-          ),
+          child: Text(context.tr.loadError, style: context.bodyMeduim),
         ),
       );
     }
@@ -169,8 +168,6 @@ class _AllAppointmentedayState extends ConsumerState<AllAppointmenteday> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        backgroundColor: context.primarycolor,
-
         appBar: AppBar(
           leading: const Backed(),
           centerTitle: true,
@@ -181,6 +178,8 @@ class _AllAppointmentedayState extends ConsumerState<AllAppointmenteday> {
           title: Text(context.tr.allReservations, style: context.titleLarge),
 
           bottom: TabBar(
+            indicatorColor: context.primaryContainer,
+
             tabs: [
               Tab(child: Text(context.tr.today, style: context.bodyMeduim)),
               Tab(child: Text(context.tr.yesterday, style: context.bodyMeduim)),

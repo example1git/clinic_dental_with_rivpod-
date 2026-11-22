@@ -16,9 +16,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get titleRequestCancel => 'هل أنت متأكد من إلغاء طلب الحجز؟';
 
   @override
-  String get stRequestCount => 'لديك طلب حجز مقبول';
-
-  @override
   String get smRequestCount =>
       'لا يمكنك طلب حجز جديد إلا بعد انتهاء موعد حجزك الحالي.';
 
@@ -27,7 +24,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get smRequestw =>
-      'يمكنك إرسال طلب جديد بعد login الطلب الحالي أو إلغائه.';
+      'يمكنك إرسال طلب جديد بعد انتهاء الطلب الحالي أو إلغائه.';
 
   @override
   String get requestTitle => 'طلب حجز';
@@ -36,10 +33,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get cancelRequest => 'إلغاء';
 
   @override
-  String get holiday => 'في إجازة';
+  String get requestStatus => 'حالة الطلب';
 
   @override
-  String get accountSuspendedT => 'تم إيقاف الحساب';
+  String get waiting => 'انتظار الرد';
+
+  @override
+  String get rejected => 'مرفوض';
+
+  @override
+  String get accepted => 'مقبول';
+
+  @override
+  String get none => 'لا يوجد';
+
+  @override
+  String get holiday => 'في إجازة';
 
   @override
   String get accountSuspendedM =>
@@ -50,18 +59,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get doctorFemale => 'الدكتورة';
-
-  @override
-  String get sThemeSelectT => 'تنبيه';
-
-  @override
-  String get sThemeSelectM => 'يرجى اختيار سمة لحفظ التغييرات.';
-
-  @override
-  String get sThemeT => 'تم تطبيق السمة';
-
-  @override
-  String get sThemeM => 'يرجى إعادة تشغيل التطبيق لتطبيق التغييرات.';
 
   @override
   String get setTheme => 'تغيير السمة';
@@ -82,13 +79,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get english => 'الإنجليزية';
 
   @override
-  String get deleteT => '✔';
-
-  @override
   String get deleteM => 'تم الحذف بنجاح';
-
-  @override
-  String get addT => '✔';
 
   @override
   String get addM => 'تمت الإضافة بنجاح';
@@ -113,9 +104,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get deletedTreatmentPlans => 'الخطط العلاجية المحذوفة';
-
-  @override
-  String get timeCreate => 'وقت الإنشاء';
 
   @override
   String get previouslyPaid => 'المبلغ المدفوع سابقًا';
@@ -148,16 +136,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get refreshT => 'تم التحديث';
 
   @override
-  String get refreshM => 'تم تحديث البيانات، يمكنك المحاولة مرة أخرى لاحقًا.';
-
-  @override
   String get internetT => 'لا يوجد اتصال بالإنترنت';
 
   @override
   String get internetM => 'يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.';
-
-  @override
-  String get errorT => 'خطأ';
 
   @override
   String get errorM => 'حدث خطأ، يرجى المحاولة مرة أخرى.';
@@ -188,13 +170,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get addName => 'إضافة الاسم';
 
   @override
+  String get data => 'لا يوجد بيانات';
+
+  @override
   String get timeoutT => 'انتهت مهلة الاتصال';
 
   @override
   String get timeoutM => 'اتصال الإنترنت غير مستقر، يرجى المحاولة مرة أخرى.';
-
-  @override
-  String get roleChoice => 'حدد دورك في التطبيق';
 
   @override
   String get code => 'الرمز';
@@ -224,16 +206,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get searchFieldTitle => 'ابحث عن سجل...';
 
   @override
-  String get rowLevelT => 'تنبيه';
-
-  @override
   String get rowLevelM => 'تم إيقاف حسابك من قبل إدارة النظام.';
-
-  @override
-  String get isWorkT => 'تم التحديث';
-
-  @override
-  String get isWorkM => 'يمكنك تغيير الحالة مرة أخرى بعد دقيقتين.';
 
   @override
   String get doctorProfile => 'الملف الشخصي';
@@ -282,6 +255,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get nickName => 'اللقب';
 
   @override
+  String get add => 'اضافة';
+
+  @override
   String get phone => 'رقم الجوال';
 
   @override
@@ -289,9 +265,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get editPhone => 'تعديل أرقام التواصل';
-
-  @override
-  String get add => 'إضافة';
 
   @override
   String get addAppointment => 'إضافة موعد';
@@ -365,9 +338,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get newItem => 'جديد';
-
-  @override
-  String get patientExistT => 'تنبيه';
 
   @override
   String get patientExistM => 'سجل المريض موجود بالفعل.';

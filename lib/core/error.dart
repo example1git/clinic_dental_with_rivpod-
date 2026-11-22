@@ -49,7 +49,7 @@ class MessageHandle {
   static void handleMessage(MessageType type, BuildContext context) {
     switch (type) {
       case MessageType.requestWaiting:
-        Utils.showSnackBar(context: context, message: context.tr.smRequestw);
+        Utils.showSnackBar(context: context, message: context.tr.stRequestw);
 
         break;
       case MessageType.requestComplete:
@@ -60,12 +60,12 @@ class MessageHandle {
 
         break;
       case MessageType.refreshDoctorPatient:
-        Utils.showSnackBar(context: context, message: context.tr.refreshM);
+        // Utils.showSnackBar(context: context, message: context.tr.refreshM);
 
         break;
 
       case MessageType.applyTheme:
-        Utils.showSnackBar(context: context, message: context.tr.sThemeM);
+        // Utils.showSnackBar(context: context, message: context.tr.sThemeM);
 
         break;
       case MessageType.patientExist:
@@ -73,7 +73,7 @@ class MessageHandle {
 
         break;
       case MessageType.isdoctorWork:
-        Utils.showSnackBar(context: context, message: context.tr.isWorkM);
+        // Utils.showSnackBar(context: context, message: context.tr.isWorkM);
 
         break;
       case MessageType.phoneDoctorEdit:

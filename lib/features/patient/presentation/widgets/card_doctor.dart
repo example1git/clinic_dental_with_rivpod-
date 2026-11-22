@@ -104,7 +104,7 @@ class _CardDoctorState extends ConsumerState<CardDoctor>
       return;
     }
 
-    ref
+    await ref
         .read(requestReservationProvider.notifier)
         .upsertRequestReservation(reservation);
   }
@@ -132,7 +132,7 @@ class _CardDoctorState extends ConsumerState<CardDoctor>
 
       return;
     }
-    ref
+    await ref
         .read(requestReservationProvider.notifier)
         .updateRequestReservation(
           request.copyWith(stateRequest: StateRequest.none),
@@ -174,8 +174,8 @@ class _CardDoctorState extends ConsumerState<CardDoctor>
     return AnimatedBuilder(
       animation: animationController,
       builder: (context, child) => FractionallySizedBox(
-        widthFactor: .8,
-        heightFactor: .5,
+        widthFactor: .85,
+        heightFactor: .55,
         child: Container(
           padding: EdgeInsets.only(bottom: context.padding),
           clipBehavior: Clip.none,
@@ -312,7 +312,7 @@ class _CardDoctorState extends ConsumerState<CardDoctor>
                                             request?.stateRequest ==
                                                     StateRequest.waiting
                                                 ? updateRequestToNon(context)
-                                                : addResqustReserv();
+                                                : addResqustReserv(context);
                                             context.pop();
                                           },
                                           isLoading: ref
@@ -333,9 +333,50 @@ class _CardDoctorState extends ConsumerState<CardDoctor>
                                 ),
                         ],
                       ),
+                      Directionality(
+                        textDirection:
+                            Localizations.localeOf(context).languageCode == 'ar'
+                            ? ui.TextDirection.rtl
+                            : ui.TextDirection.ltr,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                textAlign: TextAlign.center,
+                                context.tr.requestStatus,
+                                style: context.bodyMeduim,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                request?.stateRequest == null ||
+                                        request?.stateRequest ==
+                                            StateRequest.none
+                                    ? context.tr.none
+                                    : request?.stateRequest ==
+                                          StateRequest.reject
+                                    ? context.tr.rejected
+                                    : request?.stateRequest ==
+                                          StateRequest.waiting
+                                    ? context.tr.waiting
+                                    : request?.stateRequest ==
+                                          StateRequest.accepted
+                                    ? context.tr.accepted
+                                    : context.tr.none,
+                                textAlign: TextAlign.center,
+                                textDirection: ui.TextDirection.ltr,
+                                style: context.textAppointment,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
 
                       Directionality(
-                        textDirection: Directionality.of(context),
+                        textDirection:
+                            Localizations.localeOf(context).languageCode == 'ar'
+                            ? ui.TextDirection.rtl
+                            : ui.TextDirection.ltr,
                         child: Row(
                           children: [
                             Expanded(

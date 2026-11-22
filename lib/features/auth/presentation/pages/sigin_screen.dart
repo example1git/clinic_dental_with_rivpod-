@@ -132,7 +132,6 @@ class _SiginScreenState extends ConsumerState<SiginScreen> {
                 child: OutlinedButton(
                   onPressed: () {
                     context.push(AppRoutes.sigup);
-                    // context.push(AppRoutes.verfiy);
                   },
                   style: context.iconButtonStyle?.copyWith(
                     backgroundColor: WidgetStatePropertyAll(

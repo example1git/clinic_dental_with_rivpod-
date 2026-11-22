@@ -70,7 +70,12 @@ class DoctorProfile extends ConsumerWidget {
                   );
           },
           error: (error, stackTrace) {
-            return CustomErrorWidget(ref: ref, error: error, onPressed: () {});
+            return CustomErrorWidget(
+              error: error,
+              onPressed: () {
+                ref.invalidate(doctorProvider);
+              },
+            );
           },
           loading: () {
             return Center(

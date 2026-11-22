@@ -7,6 +7,7 @@ import 'package:mysen/core/widget/error_widget.dart';
 import 'package:mysen/features/doctor/presentation/widgets/card_dp.dart';
 import 'package:mysen/features/doctor_patient/presentation/controllers/dependecies.dart';
 import 'package:mysen/features/treament/presentation/pages/treatment_case.dart';
+import 'package:mysen/features/treament/presentation/widgets/body_treatment.dart';
 
 class BodyPatient extends StatelessWidget {
   const BodyPatient({super.key});
@@ -19,6 +20,9 @@ class BodyPatient extends StatelessWidget {
           final provider = ref.watch(doctorPatientProvider);
           return provider.when(
             data: (data) {
+              if (data.isEmpty) {
+                return DataEmbity();
+              }
               return ListView.builder(
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -63,9 +67,22 @@ class BodyPatient extends StatelessWidget {
                       style: context.iconButtonStyle,
                       onPressed: () {
                         Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                TreatmentCaseScreen(dp: dp, isDoctor: false),
+                          PageRouteBuilder(
+                            pageBuilder: (
+                              context,
+                              animation,
+                              secondaryAnimation,
+                            ) => TreatmentCaseScreen(dp: dp, isDoctor: false),
+                            transitionsBuilder:
+                                (
+                                  context,
+                                  animation,
+                                  secondaryAnimation,
+                                  child,
+                                ) => FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                ),
                           ),
                         );
                       },
@@ -77,7 +94,6 @@ class BodyPatient extends StatelessWidget {
             },
             error: (error, stackTrace) {
               return CustomErrorWidget(
-                ref: ref,
                 error: error,
                 onPressed: () {
                   ref.invalidate(doctorPatientProvider);

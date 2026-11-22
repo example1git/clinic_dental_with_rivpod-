@@ -17,9 +17,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Do you really want to cancel the booking request?';
 
   @override
-  String get stRequestCount => 'You already have an accepted request';
-
-  @override
   String get smRequestCount =>
       'You cannot request a new appointment until your current appointment has ended.';
 
@@ -37,10 +34,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cancelRequest => 'Cancel';
 
   @override
-  String get holiday => 'On Leave';
+  String get requestStatus => 'Request Status';
 
   @override
-  String get accountSuspendedT => 'Account Suspended';
+  String get waiting => 'waiting';
+
+  @override
+  String get rejected => 'rejected';
+
+  @override
+  String get accepted => 'accepted';
+
+  @override
+  String get none => 'none';
+
+  @override
+  String get holiday => 'On Leave';
 
   @override
   String get accountSuspendedM =>
@@ -51,18 +60,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get doctorFemale => 'Dr.';
-
-  @override
-  String get sThemeSelectT => 'Notice';
-
-  @override
-  String get sThemeSelectM => 'Please choose a theme to save changes.';
-
-  @override
-  String get sThemeT => 'Theme Applied';
-
-  @override
-  String get sThemeM => 'Please restart the application to apply the changes.';
 
   @override
   String get setTheme => 'Set Theme';
@@ -83,13 +80,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get english => 'English';
 
   @override
-  String get deleteT => '✔';
-
-  @override
   String get deleteM => 'Deleted Successfully';
-
-  @override
-  String get addT => '✔';
 
   @override
   String get addM => 'Added Successfully';
@@ -114,9 +105,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deletedTreatmentPlans => 'Deleted Treatment Plans';
-
-  @override
-  String get timeCreate => 'Creation Time';
 
   @override
   String get previouslyPaid => 'Previously Paid Amount';
@@ -149,17 +137,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get refreshT => 'Updated';
 
   @override
-  String get refreshM => 'Data has been updated. Please try again later.';
-
-  @override
   String get internetT => 'No Internet Connection';
 
   @override
   String get internetM =>
       'Please check your internet connection and try again.';
-
-  @override
-  String get errorT => 'Error';
 
   @override
   String get errorM => 'Something went wrong. Please try again.';
@@ -190,14 +172,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addName => 'Add Name';
 
   @override
+  String get data => 'No Data Avaliable ?';
+
+  @override
   String get timeoutT => 'Connection Timeout';
 
   @override
   String get timeoutM =>
       'Your internet connection is unstable. Please try again.';
-
-  @override
-  String get roleChoice => 'Select your role in the application.';
 
   @override
   String get code => 'Code';
@@ -227,16 +209,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchFieldTitle => '...search record';
 
   @override
-  String get rowLevelT => 'Error';
-
-  @override
   String get rowLevelM => 'Your account has been suspended by the developer.';
-
-  @override
-  String get isWorkT => 'Updated';
-
-  @override
-  String get isWorkM => 'You can change your status again after 2 minutes.';
 
   @override
   String get doctorProfile => 'Doctor Profile';
@@ -285,6 +258,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nickName => 'Nickname';
 
   @override
+  String get add => 'Add';
+
+  @override
   String get phone => 'Phone Number';
 
   @override
@@ -292,9 +268,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editPhone => 'Edit Numbers';
-
-  @override
-  String get add => 'Add';
 
   @override
   String get addAppointment => 'Add Appointment';
@@ -370,9 +343,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get newItem => 'New';
-
-  @override
-  String get patientExistT => 'Notice';
 
   @override
   String get patientExistM => 'Patient record already exists.';

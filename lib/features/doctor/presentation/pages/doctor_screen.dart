@@ -54,16 +54,6 @@ class _DoctorScreenState extends ConsumerState<DoctorScreen> {
       child: doctor.when(
         data: (data) {
           return Scaffold(
-            // floatingActionButton: FloatingActionButton(
-            //   onPressed: () async {
-            //     print(await DatabaseHelper.instance.queryAll('doctor'));
-            //     // print(await DatabaseHelper.instance.queryAll('doctorPatient'));
-            //     // print(client.auth.currentUser?.id);
-
-            //     await DatabaseHelper.instance.deleteDatabaseFile();
-            //   },
-            // ),
-            backgroundColor: context.primarycolor,
             bottomNavigationBar: BottomNavgiationBarDoctor(),
 
             drawer: DrawerDoctor(),
@@ -79,7 +69,6 @@ class _DoctorScreenState extends ConsumerState<DoctorScreen> {
               centerTitle: true,
 
               backgroundColor: context.primarycolor,
-
               title: FittedBox(
                 child: Text(
                   textAlign: TextAlign.center,
@@ -94,7 +83,6 @@ class _DoctorScreenState extends ConsumerState<DoctorScreen> {
         },
         error: (error, stackTrace) {
           return CustomErrorWidget(
-            ref: ref,
             error: error,
             onPressed: () {
               ref.invalidate(doctorProvider);

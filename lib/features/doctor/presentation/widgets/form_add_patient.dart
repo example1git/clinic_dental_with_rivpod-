@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mysen/core/error.dart';
 import 'package:mysen/core/my_form_textfiled.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/close.dart';
@@ -109,7 +110,9 @@ class _FormAddpatientState extends State<FormAddpatient> {
     if (!formKey.currentState!.validate()) return;
     final dp = await ref.read(doctorPatientProvider.future);
     if (dp.any((e) => e.patientphone == phoneController.text.trim())) {
-      // MessageHandle.handleMessage(MessageType.patientExist, contex);
+      if (contex.mounted) {
+        MessageHandle.handleMessage(MessageType.patientExist, contex);
+      }
       return;
     }
     final doctorPatientNotfir = ref.read(doctorPatientProvider.notifier);
@@ -149,6 +152,9 @@ class _FormAddpatientState extends State<FormAddpatient> {
         ),
       );
       clearController();
+      if (contex.mounted) {
+        MessageHandle.handleMessage(MessageType.add, contex);
+      }
 
       return;
     }
@@ -158,6 +164,9 @@ class _FormAddpatientState extends State<FormAddpatient> {
         isDeletePatient: patient.userID == null,
       ),
     );
+    if (contex.mounted) {
+      MessageHandle.handleMessage(MessageType.add, contex);
+    }
     clearController();
   }
 

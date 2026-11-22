@@ -7,6 +7,7 @@ import 'package:mysen/core/error.dart';
 import 'package:mysen/core/failure.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/features/auth/presentation/controllers/auth_dependcies.dart';
+import 'package:pinput/pinput.dart';
 
 class Verify extends ConsumerStatefulWidget {
   const Verify({super.key});
@@ -16,25 +17,10 @@ class Verify extends ConsumerStatefulWidget {
 }
 
 class _VerifyState extends ConsumerState<Verify> {
-  late final List<TextEditingController> controllers;
-
-  late final List<FocusNode> focusNodes;
-
-  String get code => controllers.map((e) => e.text).join();
-
   @override
   void initState() {
-    controllers = List.generate(4, (_) => TextEditingController());
-    focusNodes = List.generate(4, (_) => FocusNode());
     ref.read(authProvider.notifier).resendCode();
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    disposeController();
-
-    super.dispose();
   }
 
   @override
@@ -92,15 +78,51 @@ class _VerifyState extends ConsumerState<Verify> {
 
             Directionality(
               textDirection: TextDirection.ltr,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(
-                  4,
-                  (index) => _buildCodeField(index, context),
+              child: Pinput(
+                length: 4,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                defaultPinTheme: PinTheme(
+                  width: 62,
+                  height: 62,
+                  textStyle: context.bodyLarge?.copyWith(
+                    color: context.primarycolor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  decoration: BoxDecoration(
+                    color: context.primaryContainer,
+                    borderRadius: BorderRadius.circular(context.raduis),
+                    border: Border.all(color: Colors.grey.shade300),
+                  ),
                 ),
+                focusedPinTheme: PinTheme(
+                  width: 62,
+                  height: 62,
+                  textStyle: context.bodyLarge?.copyWith(
+                    color: context.primarycolor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  decoration: BoxDecoration(
+                    color: context.primaryContainer,
+                    borderRadius: BorderRadius.circular(context.raduis),
+                    border: Border.all(
+                      color: context.colorScheme.primary,
+                      width: 2,
+                    ),
+                  ),
+                ),
+                onCompleted: (value) async {
+                  final codeSend = ref.read(codeSendProvider.notifier).state;
+
+                  if (codeSend != value) {
+                    ErrorHndel.handleError(ErrorType.code, context);
+                    return;
+                  }
+
+                  await ref.read(authProvider.notifier).signUp();
+                },
               ),
             ),
-            // Material(child: Pinput(length: 4, onCompleted: (value) {})),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -122,91 +144,5 @@ class _VerifyState extends ConsumerState<Verify> {
         ),
       ),
     );
-  }
-
-  Widget _buildCodeField(int index, BuildContext context) {
-    return SizedBox(
-      width: 62,
-      height: 62,
-      child: TextField(
-        controller: controllers[index],
-        focusNode: focusNodes[index],
-        textAlign: TextAlign.center,
-        keyboardType: TextInputType.number,
-        maxLength: 1,
-
-        style: context.bodyLarge?.copyWith(
-          color: context.primarycolor,
-          fontWeight: FontWeight.bold,
-        ),
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        decoration: InputDecoration(
-          counterText: '',
-          filled: true,
-          fillColor: context.primaryContainer,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(context.raduis),
-            borderSide: BorderSide(color: Colors.grey.shade300),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(context.raduis),
-            borderSide: BorderSide(color: Colors.grey.shade300),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(context.raduis),
-            borderSide: BorderSide(
-              color: context.colorScheme.primary,
-              width: 2,
-            ),
-          ),
-        ),
-        onChanged: (value) {
-          onChanged(value, index, code, context);
-        },
-      ),
-    );
-  }
-
-  void disposeController() {
-    for (var c in controllers) {
-      c.dispose();
-    }
-    for (var f in focusNodes) {
-      f.dispose();
-    }
-  }
-
-  void clearController() {
-    for (var c in controllers) {
-      c.clear();
-    }
-    for (var f in focusNodes) {
-      f.unfocus();
-    }
-  }
-
-  void onChanged(
-    String value,
-    int index,
-    String code,
-    BuildContext context,
-  ) async {
-    if (value.isNotEmpty && index < 3) {
-      focusNodes[index + 1].requestFocus();
-    }
-
-    if (value.isEmpty && index > 0) {
-      focusNodes[index - 1].requestFocus();
-    }
-
-    if (code.length == 4) {
-      final codeSend = ref.read(codeSendProvider.notifier).state;
-      if (codeSend != code) {
-      clearController();
-        ErrorHndel.handleError(ErrorType.code, context);
-        return;
-      }
-      await ref.read(authProvider.notifier).signUp();
-    }
   }
 }

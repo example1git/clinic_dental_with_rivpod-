@@ -61,6 +61,20 @@ class DoctorLocalDataSourc {
     }
   }
 
+  Future<DoctorModel> addDoctors(DoctorModel doctor) async {
+    try {
+      await databaseHelper
+          .insert(doctorstable, doctor.toMapSql())
+          .timeout(duration);
+
+      return doctor;
+    } on TimeoutException {
+      throw RequestTimeExeption(message: 'local time out');
+    } catch (e) {
+      throw CachExeption(message: 'local cach${e.toString()}');
+    }
+  }
+
   Future<DoctorModel> updateDoctor(DoctorModel doctor) async {
     try {
       await databaseHelper

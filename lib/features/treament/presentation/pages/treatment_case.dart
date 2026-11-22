@@ -16,7 +16,7 @@ class TreatmentCaseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.primarycolor,
+      // backgroundColor: context.primarycolor,
       bottomNavigationBar: isDoctor
           ? BottomNavigationBarTreatment(dp: dp)
           : null,

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mysen/core/constant.dart';
-import 'package:mysen/core/error.dart';
 import 'package:mysen/core/provider/providers.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/error_widget.dart';
@@ -16,6 +15,7 @@ import 'package:mysen/features/patient/domain/entities/patient.dart';
 import 'package:mysen/features/patient/presentation/pages/patient_screen.dart';
 import 'package:mysen/features/patient/presentation/widgets/card_doctor.dart';
 import 'package:mysen/features/request/presentation/controllers/dependecies.dart';
+import 'package:mysen/features/treament/presentation/widgets/body_treatment.dart';
 import 'package:ntp/ntp.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -153,26 +153,13 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget build(BuildContext context) {
     final getdoctorsProvider = ref.watch(doctorsProvider);
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          if (!await ref.read(internetServiceProvider).checkNow()) {
-            if (!context.mounted) {
-              return;
-            }
-            ErrorHndel.handleError(ErrorType.internet, context);
-
-            return;
-          }
-          if (!context.mounted) {
-            return;
-          }
-          MessageHandle.handleMessage(MessageType.add, context);
-        },
-      ),
       backgroundColor: context.primarycolor,
 
       body: getdoctorsProvider.when(
         data: (data) {
+          if (data.isEmpty) {
+            return DataEmbity();
+          }
           getNotifications(data);
           return Directionality(
             textDirection: TextDirection.ltr,
@@ -250,7 +237,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           );
         },
         error: (error, stackTrace) => CustomErrorWidget(
-          ref: ref,
           error: error,
           onPressed: () {
             ref.invalidate(doctorsProvider);

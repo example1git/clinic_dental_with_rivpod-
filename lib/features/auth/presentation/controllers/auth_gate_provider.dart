@@ -28,7 +28,7 @@ class AuthGateProvider extends AsyncNotifier<AuthState> {
     return AuthState(authStateEnum: AuthStateEnum.sigin, role: null);
   }
 
-  void setSatate(AuthState authState) {
+  void setStateAuth(AuthState authState) {
     state = AsyncData(authState);
   }
 }

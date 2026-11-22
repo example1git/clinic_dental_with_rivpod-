@@ -76,7 +76,7 @@ class Utils {
     bool dismissible = false,
   }) async {
     await showDialog(
-      barrierColor: color ?? blackcolor.withAlpha(150),
+      barrierColor: color ?? blackcolor.withAlpha(170),
       barrierDismissible: dismissible,
       context: context,
       builder: (_) => SafeArea(

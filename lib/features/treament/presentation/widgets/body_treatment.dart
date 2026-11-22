@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/alert.dart';
 import 'package:mysen/core/widget/card_treatment.dart';
@@ -31,6 +32,10 @@ class BodyTreatment extends ConsumerWidget {
                   element.doctorPatientID == dp.id,
             )
             .toList();
+        if (treatments.isEmpty) {
+          return DataEmbity();
+        }
+
         return ListView.builder(
           itemCount: treatments.length,
           itemBuilder: (BuildContext context, int index) {
@@ -110,7 +115,6 @@ class BodyTreatment extends ConsumerWidget {
       },
       error: (error, stackTrace) {
         return CustomErrorWidget(
-          ref: ref,
           error: error,
           onPressed: () {
             ref.invalidate(treatmentProvider);
@@ -119,6 +123,20 @@ class BodyTreatment extends ConsumerWidget {
       },
       loading: () => Center(
         child: CircularProgressIndicator(color: context.primaryContainer),
+      ),
+    );
+  }
+}
+
+class DataEmbity extends StatelessWidget {
+  const new({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        context.tr.data,
+        style: context.bodyMeduim?.copyWith(color: blackcolor),
       ),
     );
   }

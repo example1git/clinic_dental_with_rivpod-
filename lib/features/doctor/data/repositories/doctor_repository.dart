@@ -27,7 +27,7 @@ class DoctorRepositoryImp implements DoctorRepository {
       try {
         final doctors = await doctorRemotDataSource.getDoctors();
         for (var d in doctors) {
-          await doctorLocalDataSource.addDoctor(d);
+          await doctorLocalDataSource.addDoctors(d);
         }
         return Right(doctors);
       } on RequestTimeExeption catch (e) {

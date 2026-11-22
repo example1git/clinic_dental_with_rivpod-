@@ -80,11 +80,26 @@ class BodyDoctor extends StatelessWidget {
                             style: context.iconButtonStyle,
                             onPressed: () {
                               Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => TreatmentCaseScreen(
-                                    dp: dp,
-                                    isDoctor: true,
-                                  ),
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (
+                                        context,
+                                        animation,
+                                        secondaryAnimation,
+                                      ) => TreatmentCaseScreen(
+                                        dp: dp,
+                                        isDoctor: true,
+                                      ),
+                                  transitionsBuilder:
+                                      (
+                                        context,
+                                        animation,
+                                        secondaryAnimation,
+                                        child,
+                                      ) => FadeTransition(
+                                        opacity: animation,
+                                        child: child,
+                                      ),
                                 ),
                               );
                             },

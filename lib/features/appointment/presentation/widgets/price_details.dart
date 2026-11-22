@@ -22,7 +22,7 @@ class PrcieDetailes extends ConsumerWidget {
             dismissible: true,
             widthFactor: .9,
             heightFactor: .3,
-            colorDialog: context.primarycolor.withAlpha(50),
+            colorDialog: context.primarycolor.withAlpha(100),
             context: context,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
