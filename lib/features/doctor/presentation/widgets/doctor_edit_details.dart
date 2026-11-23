@@ -11,6 +11,7 @@ import 'package:mysen/features/doctor/presentation/widgets/doctor_edit_equ.dart'
 import 'package:mysen/features/doctor/presentation/widgets/doctor_edit_location.dart';
 import 'package:mysen/features/doctor/presentation/widgets/doctor_edit_numbers.dart';
 
+// ignore: must_be_immutable
 class DoctorEditDetails extends ConsumerWidget {
   DoctorEditDetails({super.key, required this.doctor});
   final Doctor doctor;
@@ -25,7 +26,7 @@ class DoctorEditDetails extends ConsumerWidget {
       children: [
         Text(
           doctor.isWorking ? context.tr.workStatus : context.tr.holidayStatus,
-          style: context.bodyMeduim,
+          style: context.textAppointment,
         ),
         OutlinedButton.icon(
           icon: Icon(

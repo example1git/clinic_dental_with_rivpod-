@@ -33,7 +33,7 @@ class Utils {
         closeIconColor: context.primaryContainer,
         duration: duration,
         behavior: SnackBarBehavior.floating,
-        backgroundColor: blackcolor.withAlpha(20),
+        backgroundColor: context.primarycolor,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),

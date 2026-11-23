@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/alert.dart';
 import 'package:mysen/core/widget/card_treatment.dart';
+import 'package:mysen/core/widget/data_embity.dart';
 import 'package:mysen/core/widget/error_widget.dart';
 import 'package:mysen/features/appointment/presentation/pages/appointment_dialog.dart';
 import 'package:mysen/features/appointment/presentation/pages/appointment_list.dart';
@@ -119,24 +119,11 @@ class BodyTreatment extends ConsumerWidget {
           onPressed: () {
             ref.invalidate(treatmentProvider);
           },
+          isScaffold: false,
         );
       },
       loading: () => Center(
         child: CircularProgressIndicator(color: context.primaryContainer),
-      ),
-    );
-  }
-}
-
-class DataEmbity extends StatelessWidget {
-  const new({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        context.tr.data,
-        style: context.bodyMeduim?.copyWith(color: blackcolor),
       ),
     );
   }

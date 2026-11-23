@@ -61,6 +61,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get doctorFemale => 'الدكتورة';
 
   @override
+  String get doctorList => 'قائمة الأطباء';
+
+  @override
+  String get patientsList => 'قائمة المرضى';
+
+  @override
   String get setTheme => 'تغيير السمة';
 
   @override
@@ -98,6 +104,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get treatmentCase => 'الخطة العلاجية';
+
+  @override
+  String get treatmentList => 'الخطط العلاجية';
 
   @override
   String get addTreatmentPlan => 'إضافة خطة علاجية';

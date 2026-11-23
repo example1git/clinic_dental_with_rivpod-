@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/provider/providers.dart';
 import 'package:mysen/core/utiles.dart';
+import 'package:mysen/core/widget/data_embity.dart';
 import 'package:mysen/core/widget/error_widget.dart';
 import 'package:mysen/features/doctor/domain/entities/doctor.dart';
 import 'package:mysen/features/doctor/presentation/controllers/dependecies.dart';
@@ -15,7 +16,6 @@ import 'package:mysen/features/patient/domain/entities/patient.dart';
 import 'package:mysen/features/patient/presentation/pages/patient_screen.dart';
 import 'package:mysen/features/patient/presentation/widgets/card_doctor.dart';
 import 'package:mysen/features/request/presentation/controllers/dependecies.dart';
-import 'package:mysen/features/treament/presentation/widgets/body_treatment.dart';
 import 'package:ntp/ntp.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -241,6 +241,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           onPressed: () {
             ref.invalidate(doctorsProvider);
           },
+          isScaffold: true,
         ),
         loading: () => Center(
           child: CircularProgressIndicator(color: context.primaryContainer),

@@ -64,8 +64,8 @@ class MessageHandle {
 
         break;
 
-      case MessageType.applyTheme:
-        // Utils.showSnackBar(context: context, message: context.tr.sThemeM);
+      case MessageType.refresh:
+        Utils.showSnackBar(context: context, message: context.tr.refreshT);
 
         break;
       case MessageType.patientExist:
@@ -94,9 +94,9 @@ class MessageHandle {
 
 enum MessageType {
   requestComplete,
+  refresh,
   requestWaiting,
   refreshDoctorPatient,
-  applyTheme,
   patientExist,
   isdoctorWork,
   phoneDoctorEdit,

@@ -10,6 +10,7 @@ class DoctorPatientModel extends DoctorPateint {
     required super.patientphone,
     super.isDeleteDoctor = false,
     super.isDeletePatient = false,
+    super.imageUrl,
     super.createdAt,
   });
 
@@ -21,6 +22,7 @@ class DoctorPatientModel extends DoctorPateint {
     String? doctorFullName,
     String? patientFullName,
     String? patientphone,
+    String? imageUrl,
     bool? isDeleteDoctor,
     bool? isDeletePatient,
     DateTime? createdAt,
@@ -34,6 +36,7 @@ class DoctorPatientModel extends DoctorPateint {
       patientphone: patientphone ?? this.patientphone,
       isDeleteDoctor: isDeleteDoctor ?? this.isDeleteDoctor,
       isDeletePatient: isDeletePatient ?? this.isDeletePatient,
+      imageUrl: imageUrl ?? this.imageUrl,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -55,6 +58,7 @@ class DoctorPatientModel extends DoctorPateint {
       'doctorFullName': doctorFullName,
       'patientFullName': patientFullName,
       'patientphone': patientphone,
+      'imgUrl': imageUrl,
       'isDeleteDoctor': isDeleteDoctor ? 1 : 0,
       'isDeletePatient': isDeletePatient ? 1 : 0,
     };
@@ -68,6 +72,8 @@ class DoctorPatientModel extends DoctorPateint {
       doctorFullName: map['doctor']['fullName'] as String,
       patientFullName: map['patient']['fullName'] as String,
       patientphone: map['patient']['phone'] as String,
+      imageUrl: map['doctor']['imgUrl'] as String?,
+
       isDeleteDoctor: map['isDeleteDoctor'] as bool? ?? false,
       isDeletePatient: map['isDeletePatient'] as bool? ?? false,
       // createdAt: map['createdAt'] != null
@@ -83,6 +89,8 @@ class DoctorPatientModel extends DoctorPateint {
       doctorFullName: map['doctorFullName'] as String,
       patientFullName: map['patientFullName'] as String,
       patientphone: map['patientphone'] as String,
+      imageUrl: map['imgUrl'] as String?,
+
       isDeleteDoctor: map['isDeleteDoctor'] == 1,
       isDeletePatient: map['isDeletePatient'] == 1,
 

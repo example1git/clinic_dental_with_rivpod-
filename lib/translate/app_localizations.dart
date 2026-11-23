@@ -194,6 +194,18 @@ abstract class AppLocalizations {
   /// **'الدكتورة'**
   String get doctorFemale;
 
+  /// No description provided for @doctorList.
+  ///
+  /// In ar, this message translates to:
+  /// **'قائمة الأطباء'**
+  String get doctorList;
+
+  /// No description provided for @patientsList.
+  ///
+  /// In ar, this message translates to:
+  /// **'قائمة المرضى'**
+  String get patientsList;
+
   /// No description provided for @setTheme.
   ///
   /// In ar, this message translates to:
@@ -271,6 +283,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الخطة العلاجية'**
   String get treatmentCase;
+
+  /// No description provided for @treatmentList.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخطط العلاجية'**
+  String get treatmentList;
 
   /// No description provided for @addTreatmentPlan.
   ///

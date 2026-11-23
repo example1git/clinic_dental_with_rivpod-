@@ -69,12 +69,10 @@ class _DoctorScreenState extends ConsumerState<DoctorScreen> {
               centerTitle: true,
 
               backgroundColor: context.primarycolor,
-              title: FittedBox(
-                child: Text(
-                  textAlign: TextAlign.center,
-                  data?.fullName ?? '',
-                  style: context.titleLarge,
-                ),
+              title: Text(
+                context.tr.patientsList,
+                textAlign: TextAlign.center,
+                style: context.titleLarge,
               ),
             ),
 
@@ -87,6 +85,7 @@ class _DoctorScreenState extends ConsumerState<DoctorScreen> {
             onPressed: () {
               ref.invalidate(doctorProvider);
             },
+            isScaffold: true,
           );
         },
         loading: () {

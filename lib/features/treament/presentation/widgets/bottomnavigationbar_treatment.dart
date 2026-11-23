@@ -23,7 +23,6 @@ class BottomNavigationBarTreatment extends StatelessWidget {
             onPressed: () {
               Utils.showMyDialog(
                 widthFactor: .8,
-                heightFactor: .4,
                 context: context,
                 child: FormTreatment(dp: dp),
               );

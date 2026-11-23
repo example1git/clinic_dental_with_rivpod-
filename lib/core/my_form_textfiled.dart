@@ -12,27 +12,12 @@ class MytexFormFiled extends StatelessWidget {
       return "Field is empty";
     }
 
-    final parts = value.trim().split(RegExp(r'\s+'));
-    if (parts.length != 3) {
-      return "faild names";
-    }
-
-    if (parts.any((part) => part.length < 3)) {
-      return "faild names";
-    }
-
     return null;
   }
 
   String? validatorNickName(String? value) {
     if (value == null || value.trim().isEmpty) {
       return "Field is empty";
-    }
-
-    final parts = value.trim().split(RegExp(r'\s+'));
-
-    if (parts.any((part) => part.length == 1) || parts.length > 2) {
-      return "faild Nickames";
     }
 
     return null;

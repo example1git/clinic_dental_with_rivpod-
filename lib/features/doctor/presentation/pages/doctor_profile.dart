@@ -75,6 +75,7 @@ class DoctorProfile extends ConsumerWidget {
               onPressed: () {
                 ref.invalidate(doctorProvider);
               },
+              isScaffold: true,
             );
           },
           loading: () {

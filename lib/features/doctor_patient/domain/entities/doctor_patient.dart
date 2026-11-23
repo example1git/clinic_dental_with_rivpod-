@@ -5,6 +5,7 @@ class DoctorPateint {
   final String doctorFullName;
   final String patientFullName;
   final String patientphone;
+  final String? imageUrl;
   final bool isDeleteDoctor;
   final bool isDeletePatient;
   final DateTime? createdAt;
@@ -19,6 +20,7 @@ class DoctorPateint {
     required this.doctorFullName,
     required this.patientFullName,
     required this.patientphone,
+    this.imageUrl,
   });
 
   DoctorPateint copyWith({
@@ -30,6 +32,7 @@ class DoctorPateint {
     String? patientphone,
     bool? isDeleteDoctor,
     bool? isDeletePatient,
+    String? imageUrl,
     DateTime? createdAt,
   }) {
     return DoctorPateint(
@@ -41,6 +44,7 @@ class DoctorPateint {
       patientphone: patientphone ?? this.patientphone,
       isDeleteDoctor: isDeleteDoctor ?? this.isDeleteDoctor,
       isDeletePatient: isDeletePatient ?? this.isDeletePatient,
+      imageUrl: imageUrl ?? this.imageUrl,
       createdAt: createdAt ?? this.createdAt,
     );
   }

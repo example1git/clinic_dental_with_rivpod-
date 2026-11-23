@@ -36,6 +36,7 @@ class DatabaseHelper {
         doctorFullName TEXT,
         patientFullName TEXT,
         patientphone TEXT,
+        imgUrl TEXT,
         isDeleteDoctor INTEGER,
         isDeletePatient INTEGER
       )

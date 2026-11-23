@@ -15,7 +15,7 @@ class DoctorPatientRemoteDatasource {
     try {
       final resposne = await client
           .from(table)
-          .select("*,doctor(fullName),patient(fullName,phone)")
+          .select("*,doctor(fullName,imgUrl),patient(fullName,phone)")
           .order('createdAt', ascending: true)
           .timeout(duration);
       return resposne.map((e) => DoctorPatientModel.fromMap(e)).toList();

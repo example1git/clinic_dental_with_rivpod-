@@ -1,6 +1,5 @@
 {
   "@@locale": "ar",
-
   "titleRequest": "هل أنت متأكد من إرسال طلب الحجز؟",
   "titleRequestCancel": "هل أنت متأكد من إلغاء طلب الحجز؟",
   "smRequestCount": "لا يمكنك طلب حجز جديد إلا بعد انتهاء موعد حجزك الحالي.",
@@ -13,54 +12,42 @@
   "rejected": "مرفوض",
   "accepted": "مقبول",
   "none": "لا يوجد",
-
   "holiday": "في إجازة",
   "accountSuspendedM": "تم إيقاف حسابك من قبل إدارة التطبيق. يرجى التواصل مع إدارة التطبيق لمزيد من المعلومات.",
-
   "doctorMale": "الدكتور",
   "doctorFemale": "الدكتورة",
-
+  "doctorList": "قائمة الأطباء",
+  "patientsList": "قائمة المرضى",
   "setTheme": "تغيير السمة",
   "theme": "السمة",
-
   "language": "اللغة",
   "chooseLanguage": "اختر اللغة",
   "arabic": "العربية",
   "english": "الإنجليزية",
-
-  
   "deleteM": "تم الحذف بنجاح",
   "addM": "تمت الإضافة بنجاح",
-
   "totalPrice": "المبلغ الإجمالي",
   "currentPaid": "المبلغ المدفوع حاليًا",
   "paidAmount": "المبلغ المدفوع",
   "sar": "ر.س",
-
   "treatmentCase": "الخطة العلاجية",
+  "treatmentList": "الخطط العلاجية",
   "addTreatmentPlan": "إضافة خطة علاجية",
   "deletedTreatmentPlans": "الخطط العلاجية المحذوفة",
-
   "previouslyPaid": "المبلغ المدفوع سابقًا",
   "remainingPrice": "المبلغ المتبقي",
-
   "signOut": "تسجيل الخروج",
   "done": "موافق",
-
   "reservesList": "قائمة الحجوزات",
-
   "deleteConfirmation": "هل أنت متأكد من الحذف؟",
   "cancel": "رجوع",
   "ok": "نعم",
   "doctorAbbreviation": "د.",
-
   "refreshT": "تم التحديث",
   "internetT": "لا يوجد اتصال بالإنترنت",
   "internetM": "يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.",
-
   "errorM": "حدث خطأ، يرجى المحاولة مرة أخرى.",
   "errorSignM": "الحساب موجود بالفعل. استخدم حسابًا آخر أو قم بتسجيل الدخول.",
-
   "fieldIsEmpty": "الحقل فارغ",
   "failedNames": "يرجى إدخال الاسم الثلاثي بشكل صحيح.",
   "failedNicknames": "يرجى إدخال اللقب بشكل صحيح.",
@@ -69,86 +56,62 @@
   "phoneNumberNotFound": "رقم الهاتف غير موجود.",
   "addName": "إضافة الاسم",
   "data": "لا يوجد بيانات",
-
   "timeoutT": "انتهت مهلة الاتصال",
   "timeoutM": "اتصال الإنترنت غير مستقر، يرجى المحاولة مرة أخرى.",
-
   "code": "الرمز",
   "codeError": "الرمز غير صحيح",
   "loadError": "حدث خطأ أثناء تحميل البيانات ",
   "retry": "إعادة المحاولة",
   "right": "يمين",
   "left": "يسار",
-
   "searchShow": "إظهار شريط البحث",
   "searchHide": "إخفاء شريط البحث",
   "searchFieldTitle": "ابحث عن سجل...",
-
   "rowLevelM": "تم إيقاف حسابك من قبل إدارة النظام.",
   "doctorProfile": "الملف الشخصي",
   "createPatients": "إنشاء سجل مريض",
-
   "addLocation": "تعديل الموقع",
   "location": "الموقع",
-
   "phoneChangeT": "تغيير رقم الجوال",
   "phoneChangeM": "لتغيير رقم الجوال المسجل في حسابك، يرجى التواصل مع إدارة التطبيق.",
-
   "equalzation": "أدخل المؤهلات",
   "editQualifications": "تعديل المؤهلات",
-
   "signUp": "إنشاء حساب",
   "signIn": "تسجيل الدخول",
   "verify": "تأكيد رقم الهاتف",
-
   "messageResend": "لم تستلم الرمز؟",
   "resend": "إعادة إرسال",
-
   "name": "الاسم الثلاثي",
   "nickName": "اللقب",
   "add": "اضافة",
-
   "phone": "رقم الجوال",
   "whatsApp": "رقم واتساب",
-
   "editPhone": "تعديل أرقام التواصل",
   "addAppointment": "إضافة موعد",
   "appointmentTime": "موعد الحجز",
   "appointmentDay": "حجوزات اليوم",
-
   "changeToHolidayM": "هل أنت متأكد من تغيير حالتك إلى إجازة؟",
   "changeToWorkM": "هل أنت متأكد من تغيير حالتك إلى متاح للعمل؟",
-
   "holidayStatus": "إجازة",
   "workStatus": "متاح للعمل",
-
   "date": "التاريخ",
-
   "addTeeth": "إضافة الأسنان",
   "addDescription": "إضافة وصف للسن",
   "description": "وصف الأسنان",
-
   "empty": "فارغ",
   "noAppointment": "لا يوجد موعد",
-
   "restoreTreatmentPlanM": "هل أنت متأكد من رغبتك في استرجاع هذه الخطة العلاجية؟",
-
   "notificationReservation": "طلبات الحجز",
   "titleReject": "هل أنت متأكد من رفض الطلب؟",
-
   "accept": "قبول",
   "reject": "رفض",
   "allReservations": "جميع الحجوزات",
-
   "today": "اليوم",
   "yesterday": "أمس",
   "specificDate": "تاريخ محدد",
-
   "addImage": "إضافة صورة",
   "newItem": "جديد",
-
   "patientExistM": "سجل المريض موجود بالفعل.",
-
   "noWhatsApp": "لا يوجد رقم واتساب",
   "noPhone": "لا يوجد رقم جوال"
 }

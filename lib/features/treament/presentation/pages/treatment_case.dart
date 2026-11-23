@@ -16,7 +16,6 @@ class TreatmentCaseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: context.primarycolor,
       bottomNavigationBar: isDoctor
           ? BottomNavigationBarTreatment(dp: dp)
           : null,
@@ -26,14 +25,12 @@ class TreatmentCaseScreen extends StatelessWidget {
 
         leading: const Backed(),
         automaticallyImplyLeading: false,
-        title: Text(
-          isDoctor ? dp.patientFullName : dp.doctorFullName,
-          style: context.titleLarge,
-        ),
+        title: Text(context.tr.treatmentList, style: context.titleLarge),
         centerTitle: true,
 
         backgroundColor: context.primarycolor,
       ),
+
       body: BodyTreatment(dp: dp, isDoctor: isDoctor),
     );
   }

@@ -37,7 +37,8 @@ class _FormTreatmentState extends State<FormTreatment> {
     return Form(
       key: formKeyTreatment,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        spacing: context.spacing,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Stack(
             alignment: AlignmentGeometry.center,
@@ -59,6 +60,9 @@ class _FormTreatmentState extends State<FormTreatment> {
             builder: (context, ref, child) => OutlinedButton(
               style: context.outlinedButtonStyle,
               onPressed: () {
+                if (!formKeyTreatment.currentState!.validate()) {
+                  return;
+                }
                 final treament = TreatmentCase(
                   id: '',
                   doctorPatientID: widget.dp.id,

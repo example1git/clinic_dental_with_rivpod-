@@ -25,6 +25,7 @@ class PatientScreen extends ConsumerWidget {
           onPressed: () {
             ref.invalidate(patientProvider);
           },
+          isScaffold: true,
         ),
         loading: () => Center(
           child: CircularProgressIndicator(color: context.primaryContainer),

@@ -21,7 +21,6 @@ class AppRoutes {
   static const doctorProfile = '/doctorProfile';
   static const notifications = '/notifications';
   static const mainscreen = '/mainscreen';
-  static const patientBody = '/patientBody';
   static const allreserve = '/allreserve';
 }
 
@@ -92,82 +91,5 @@ final GoRouter appRouter = GoRouter(
         return NoTransitionPage(child: Notfictionscreen());
       },
     ),
-    // GoRoute(
-    //   path: AppRoutes.patientBody,
-    //   name: 'patientBody',
-    //   pageBuilder: (context, state) {
-    //     return NoTransitionPage(child: AllAppointmenteday());
-    //   },
-    // ),
-
-    // GoRoute(
-    //   path: AppRoutes.login,
-    //   name: 'login',
-    //   pageBuilder: (context, state) {
-    //     return const NoTransitionPage(
-    //       child: LoginScreen(),
-    //     );
-    //   },
-    // ),
-
-    // GoRoute(
-    //   path: AppRoutes.mainscreen,
-    //   name: 'mainscreen',
-    //   pageBuilder: (context, state) {
-    //     return const NoTransitionPage(
-    //       child: Mainscreen(),
-    //     );
-    //   },
-    // ),
-
-    // GoRoute(
-    //   path: AppRoutes.reservation,
-    //   name: 'reservation',
-    //   pageBuilder: (context, state) {
-    //     return const NoTransitionPage(
-    //       child: Reservation(),
-    //     );
-    //   },
-    // ),
-
-    // GoRoute(
-    //   path: AppRoutes.doctor,
-    //   name: 'doctor',
-    //   pageBuilder: (context, state) {
-    //     return const NoTransitionPage(
-    //       child: Doctorscreen(),
-    //     );
-    //   },
-    // ),
-
-    // GoRoute(
-    //   path: AppRoutes.doctorEditing,
-    //   name: 'doctorEditing',
-    //   pageBuilder: (context, state) {
-    //     return const NoTransitionPage(
-    //       child: DoctorEditing(),
-    //     );
-    //   },
-    // ),
-
-    // GoRoute(
-    //   path: AppRoutes.allreserve,
-    //   name: 'allreserve',
-    //   pageBuilder: (context, state) {
-    //     return const NoTransitionPage(
-    //       child: Allreserveday(),
-    //     );
-    //   },
-    // ),
-
-    // GoRoute(
-    //   path: AppRoutes.notifications,
-    //   name: 'notifications',
-    //   pageBuilder: (context, state) {
-    //     return const NoTransitionPage(
-    //       child: Notfictionscreen(),
-    //     );
-    //   },
-    // ),
   ],
 );

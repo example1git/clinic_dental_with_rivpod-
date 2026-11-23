@@ -10,22 +10,22 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get titleRequest => 'Do you really want to request a booking?';
+  String get titleRequest => 'Are you sure you want to request a booking?';
 
   @override
   String get titleRequestCancel =>
-      'Do you really want to cancel the booking request?';
+      'Are you sure you want to cancel the booking request?';
 
   @override
   String get smRequestCount =>
-      'You cannot request a new appointment until your current appointment has ended.';
+      'You cannot request a new booking until your current appointment has ended.';
 
   @override
-  String get stRequestw => 'You have a pending booking';
+  String get stRequestw => 'You have a pending booking request';
 
   @override
   String get smRequestw =>
-      'You can request another booking after the current request is rejected or cancelled.';
+      'You can submit a new request after the current request has ended or been cancelled.';
 
   @override
   String get requestTitle => 'Booking Request';
@@ -37,16 +37,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get requestStatus => 'Request Status';
 
   @override
-  String get waiting => 'waiting';
+  String get waiting => 'Waiting for Response';
 
   @override
-  String get rejected => 'rejected';
+  String get rejected => 'Rejected';
 
   @override
-  String get accepted => 'accepted';
+  String get accepted => 'Accepted';
 
   @override
-  String get none => 'none';
+  String get none => 'None';
 
   @override
   String get holiday => 'On Leave';
@@ -62,7 +62,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get doctorFemale => 'Dr.';
 
   @override
-  String get setTheme => 'Set Theme';
+  String get doctorList => 'Doctors List';
+
+  @override
+  String get patientsList => 'Patients List';
+
+  @override
+  String get setTheme => 'Change Theme';
 
   @override
   String get theme => 'Theme';
@@ -89,7 +95,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get totalPrice => 'Total Amount';
 
   @override
-  String get currentPaid => 'Current Paid Amount';
+  String get currentPaid => 'Currently Paid Amount';
 
   @override
   String get paidAmount => 'Paid Amount';
@@ -99,6 +105,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get treatmentCase => 'Treatment Plan';
+
+  @override
+  String get treatmentList => 'Treatment Plans';
 
   @override
   String get addTreatmentPlan => 'Add Treatment Plan';
@@ -131,7 +140,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ok => 'Yes';
 
   @override
-  String get doctorAbbreviation => 'D';
+  String get doctorAbbreviation => 'Dr.';
 
   @override
   String get refreshT => 'Updated';
@@ -148,13 +157,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorSignM =>
-      'This account already exists. You can use another account or log in.';
+      'This account already exists. Please use another account or log in.';
 
   @override
   String get fieldIsEmpty => 'Field is empty';
 
   @override
-  String get failedNames => 'Please enter the full name correctly.';
+  String get failedNames => 'Please enter your full name correctly.';
 
   @override
   String get failedNicknames => 'Please enter a valid nickname.';
@@ -166,13 +175,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invalidPhoneNumber => 'Invalid phone number.';
 
   @override
-  String get phoneNumberNotFound => 'Phone number is not found.';
+  String get phoneNumberNotFound => 'Phone number not found.';
 
   @override
   String get addName => 'Add Name';
 
   @override
-  String get data => 'No Data Avaliable ?';
+  String get data => 'No Data Available';
 
   @override
   String get timeoutT => 'Connection Timeout';
@@ -185,10 +194,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get code => 'Code';
 
   @override
-  String get codeError => 'Invalid code';
+  String get codeError => 'Invalid Code';
 
   @override
-  String get loadError => 'An error occurred while loading  data';
+  String get loadError => 'An error occurred while loading data.';
 
   @override
   String get retry => 'Retry';
@@ -206,10 +215,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchHide => 'Hide Search Bar';
 
   @override
-  String get searchFieldTitle => '...search record';
+  String get searchFieldTitle => 'Search for a record...';
 
   @override
-  String get rowLevelM => 'Your account has been suspended by the developer.';
+  String get rowLevelM =>
+      'Your account has been suspended by the system administration.';
 
   @override
   String get doctorProfile => 'Doctor Profile';
@@ -228,7 +238,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get phoneChangeM =>
-      'To change the phone number registered to your account, please contact the app administrator.';
+      'To change the phone number registered to your account, please contact the app administration.';
 
   @override
   String get equalzation => 'Enter Qualifications';
@@ -237,13 +247,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editQualifications => 'Edit Qualifications';
 
   @override
-  String get signUp => 'Signup';
+  String get signUp => 'Sign Up';
 
   @override
-  String get signIn => 'Login';
+  String get signIn => 'Sign In';
 
   @override
-  String get verify => 'Verify your phone number';
+  String get verify => 'Verify Phone Number';
 
   @override
   String get messageResend => 'Didn\'t receive the code?';
@@ -267,13 +277,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get whatsApp => 'WhatsApp Number';
 
   @override
-  String get editPhone => 'Edit Numbers';
+  String get editPhone => 'Edit Contact Numbers';
 
   @override
   String get addAppointment => 'Add Appointment';
 
   @override
-  String get appointmentTime => 'Appointment Time';
+  String get appointmentTime => 'Booking Time';
 
   @override
   String get appointmentDay => 'Today\'s Appointments';
@@ -318,7 +328,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notificationReservation => 'Booking Requests';
 
   @override
-  String get titleReject => 'Are you sure you want to reject?';
+  String get titleReject => 'Are you sure you want to reject this request?';
 
   @override
   String get accept => 'Accept';

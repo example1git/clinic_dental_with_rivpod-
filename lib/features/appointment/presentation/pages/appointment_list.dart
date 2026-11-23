@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mysen/core/constant.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/close.dart';
+import 'package:mysen/core/widget/data_embity.dart';
 import 'package:mysen/core/widget/error_widget.dart';
 import 'package:mysen/features/appointment/domain/entities/appointment.dart';
 import 'package:mysen/features/appointment/presentation/controllers/dependecies.dart';
@@ -11,7 +12,6 @@ import 'package:mysen/features/appointment/presentation/widgets/child_phone.dart
 import 'package:mysen/features/appointment/presentation/widgets/price_details.dart';
 import 'package:mysen/features/doctor_patient/domain/entities/doctor_patient.dart';
 import 'package:mysen/features/treament/domain/entities/treatment_case.dart';
-import 'package:mysen/features/treament/presentation/widgets/body_treatment.dart';
 
 class AppointmentList extends ConsumerWidget {
   const AppointmentList({
@@ -90,6 +90,7 @@ class AppointmentList extends ConsumerWidget {
           onPressed: () {
             ref.invalidate(appointmentProvider);
           },
+          isScaffold: false,
         );
       },
       loading: () {

@@ -14,7 +14,6 @@ class DoctorPatientLocalDataSourc {
   Future<List<DoctorPatientModel>> getDoctorPatient() async {
     try {
       final resposne = await databaseHelper.queryAll(table).timeout(duration);
-
       return resposne.map((e) => DoctorPatientModel.fromMapSql(e)).toList();
     } on TimeoutException {
       throw RequestTimeExeption(message: 'local time out');
