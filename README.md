@@ -7,9 +7,6 @@ MySen connects dentists and patients through dedicated workflows for patient man
 The project focuses on maintainable architecture, efficient state management, and local data persistence.
 
 ---
-
-## 📱 Screenshots
-
 ## 📱 Screenshots
 
 <p align="center">
