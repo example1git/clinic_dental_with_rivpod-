@@ -8,34 +8,49 @@ The project focuses on maintainable architecture, efficient state management, an
 
 ---
 ## 📱 Screenshots
+Provides sign-in and sign-up interfaces for both doctors and patients.
 
 <p align="center">
-  <img src="assets/screenShots/doctorScreen.png" width="300" alt="Doctor Screen">
+  <img src="assets/screenShots/Signin-Signup.png" width="300" alt="Sign In and Sign Up">
 </p>
+
+Displays a list of all available doctors, allowing patients to browse and explore their profiles.
 
 <p align="center">
   <img src="assets/screenShots/Doctors.png" width="300" alt="Doctors">
 </p>
 
-<p align="center">
-  <img src="assets/screenShots/Doctor-Patient.png" width="300" alt="Doctor Patient">
-</p>
-
-<p align="center">
-  <img src="assets/screenShots/doctorProfile.png" width="300" alt="Doctor Profile">
-</p>
+Displays the appointment list with detailed appointment information, along with an interactive dental chart that allows doctors to select treated teeth and add descriptions for each tooth.
 
 <p align="center">
   <img src="assets/screenShots/DentalChart.png" width="300" alt="Dental Chart">
 </p>
 
+Displays the interface for adding new patient records, along with existing appointments and new appointment booking requests, allowing doctors to review and manage them.
+
+<p align="center">
+  <img src="assets/screenShots/doctorScreen.png" width="300" alt="Doctor Screen">
+</p>
+
+Displays all patient records accessible to the doctor, as well as all doctors associated with each patient.
+
+<p align="center">
+  <img src="assets/screenShots/Doctor-Patient.png" width="300" alt="Doctor Patient">
+</p>
+
+Displays the doctor's profile screen, showing personal information and professional details.
+
+<p align="center">
+  <img src="assets/screenShots/doctorProfile.png" width="300" alt="Doctor Profile">
+</p>
+
+Displays all treatment records and provides an interface for adding new appointments.
+
 <p align="center">
   <img src="assets/screenShots/Treatment-Appointment.png" width="300" alt="Treatment Appointment">
 </p>
 
-<p align="center">
-  <img src="assets/screenShots/Signin-Signup.png" width="300" alt="Sign In and Sign Up">
-</p>
+Displays the application theme settings screen, allowing users to customize the app's appearance.
 
 <p align="center">
   <img src="assets/screenShots/Theme.png" width="300" alt="Application Themes">
