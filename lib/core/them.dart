@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mysen/core/constant.dart';
 
 abstract final class AppTheme {
-  static ThemeData light({FlexScheme scheme = FlexScheme.deepBlue}) {
+  static ThemeData light({FlexScheme scheme = FlexScheme.cyanM3}) {
     return FlexThemeData.light(
       useMaterial3: true,
 
