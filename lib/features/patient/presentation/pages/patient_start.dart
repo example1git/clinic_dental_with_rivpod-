@@ -18,7 +18,7 @@ class PatientScreen extends ConsumerWidget {
           if (data != null) {
             return MainScreen(patient: data);
           }
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         },
         error: (error, stackTrace) => CustomErrorWidget(
           error: error,

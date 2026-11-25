@@ -85,7 +85,7 @@ class _AppointmetDialogState extends ConsumerState<AppointmetDialog> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
           ),
           title: Text(
             context.tr.addAppointment,
@@ -201,7 +201,7 @@ class _AppointmetDialogState extends ConsumerState<AppointmetDialog> {
                   onPressed: () {
                     Utils.showMyDialog(
                       context: context,
-                      child: TeethFlowchart(
+                      child: const TeethFlowchart(
                         ignoring: false,
                         isButtonAddTeeth: true,
 

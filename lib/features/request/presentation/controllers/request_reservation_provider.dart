@@ -8,6 +8,7 @@ class RequestReservationProvider
     extends AsyncNotifier<List<RequestReservation>> {
   @override
   FutureOr<List<RequestReservation>> build() async {
+    state = const AsyncLoading();
     final getRequestReservation = await ref.read(
       getRequestReservationProvider,
     )();

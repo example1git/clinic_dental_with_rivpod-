@@ -213,7 +213,9 @@ class _AllAppointmentedayState extends ConsumerState<AllAppointmenteday> {
             ),
 
             Stack(
-              alignment: Alignment.topRight,
+              alignment: Localizations.localeOf(context).languageCode == 'ar'
+                  ? Alignment.topLeft
+                  : Alignment.topRight,
               children: [
                 AppointmentDays(
                   appointmenstWithPatients: fetchAllReserv(

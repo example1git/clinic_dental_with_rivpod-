@@ -56,7 +56,7 @@ class DoctorRepositoryImp implements DoctorRepository {
       try {
         final doctor = await doctorRemotDataSource.getDoctorByUserID();
         if (doctor == null) {
-          return Right(null);
+          return const Right(null);
         }
 
         doctorLocalDataSource.addDoctor(doctor);

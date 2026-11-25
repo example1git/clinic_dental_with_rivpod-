@@ -21,7 +21,7 @@ class AuthRepositoryImp extends AuthRepository {
       try {
         final user = await authRemoteDataSource.getUserDetails();
         if (user == null) {
-          return Right(null);
+          return const Right(null);
         }
 
         return Right(user);
@@ -97,7 +97,7 @@ class AuthRepositoryImp extends AuthRepository {
       try {
         await authRemoteDataSource.createPatientUserRpc(phone, fullName);
 
-        return Right(null);
+        return const Right(null);
       } on RequestTimeExeption catch (e) {
         return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {
@@ -113,7 +113,7 @@ class AuthRepositoryImp extends AuthRepository {
       try {
         await authRemoteDataSource.signOut();
 
-        return Right(null);
+        return const Right(null);
       } on RequestTimeExeption catch (e) {
         return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {

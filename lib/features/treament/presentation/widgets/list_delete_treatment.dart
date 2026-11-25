@@ -47,7 +47,7 @@ class ListDeleteTreatment extends ConsumerWidget {
               ],
             ),
             treatments.isEmpty
-                ? Expanded(child: DataEmbity())
+                ? const Expanded(child: DataEmbity())
                 : Expanded(
                     child: ListView.builder(
                       itemCount: treatments.length,

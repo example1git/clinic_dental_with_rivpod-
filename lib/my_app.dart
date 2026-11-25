@@ -41,10 +41,10 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
   void _checkSession() {
     final session = Supabase.instance.client.auth.currentSession;
 
-    if (session == null) {
-    } else {
-      setState(() {});
-    }
+    setState(() {
+      if (session == null) {
+      } else {}
+    });
   }
 
   @override
@@ -65,7 +65,6 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
       theme: AppTheme.light(scheme: scheme),
 
       // darkTheme: AppTheme.dark(scheme: scheme),
-
       themeMode: ThemeMode.system,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,

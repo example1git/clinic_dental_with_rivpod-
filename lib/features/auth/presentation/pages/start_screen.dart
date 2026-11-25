@@ -40,7 +40,7 @@ class _StartscreenState extends State<Startscreen>
     final size = context.mediaSize;
 
     return authScreen == true
-        ? AuthGate()
+        ? const AuthGate()
         : Directionality(
             textDirection: TextDirection.ltr,
             child: Scaffold(

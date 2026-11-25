@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/alert.dart';
+import 'package:mysen/core/widget/error_widget.dart';
+import 'package:mysen/core/widget/widget_loading.dart';
 import 'package:mysen/features/doctor/presentation/controllers/dependecies.dart';
 import 'package:mysen/features/doctor/presentation/widgets/card_dp.dart';
 import 'package:mysen/features/doctor/presentation/widgets/search.dart';
@@ -21,8 +23,8 @@ class BodyDoctor extends StatelessWidget {
             builder: (context, ref, child) {
               final bool search = ref.watch(isSearch);
               return AnimatedSwitcher(
-                duration: Duration(milliseconds: 300),
-                child: search ? Search() : null,
+                duration: const Duration(milliseconds: 300),
+                child: search ? const Search() : null,
               );
             },
           ),
@@ -110,13 +112,16 @@ class BodyDoctor extends StatelessWidget {
                     );
                   },
                   error: (error, stackTrace) {
-                    return Center(child: Text('error'));
+                    return CustomErrorWidget(
+                      error: error,
+                      isScaffold: true,
+                      onPressed: () => ref.invalidate(doctorPatientProvider),
+                    );
                   },
                   loading: () {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: context.primaryContainer,
-                      ),
+                    return WidgetLoading(
+                      loading: ref.watch(doctorPatientProvider).isLoading,
+                      circleWidget: false,
                     );
                   },
                 );

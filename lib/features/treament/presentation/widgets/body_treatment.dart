@@ -6,6 +6,7 @@ import 'package:mysen/core/widget/alert.dart';
 import 'package:mysen/core/widget/card_treatment.dart';
 import 'package:mysen/core/widget/data_embity.dart';
 import 'package:mysen/core/widget/error_widget.dart';
+import 'package:mysen/core/widget/widget_loading.dart';
 import 'package:mysen/features/appointment/presentation/pages/appointment_dialog.dart';
 import 'package:mysen/features/appointment/presentation/pages/appointment_list.dart';
 import 'package:mysen/features/doctor_patient/domain/entities/doctor_patient.dart';
@@ -33,7 +34,7 @@ class BodyTreatment extends ConsumerWidget {
             )
             .toList();
         if (treatments.isEmpty) {
-          return DataEmbity();
+          return const DataEmbity();
         }
 
         return ListView.builder(
@@ -105,7 +106,7 @@ class BodyTreatment extends ConsumerWidget {
                               icon: const Icon(Icons.add),
                             ),
                           )
-                        : SizedBox.shrink(),
+                        : const SizedBox.shrink(),
                   ],
                 ),
               ),
@@ -122,8 +123,9 @@ class BodyTreatment extends ConsumerWidget {
           isScaffold: false,
         );
       },
-      loading: () => Center(
-        child: CircularProgressIndicator(color: context.primaryContainer),
+      loading: () => WidgetLoading(
+        loading: ref.watch(treatmentProvider).isLoading,
+        circleWidget: false,
       ),
     );
   }

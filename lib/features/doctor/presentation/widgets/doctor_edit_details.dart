@@ -16,7 +16,6 @@ class DoctorEditDetails extends ConsumerWidget {
   DoctorEditDetails({super.key, required this.doctor});
   final Doctor doctor;
   File? file;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isloading = ref.watch(doctorProvider).isLoading;

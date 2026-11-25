@@ -161,7 +161,7 @@ class AuthProvider extends AsyncNotifier<void> {
     final List<String> code = phone.split('');
     code.shuffle();
     String codeSend = code.sublist(0, 4).join();
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     await ref.read(localNotificationServiceProvider).cancelAll();
 
     await ref

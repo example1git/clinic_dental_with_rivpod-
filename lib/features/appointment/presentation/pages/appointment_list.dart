@@ -62,7 +62,7 @@ class AppointmentList extends ConsumerWidget {
               ],
             ),
             if (data.isEmpty)
-              Expanded(child: DataEmbity())
+              const Expanded(child: DataEmbity())
             else
               Expanded(
                 child: ListView.builder(
@@ -80,7 +80,7 @@ class AppointmentList extends ConsumerWidget {
               ),
             isDcotor
                 ? ChildPhone(phone: doctorPateint.patientphone)
-                : SizedBox.shrink(),
+                : const SizedBox.shrink(),
           ],
         );
       },

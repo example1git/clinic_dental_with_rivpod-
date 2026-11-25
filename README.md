@@ -142,9 +142,10 @@ The repository coordinates data access and handles online/offline data operation
 | Supabase | Backend services |
 | PostgreSQL | Relational database |
 | SQLite (sqflite) | Local data persistence |
+| SharedPreferences | Local data|Theme|language
 | REST APIs | API communication |
 | Git & GitHub | Version control |
-| Postman | API testing |
+
 
 ---
 

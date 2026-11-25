@@ -25,7 +25,7 @@ class CardPatient extends StatelessWidget {
       child: Row(
         children: [
           imageUrl == null
-              ? SizedBox.shrink()
+              ? const SizedBox.shrink()
               : CircleAvatar(
                   radius: context.raduis * 3,
                   child: CachedNetworkImage(

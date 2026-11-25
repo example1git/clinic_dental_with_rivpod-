@@ -101,7 +101,7 @@ class DoctorPatientRepositryImp implements DoctorPatientRepository {
         doctorPatientRemoteDatasource.deleteDoctorPatient(model);
         await doctorPatientLocalDataSourc.deleteDoctorPatient(model);
 
-        return Right(null);
+        return const Right(null);
       } on RequestTimeExeption catch (e) {
         return Left(RequetsTimeFailure(e.message));
       } on ServerExeption catch (e) {

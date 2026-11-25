@@ -17,6 +17,7 @@ import 'package:mysen/features/patient/presentation/pages/patient_screen.dart';
 import 'package:mysen/features/patient/presentation/widgets/card_doctor.dart';
 import 'package:mysen/features/request/presentation/controllers/dependecies.dart';
 import 'package:ntp/ntp.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
@@ -158,7 +159,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       body: getdoctorsProvider.when(
         data: (data) {
           if (data.isEmpty) {
-            return DataEmbity();
+            return const DataEmbity();
           }
           getNotifications(data);
           return Directionality(
@@ -243,8 +244,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           },
           isScaffold: true,
         ),
-        loading: () => Center(
-          child: CircularProgressIndicator(color: context.primaryContainer),
+        loading: () => Skeletonizer(
+          containersColor: context.primaryContainer,
+          child: Center(
+            child: CircularProgressIndicator(color: context.primaryContainer),
+          ),
         ),
       ),
     );

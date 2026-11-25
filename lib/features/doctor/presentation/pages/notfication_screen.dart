@@ -12,6 +12,7 @@ import 'dart:ui' as ui;
 import 'package:mysen/core/widget/backed.dart';
 import 'package:mysen/core/widget/data_embity.dart';
 import 'package:mysen/core/widget/error_widget.dart';
+import 'package:mysen/core/widget/widget_loading.dart';
 import 'package:mysen/features/appointment/presentation/controllers/dependecies.dart';
 import 'package:mysen/features/doctor/presentation/widgets/accept.dart';
 import 'package:mysen/features/doctor_patient/domain/entities/doctor_patient.dart';
@@ -76,7 +77,7 @@ class Notfictionscreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final refRequestReservation = ref.watch(requestReservationProvider);
-    final doctorPatient = ref.read(doctorPatientProvider).value;
+    final doctorPatient = ref.read(doctorPatientProvider).value ?? [];
 
     return Scaffold(
       appBar: AppBar(
@@ -106,13 +107,13 @@ class Notfictionscreen extends ConsumerWidget {
               MessageHandle.handleMessage(MessageType.refresh, context);
             },
             child: requests.isEmpty
-                ? DataEmbity()
+                ? const DataEmbity()
                 : ListView.builder(
                     itemCount: requests.length,
                     itemBuilder: (BuildContext context, int index) {
                       final RequestReservation request = requests[index];
 
-                      final isExist = doctorPatient?.any(
+                      final isExist = doctorPatient.any(
                         (element) => element.patientID == request.patientID,
                       );
 
@@ -145,7 +146,7 @@ class Notfictionscreen extends ConsumerWidget {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    if (isExist!)
+                                    if (isExist)
                                       Text(
                                         context.tr.newItem,
                                         style: context.textAppointment,
@@ -203,8 +204,9 @@ class Notfictionscreen extends ConsumerWidget {
           },
           isScaffold: true,
         ),
-        loading: () => Center(
-          child: CircularProgressIndicator(color: context.primaryContainer),
+        loading: () => WidgetLoading(
+          loading: ref.read(requestReservationProvider).isLoading,
+          circleWidget: false,
         ),
       ),
     );

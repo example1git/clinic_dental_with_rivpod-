@@ -17,7 +17,7 @@ class AppointmentDays extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return appointmenstWithPatients.isEmpty
-        ? DataEmbity()
+        ? const DataEmbity()
         : ListView.builder(
             itemCount: appointmenstWithPatients.length,
             itemBuilder: (BuildContext context, int index) {
@@ -27,7 +27,7 @@ class AppointmentDays extends StatelessWidget {
                 shadowColor: blackcolor,
                 elevation: 2,
                 child: ListTile(
-                  trailing: SizedBox.shrink(),
+                  trailing: const SizedBox.shrink(),
                   title: Text(
                     textAlign: TextAlign.center,
                     appointmentWithPatient.patientName,
@@ -70,7 +70,7 @@ class AppointmentDays extends StatelessWidget {
                             Utils.showMyDialog(
                               color: blackcolor.withAlpha(200),
                               context: context,
-                              child: TeethFlowchart(
+                              child: const TeethFlowchart(
                                 isButtonAddTeeth: false,
                                 isWidgetTeeth: false,
                                 teethSelected: [],

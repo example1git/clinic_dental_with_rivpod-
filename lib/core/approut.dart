@@ -81,14 +81,14 @@ final GoRouter appRouter = GoRouter(
       path: AppRoutes.allreserve,
       name: 'allreserve',
       pageBuilder: (context, state) {
-        return NoTransitionPage(child: AllAppointmenteday());
+        return const NoTransitionPage(child: AllAppointmenteday());
       },
     ),
     GoRoute(
       path: AppRoutes.notifications,
       name: 'notifications',
       pageBuilder: (context, state) {
-        return NoTransitionPage(child: Notfictionscreen());
+        return const NoTransitionPage(child: Notfictionscreen());
       },
     ),
   ],

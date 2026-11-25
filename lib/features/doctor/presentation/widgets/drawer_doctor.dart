@@ -29,7 +29,7 @@ class DrawerDoctor extends StatelessWidget {
             Utils.showMyDialog(
               heightFactor: .5,
               context: context,
-              child: ThemeWidget(),
+              child: const ThemeWidget(),
             );
           },
         ),
@@ -43,7 +43,7 @@ class DrawerDoctor extends StatelessWidget {
               heightFactor: .3,
               dismissible: true,
               context: context,
-              child: WidgetLanguage(),
+              child: const WidgetLanguage(),
             );
           },
         ),

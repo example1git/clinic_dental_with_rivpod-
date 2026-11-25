@@ -54,9 +54,9 @@ class _DoctorScreenState extends ConsumerState<DoctorScreen> {
       child: doctor.when(
         data: (data) {
           return Scaffold(
-            bottomNavigationBar: BottomNavgiationBarDoctor(),
+            bottomNavigationBar: const BottomNavgiationBarDoctor(),
 
-            drawer: DrawerDoctor(),
+            drawer: const DrawerDoctor(),
 
             appBar: AppBar(
               iconTheme: IconThemeData(
@@ -76,7 +76,7 @@ class _DoctorScreenState extends ConsumerState<DoctorScreen> {
               ),
             ),
 
-            body: BodyDoctor(),
+            body: const BodyDoctor(),
           );
         },
         error: (error, stackTrace) {

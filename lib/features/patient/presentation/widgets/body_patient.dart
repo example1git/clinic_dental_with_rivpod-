@@ -6,6 +6,7 @@ import 'package:mysen/core/utiles.dart';
 import 'package:mysen/core/widget/alert.dart';
 import 'package:mysen/core/widget/data_embity.dart';
 import 'package:mysen/core/widget/error_widget.dart';
+import 'package:mysen/core/widget/widget_loading.dart';
 import 'package:mysen/features/doctor/presentation/widgets/card_dp.dart';
 import 'package:mysen/features/doctor_patient/presentation/controllers/dependecies.dart';
 import 'package:mysen/features/treament/presentation/pages/treatment_case.dart';
@@ -21,86 +22,90 @@ class BodyPatient extends StatelessWidget {
           final provider = ref.watch(doctorPatientProvider);
           return provider.when(
             data: (data) {
-              if (data.isEmpty) {
-                return DataEmbity();
-              }
               return RefreshIndicator(
+                color: context.primaryContainer,
                 onRefresh: () async {
                   ref.invalidate(doctorPatientProvider);
                   MessageHandle.handleMessage(MessageType.refresh, context);
                 },
-                child: ListView.builder(
-                  itemCount: data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final dp = data[index];
+                child: data.isEmpty
+                    ? const DataEmbity()
+                    : ListView.builder(
+                        itemCount: data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final dp = data[index];
 
-                    return CardPatient(
-                      imageUrl: dp.imageUrl,
-                      title: Text(
-                        dp.doctorFullName,
-                        style: context.bodyLarge,
-                        textAlign: TextAlign.center,
-                      ),
-
-                      trailing: IconButton(
-                        style: context.iconButtonStyle,
-
-                        onPressed: () {
-                          Utils.showMyDialog(
-                            heightFactor: .3,
-                            widthFactor: .8,
-
-                            colorDialog: context.colorScheme.error,
-                            context: context,
-                            child: Alert(
-                              isLoading: provider.isLoading,
-                              confirme: () {
-                                ref
-                                    .read(doctorPatientProvider.notifier)
-                                    .deleteDoctorPatient(
-                                      dp.copyWith(isDeletePatient: true),
-                                    );
-                                context.pop();
-                              },
-
-                              title: context.tr.deleteConfirmation,
+                          return CardPatient(
+                            imageUrl: dp.imageUrl,
+                            title: Text(
+                              dp.doctorFullName,
+                              style: context.bodyLarge,
+                              textAlign: TextAlign.center,
                             ),
-                          );
-                        },
-                        icon: Icon(
-                          Icons.delete,
-                          color: context.primaryContainer,
-                        ),
-                      ),
 
-                      leading: IconButton(
-                        style: context.iconButtonStyle,
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            PageRouteBuilder(
-                              pageBuilder: (
-                                context,
-                                animation,
-                                secondaryAnimation,
-                              ) => TreatmentCaseScreen(dp: dp, isDoctor: false),
-                              transitionsBuilder:
-                                  (
-                                    context,
-                                    animation,
-                                    secondaryAnimation,
-                                    child,
-                                  ) => FadeTransition(
-                                    opacity: animation,
-                                    child: child,
+                            trailing: IconButton(
+                              style: context.iconButtonStyle,
+
+                              onPressed: () {
+                                Utils.showMyDialog(
+                                  heightFactor: .3,
+                                  widthFactor: .8,
+
+                                  colorDialog: context.colorScheme.error,
+                                  context: context,
+                                  child: Alert(
+                                    isLoading: provider.isLoading,
+                                    confirme: () {
+                                      ref
+                                          .read(doctorPatientProvider.notifier)
+                                          .deleteDoctorPatient(
+                                            dp.copyWith(isDeletePatient: true),
+                                          );
+                                      context.pop();
+                                    },
+
+                                    title: context.tr.deleteConfirmation,
                                   ),
+                                );
+                              },
+                              icon: Icon(
+                                Icons.delete,
+                                color: context.primaryContainer,
+                              ),
+                            ),
+
+                            leading: IconButton(
+                              style: context.iconButtonStyle,
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  PageRouteBuilder(
+                                    pageBuilder:
+                                        (
+                                          context,
+                                          animation,
+                                          secondaryAnimation,
+                                        ) => TreatmentCaseScreen(
+                                          dp: dp,
+                                          isDoctor: false,
+                                        ),
+                                    transitionsBuilder:
+                                        (
+                                          context,
+                                          animation,
+                                          secondaryAnimation,
+                                          child,
+                                        ) => FadeTransition(
+                                          opacity: animation,
+                                          child: child,
+                                        ),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(Icons.bookmark_sharp),
                             ),
                           );
                         },
-                        icon: const Icon(Icons.bookmark_sharp),
                       ),
-                    );
-                  },
-                ),
               );
             },
             error: (error, stackTrace) {
@@ -113,10 +118,9 @@ class BodyPatient extends StatelessWidget {
               );
             },
             loading: () {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: context.primaryContainer,
-                ),
+              return WidgetLoading(
+                circleWidget: true,
+                loading: ref.watch(doctorPatientProvider).isLoading,
               );
             },
           );

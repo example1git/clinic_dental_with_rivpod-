@@ -7,6 +7,7 @@ import 'package:mysen/features/treament/presentation/controllers/dependecies.dar
 class TreatmentsProvider extends AsyncNotifier<List<TreatmentCase>> {
   @override
   FutureOr<List<TreatmentCase>> build() async {
+    state = const AsyncLoading();
     final treatments = await ref.read(getTreatmentsProvider)();
     return treatments.fold((l) {
       state = AsyncValue.error(l, StackTrace.current);

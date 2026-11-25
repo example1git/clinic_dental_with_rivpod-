@@ -18,21 +18,21 @@ class AuthGate extends ConsumerWidget {
       data: (data) {
         if (data.authStateEnum == AuthStateEnum.auth &&
             data.role == Role.doctor) {
-          return DoctorScreen();
+          return const DoctorScreen();
         }
         if (data.authStateEnum == AuthStateEnum.auth &&
             data.role == Role.user) {
-          return PatientScreen();
+          return const PatientScreen();
         }
         if (data.authStateEnum == AuthStateEnum.sigup && data.role == null) {
-          return SignUpComplete();
+          return const SignUpComplete();
         }
-        return SiginScreen();
+        return const SiginScreen();
       },
       error: (error, stackTrace) {
         return Container(
           color: context.primarycolor,
-          child: Center(child: Text('error')),
+          child: const Center(child: Text('error')),
         );
       },
       loading: () {

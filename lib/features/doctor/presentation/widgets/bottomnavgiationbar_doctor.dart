@@ -26,7 +26,7 @@ class BottomNavgiationBarDoctor extends StatelessWidget {
                 widthFactor: context.mediaSize.width < 600 ? 1 : .9,
                 heightFactor: 1,
                 context: context,
-                child: FormAddpatient(),
+                child: const FormAddpatient(),
               );
             },
           ),

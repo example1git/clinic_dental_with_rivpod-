@@ -8,6 +8,8 @@ import 'package:mysen/features/treament/domain/entities/treatment_case.dart';
 class AppointmentProvider extends AsyncNotifier<List<Appointment>> {
   @override
   FutureOr<List<Appointment>> build() async {
+    state = const AsyncLoading();
+
     final getAppointment = await ref.read(getAppointmentProvider)();
     return getAppointment.fold((l) {
       state = AsyncValue.error(l, StackTrace.current);

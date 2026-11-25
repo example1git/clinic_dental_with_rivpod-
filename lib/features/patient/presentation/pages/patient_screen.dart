@@ -48,7 +48,7 @@ class PatientScreen extends StatelessWidget {
                 heightFactor: .5,
 
                 context: context,
-                child: ThemeWidget(),
+                child: const ThemeWidget(),
               );
             },
             iconData: Icons.color_lens,
@@ -63,7 +63,7 @@ class PatientScreen extends StatelessWidget {
                 heightFactor: .3,
                 dismissible: true,
                 context: context,
-                child: WidgetLanguage(),
+                child: const WidgetLanguage(),
               );
             },
             iconData: Icons.language_outlined,
@@ -89,7 +89,7 @@ class PatientScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: BodyPatient(),
+      body: const BodyPatient(),
     );
   }
 }

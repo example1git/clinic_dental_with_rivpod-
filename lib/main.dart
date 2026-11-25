@@ -23,7 +23,6 @@ void main() async {
     ProviderScope(
       overrides: [
         sharedPreferencesProvider.overrideWithValue(sharedPreferences),
-
         localNotificationServiceProvider.overrideWithValue(notificationService),
       ],
       child: DevicePreview(enabled: false, builder: (context) => const MyApp()),

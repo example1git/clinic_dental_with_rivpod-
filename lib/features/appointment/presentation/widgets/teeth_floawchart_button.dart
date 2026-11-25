@@ -168,7 +168,7 @@ class TeethFlowchart extends StatelessWidget {
               ],
             ),
           ),
-          isWidgetTeeth ? WidgetTeethFlowChart() : const SizedBox.shrink(),
+          isWidgetTeeth ? const WidgetTeethFlowChart() : const SizedBox.shrink(),
 
           isButtonAddTeeth
               ? Center(

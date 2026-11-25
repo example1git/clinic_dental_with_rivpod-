@@ -71,10 +71,6 @@ class RequestReservationRepositoryImp implements RequestReservationRepository {
     try {
       final requestReservation = await requestReservationLocalDataSource
           .getRequestReservation();
-
-      for (var r in requestReservation) {
-        await requestReservationLocalDataSource.upsertRequestReservation(r);
-      }
       return Right(requestReservation);
     } on RequestTimeExeption catch (e) {
       return Left(RequetsTimeFailure(e.message));

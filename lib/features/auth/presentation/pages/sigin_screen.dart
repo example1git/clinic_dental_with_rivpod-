@@ -76,7 +76,7 @@ class _SiginScreenState extends ConsumerState<SiginScreen> {
                         dismissible: true,
                         colorDialog: context.primarycolor,
                         context: context,
-                        child: WidgetLanguage(),
+                        child: const WidgetLanguage(),
                       );
                     },
                     icon: const Icon(Icons.language),

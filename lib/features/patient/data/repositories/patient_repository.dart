@@ -49,7 +49,7 @@ class PatientRepositoryImp implements PatientRepository {
       try {
         final patient = await patientRemoteDataSorce.getPatientByPhone(phone);
         if (patient == null) {
-          return Right(null);
+          return const Right(null);
         }
         patientLocalDataSource.addPatient(patient);
 
@@ -74,7 +74,7 @@ class PatientRepositoryImp implements PatientRepository {
       try {
         final patient = await patientRemoteDataSorce.getPatientByuserID();
         if (patient == null) {
-          return Right(null);
+          return const Right(null);
         }
         patientLocalDataSource.addPatient(patient);
 

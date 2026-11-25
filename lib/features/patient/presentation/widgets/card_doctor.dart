@@ -81,6 +81,15 @@ class _CardDoctorState extends ConsumerState<CardDoctor>
       id: '',
     );
 
+    if (!await ref.read(internetServiceProvider).checkNow()) {
+      if (!context.mounted) {
+        return;
+      }
+      ErrorHndel.handleError(ErrorType.internet, context);
+
+      return;
+    }
+
     final requests = await ref.read(requestReservationProvider.future);
 
     if (requests.any((p0) => p0.stateRequest == StateRequest.waiting)) {
@@ -125,17 +134,15 @@ class _CardDoctorState extends ConsumerState<CardDoctor>
         .firstOrNull;
 
     if (request == null) {
-      if (!context.mounted) {
-        return;
-      }
-      ErrorHndel.handleError(ErrorType.error, context);
-
       return;
     }
     await ref
         .read(requestReservationProvider.notifier)
         .updateRequestReservation(
-          request.copyWith(stateRequest: StateRequest.none),
+          request.copyWith(
+            stateRequest: StateRequest.none,
+            reciveTime: request.reciveTime,
+          ),
         );
   }
 
@@ -216,6 +223,10 @@ class _CardDoctorState extends ConsumerState<CardDoctor>
                                 progressIndicatorBuilder:
                                     (context, url, progress) => Center(
                                       child: CircularProgressIndicator(
+                                        constraints: const BoxConstraints(
+                                          maxHeight: 50,
+                                          maxWidth: 50,
+                                        ),
                                         value: progress.progress,
                                       ),
                                     ),

@@ -44,7 +44,7 @@ class _SigupScreenState extends State<SigupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: context.primarycolor, leading: Backed()),
+      appBar: AppBar(backgroundColor: context.primarycolor, leading: const Backed()),
       backgroundColor: context.primarycolor,
       body: Form(
         key: sigUpKey,
